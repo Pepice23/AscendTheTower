@@ -14,6 +14,10 @@ config/name="AscendTheTower"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+PlayerData="*res://scripts/player_data.gd"
+
 [display]
 
 window/stretch/mode="viewport"
