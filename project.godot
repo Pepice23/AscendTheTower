@@ -20,4 +20,5 @@ PlayerData="*res://scripts/player_data.gd"
 
 [display]
 
-window/stretch/mode="viewport"
+window/stretch/mode="canvas_items"
+window/stretch/aspect="ignore"
