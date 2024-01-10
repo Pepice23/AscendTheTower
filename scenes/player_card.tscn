@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://5lm4uhwa8scb"]
+
+[node name="PlayerCard" type="VBoxContainer"]
+custom_minimum_size = Vector2(384, 0)
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -768.0
+offset_bottom = 120.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LevelContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LevelLabel" type="Label" parent="LevelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Level:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelText" type="Label" parent="LevelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="XPContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="XPLabel" type="Label" parent="XPContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "XP:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="XPContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+step = 1.0
+rounded = true
+show_percentage = false
+
+[node name="Label" type="Label" parent="XPContainer/ProgressBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.5
+offset_top = -11.5
+offset_right = 21.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "1/400"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DamageContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="DamageLabel" type="Label" parent="DamageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Damage:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DamageText" type="Label" parent="DamageContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoneyContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MoneyLabel" type="Label" parent="MoneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Money:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoneyText" type="Label" parent="MoneyContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "0 Gold"
+horizontal_alignment = 1
+vertical_alignment = 1
