@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://5lm4uhwa8scb"]
+[gd_scene format=3 uid="uid://t4xejt4tmn8i"]
 
 [node name="PlayerCard" type="VBoxContainer"]
 custom_minimum_size = Vector2(384, 0)
