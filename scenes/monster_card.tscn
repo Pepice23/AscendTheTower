@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://5lm4uhwa8scb"]
+
+[node name="MonsterCard" type="VBoxContainer"]
+custom_minimum_size = Vector2(384, 0)
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -768.0
+offset_bottom = 120.0
+grow_horizontal = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="LevelContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 25)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LevelLabel" type="Label" parent="LevelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "Level:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelText" type="Label" parent="LevelContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HPLabel" type="Label" parent="HPContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "HP:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HPProgressBar" type="ProgressBar" parent="HPContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+step = 1.0
+rounded = true
+show_percentage = false
+
+[node name="HPTextLabel" type="Label" parent="HPContainer/HPProgressBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.5
+offset_top = -11.5
+offset_right = 21.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "1/400"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BossTimerContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 35)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TimeLabel" type="Label" parent="BossTimerContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "Time:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimeProgressBar" type="ProgressBar" parent="BossTimerContainer"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+step = 1.0
+rounded = true
+show_percentage = false
+
+[node name="TimeTextLabel" type="Label" parent="BossTimerContainer/TimeProgressBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.5
+offset_top = -11.5
+offset_right = 21.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "29 seconds left"
+horizontal_alignment = 1
+vertical_alignment = 1
