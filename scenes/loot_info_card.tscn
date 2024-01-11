@@ -1,0 +1,45 @@
+[gd_scene load_steps=2 format=3 uid="uid://v3wju4xge6by"]
+
+[ext_resource type="Texture2D" uid="uid://b5863vwj2c7r3" path="res://assets/starter.png" id="1_8wv25"]
+
+[node name="WeaponContainer" type="HBoxContainer"]
+
+[node name="WeaponImage" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(150, 150)
+layout_mode = 2
+texture = ExtResource("1_8wv25")
+expand_mode = 1
+
+[node name="LootInfoContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GoldGainTextLabel" type="Label" parent="LootInfoContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "You got 25 gold"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="XPGainTextLabel" type="Label" parent="LootInfoContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "You gained 50 XP points"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NewWeaponTextLabel" type="Label" parent="LootInfoContainer"]
+layout_mode = 2
+size_flags_horizontal = 5
+text = "You got a new weapon: Rusty Sword"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeaponCompareTextLabel" type="Label" parent="LootInfoContainer"]
+custom_minimum_size = Vector2(422, 49)
+layout_mode = 2
+size_flags_vertical = 1
+text = "The weapon you got is not better than what you have. You sell Rusty Weapon for 2 Gold"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 1
