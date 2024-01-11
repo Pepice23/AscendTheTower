@@ -1,0 +1,90 @@
+[gd_scene load_steps=3 format=3 uid="uid://djuo5kmtb1vvg"]
+
+[ext_resource type="Texture2D" uid="uid://b5863vwj2c7r3" path="res://assets/starter.png" id="1_d8ml3"]
+[ext_resource type="Texture2D" uid="uid://b8kaa3wsri05t" path="res://assets/level1.png" id="2_dck3e"]
+
+[node name="EquipmentContainer" type="VBoxContainer"]
+custom_minimum_size = Vector2(576, 150)
+offset_right = 576.0
+offset_bottom = 154.0
+
+[node name="WeaponContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="WeaponImage" type="TextureRect" parent="WeaponContainer"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+texture = ExtResource("1_d8ml3")
+expand_mode = 1
+
+[node name="WeaponStatContainer" type="VBoxContainer" parent="WeaponContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="WeaponNameLabel" type="Label" parent="WeaponContainer/WeaponStatContainer"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 6
+text = "Starter Weapon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DamageTextContainer" type="HBoxContainer" parent="WeaponContainer/WeaponStatContainer"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 6
+
+[node name="DamageLabel" type="Label" parent="WeaponContainer/WeaponStatContainer/DamageTextContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Damage:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DamageTextLabel" type="Label" parent="WeaponContainer/WeaponStatContainer/DamageTextContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArmorContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ArmorImage" type="TextureRect" parent="ArmorContainer"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+texture = ExtResource("2_dck3e")
+expand_mode = 1
+
+[node name="ArmorStatContainer" type="VBoxContainer" parent="ArmorContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ArmorNameLabel" type="Label" parent="ArmorContainer/ArmorStatContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Starter Armor"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MultiplierTextContainer" type="HBoxContainer" parent="ArmorContainer/ArmorStatContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="MultiplierLabel" type="Label" parent="ArmorContainer/ArmorStatContainer/MultiplierTextContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Multiplier:
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MultiplierTextLabel" type="Label" parent="ArmorContainer/ArmorStatContainer/MultiplierTextContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1x"
+horizontal_alignment = 1
+vertical_alignment = 1
