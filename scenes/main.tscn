@@ -65,6 +65,37 @@ offset_top = 370.0
 offset_right = 1150.0
 offset_bottom = 520.0
 
+[node name="AddLevel" type="Button" parent="."]
+offset_left = 10.0
+offset_top = 297.0
+offset_right = 93.0
+offset_bottom = 328.0
+text = "Add Level"
+
+[node name="Add XP" type="Button" parent="."]
+offset_left = 108.0
+offset_top = 297.0
+offset_right = 171.0
+offset_bottom = 328.0
+text = "Add XP"
+
+[node name="Add Damage" type="Button" parent="."]
+offset_left = 190.0
+offset_top = 297.0
+offset_right = 297.0
+offset_bottom = 328.0
+text = "Add Damage"
+
+[node name="Add Money" type="Button" parent="."]
+offset_left = 311.0
+offset_top = 297.0
+offset_right = 407.0
+offset_bottom = 328.0
+text = "Add Money"
+
 [connection signal="pressed" from="Add Floor" to="." method="_on_add_floor_pressed"]
 [connection signal="pressed" from="Add Monster" to="." method="_on_add_monster_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="AddLevel" to="." method="_on_add_level_pressed"]
+[connection signal="pressed" from="Add XP" to="." method="_on_add_xp_pressed"]
+[connection signal="pressed" from="Add Damage" to="." method="_on_add_damage_pressed"]
