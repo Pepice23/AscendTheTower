@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://t4xejt4tmn8i"]
+[gd_scene load_steps=2 format=3 uid="uid://t4xejt4tmn8i"]
+
+[ext_resource type="Script" path="res://scenes/player_card.gd" id="1_idbn6"]
 
 [node name="PlayerCard" type="VBoxContainer"]
 custom_minimum_size = Vector2(384, 0)
@@ -9,6 +11,7 @@ offset_bottom = 120.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_idbn6")
 
 [node name="LevelContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 25)
@@ -54,7 +57,7 @@ step = 1.0
 rounded = true
 show_percentage = false
 
-[node name="Label" type="Label" parent="XPContainer/ProgressBar"]
+[node name="ProgressBarText" type="Label" parent="XPContainer/ProgressBar"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
