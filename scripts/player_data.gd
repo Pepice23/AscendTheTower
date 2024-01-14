@@ -1,36 +1,75 @@
 extends Node
 
+# Signals
 signal  floor_changed
 signal  monster_changed
 signal  player_level_changed
 signal  armor_multiplier_changed
+signal  current_xp_changed
+signal  xp_to_next_level_changed
 
-
+# Variables
 var current_floor = 1
 var current_mosnter = 1
 var player_level = 1
 var armor_multiplier = 1
-
+var current_xp = 0
+var xp_to_next_level = 100
+var player_damage = 1
+var player_money = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
 
+# Group: Game Progression
+# This group contains functions related to the progression of the game
 
-
+# Function: on_floor_changed
+# This function increments the current floor and emits a signal
 func on_floor_changed():
 	current_floor = current_floor + 1
 	emit_signal("floor_changed", current_floor)
 
+# Function: change_monster_count
+# This function increments the current monster count and emits a signal
 func change_monster_count():
 	current_mosnter += 1
 	emit_signal("monster_changed", current_mosnter)
 
-func change_player_level():
-	player_level += 1
-	emit_signal("player_level_changed", player_level)
+# Group: Player Stats
+# This group contains functions related to the player's stats
 
+# Function: change_armor_multiplier
+# This function changes the armor multiplier and emits a signal
 func change_armor_multiplier(multiplier):
 	armor_multiplier = multiplier
 	emit_signal("armor_multiplier_changed", armor_multiplier)
 
+# Function: gain_random_xp
+# This function increases the player's XP by a random amount and checks if the player should level up
+func gain_random_xp(min_percentage, max_percentage):
+	var random_percentage = randi_range(min_percentage, max_percentage)
+	var xp_gain = round( xp_to_next_level * (random_percentage / 100.0))
+	current_xp += xp_gain
+	emit_signal("current_xp_changed", current_xp)
+	if current_xp >= xp_to_next_level:
+		level_up()
+
+# Function: increase_xp_to_level_up
+# This function increases the XP needed to level up
+func increase_xp_to_level_up(increase_percentage):
+	var xp_increase = round(xp_to_next_level * (increase_percentage / 100.0))
+	xp_to_next_level += xp_increase
+	emit_signal("xp_to_next_level_changed", xp_to_next_level)
+
+# Function: level_up
+# This function levels up the player and adjusts the XP accordingly
+func level_up():
+	player_level += 1
+	var xp_remainder = current_xp - xp_to_next_level
+	current_xp = xp_remainder
+	increase_xp_to_level_up(5)
+	emit_signal("player_level_changed", player_level)
+	emit_signal("current_xp_changed", current_xp)
+	emit_signal("xp_to_next_level_changed", xp_to_next_level)
