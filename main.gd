@@ -15,3 +15,11 @@ func _on_add_monster_pressed():
 
 func _on_timer_timeout():
 	animation_player.play("automatic_attack")
+
+
+func _on_add_level_pressed():
+	PlayerData.change_level()
+
+
+func _on_add_xp_pressed():
+	PlayerData.gain_random_xp(8,22)
