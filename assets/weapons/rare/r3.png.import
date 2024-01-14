@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b3scu3gan8bj0"
-path="res://.godot/imported/attack_button.png-7b06ee23dac62e7c4f5fd3de135ff942.ctex"
+uid="uid://f5nrvm82rsqr"
+path="res://.godot/imported/r3.png-db25fa0256fa463124232cd2aa2284d0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/attack_button.png"
-dest_files=["res://.godot/imported/attack_button.png-7b06ee23dac62e7c4f5fd3de135ff942.ctex"]
+source_file="res://assets/weapons/rare/r3.png"
+dest_files=["res://.godot/imported/r3.png-db25fa0256fa463124232cd2aa2284d0.ctex"]
 
 [params]
 

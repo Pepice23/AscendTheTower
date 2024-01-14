@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b5863vwj2c7r3"
-path="res://.godot/imported/starter.png-5bc1c43acfdf630c86573305a4f95e48.ctex"
+uid="uid://c3jy5qi0vynxg"
+path="res://.godot/imported/level60.png-4f690301fd4d7319800d6a85c2a774ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/starter.png"
-dest_files=["res://.godot/imported/starter.png-5bc1c43acfdf630c86573305a4f95e48.ctex"]
+source_file="res://assets/armors/level60.png"
+dest_files=["res://.godot/imported/level60.png-4f690301fd4d7319800d6a85c2a774ed.ctex"]
 
 [params]
 

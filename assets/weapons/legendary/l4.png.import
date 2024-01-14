@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlju5a04furf5"
-path="res://.godot/imported/Aric.png-a1b8fe8092d7a8f1eaa29434fcd553f6.ctex"
+uid="uid://j8n6h56w6rnw"
+path="res://.godot/imported/l4.png-b33f2c47ebaf6f4d7d2ffd08a145e3fb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Aric.png"
-dest_files=["res://.godot/imported/Aric.png-a1b8fe8092d7a8f1eaa29434fcd553f6.ctex"]
+source_file="res://assets/weapons/legendary/l4.png"
+dest_files=["res://.godot/imported/l4.png-b33f2c47ebaf6f4d7d2ffd08a145e3fb.ctex"]
 
 [params]
 
