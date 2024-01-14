@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://djuo5kmtb1vvg"]
 
-[ext_resource type="Texture2D" uid="uid://b5863vwj2c7r3" path="res://assets/starter.png" id="1_d8ml3"]
-[ext_resource type="Texture2D" uid="uid://b8kaa3wsri05t" path="res://assets/level1.png" id="2_dck3e"]
+[ext_resource type="Texture2D" uid="uid://bmjh3w53vbo7h" path="res://assets/weapons/starter.png" id="1_jcc77"]
+[ext_resource type="Texture2D" uid="uid://b6bf766e83g51" path="res://assets/armors/level1.png" id="2_ovj5c"]
 
 [node name="EquipmentContainer" type="VBoxContainer"]
 custom_minimum_size = Vector2(576, 150)
@@ -14,7 +14,7 @@ layout_mode = 2
 [node name="WeaponImage" type="TextureRect" parent="WeaponContainer"]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
-texture = ExtResource("1_d8ml3")
+texture = ExtResource("1_jcc77")
 expand_mode = 1
 
 [node name="WeaponStatContainer" type="VBoxContainer" parent="WeaponContainer"]
@@ -55,7 +55,7 @@ layout_mode = 2
 [node name="ArmorImage" type="TextureRect" parent="ArmorContainer"]
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
-texture = ExtResource("2_dck3e")
+texture = ExtResource("2_ovj5c")
 expand_mode = 1
 
 [node name="ArmorStatContainer" type="VBoxContainer" parent="ArmorContainer"]

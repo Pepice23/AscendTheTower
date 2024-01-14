@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://hvyijc1sntwy"]
 
-[ext_resource type="Texture2D" uid="uid://b3scu3gan8bj0" path="res://assets/attack_button.png" id="1_4amgk"]
+[ext_resource type="Texture2D" uid="uid://b2k4ykflygqiv" path="res://assets/ui/attack_button.png" id="1_57ys6"]
 
 [node name="AttackButton" type="CenterContainer"]
 custom_minimum_size = Vector2(384, 120)
@@ -10,5 +10,5 @@ scale = Vector2(0.2, 0.2)
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2
-icon = ExtResource("1_4amgk")
+icon = ExtResource("1_57ys6")
 icon_alignment = 1

@@ -1,13 +1,13 @@
 [gd_scene load_steps=2 format=3 uid="uid://v3wju4xge6by"]
 
-[ext_resource type="Texture2D" uid="uid://b5863vwj2c7r3" path="res://assets/starter.png" id="1_8wv25"]
+[ext_resource type="Texture2D" uid="uid://bmjh3w53vbo7h" path="res://assets/weapons/starter.png" id="1_f0r18"]
 
 [node name="WeaponContainer" type="HBoxContainer"]
 
 [node name="WeaponImage" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
-texture = ExtResource("1_8wv25")
+texture = ExtResource("1_f0r18")
 expand_mode = 1
 
 [node name="LootInfoContainer" type="VBoxContainer" parent="."]
