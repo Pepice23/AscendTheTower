@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerData="*res://scripts/player_data.gd"
+WeaponCreator="*res://scripts/weapon_creator.gd"
 
 [display]
 
