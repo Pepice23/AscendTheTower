@@ -23,3 +23,7 @@ func _on_add_level_pressed():
 
 func _on_add_xp_pressed():
 	PlayerData.gain_random_xp(8,22)
+
+
+func _on_add_damage_pressed():
+	pass # Replace with function body.
