@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 PlayerData="*res://scripts/player_data.gd"
 WeaponCreator="*res://scripts/weapon_creator.gd"
 Utils="*res://scripts/utils.gd"
+EnemyData="*res://scripts/enemy_data.gd"
 
 [display]
 
