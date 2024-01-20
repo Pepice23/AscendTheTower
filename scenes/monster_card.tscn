@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://5lm4uhwa8scb"]
+[gd_scene load_steps=2 format=3 uid="uid://5lm4uhwa8scb"]
+
+[ext_resource type="Script" path="res://scenes/monster_card.gd" id="1_gbinx"]
 
 [node name="MonsterCard" type="VBoxContainer"]
 custom_minimum_size = Vector2(384, 0)
@@ -9,6 +11,7 @@ offset_bottom = 120.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_gbinx")
 
 [node name="LevelContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 25)
