@@ -13,6 +13,8 @@ func _ready():
 	PlayerData.connect("player_level_changed", _on_level_changed)
 	PlayerData.connect("current_xp_changed", _on_current_xp_changed)
 	PlayerData.connect("xp_to_next_level_changed", _on_max_xp_changed)
+	PlayerData.connect("player_damage_changed", _on_damage_changed)
+	PlayerData.connect("player_money_changed", _on_money_changed)
 	set_defaults()
 
 func set_defaults():

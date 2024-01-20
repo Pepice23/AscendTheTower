@@ -7,6 +7,8 @@ signal  player_level_changed
 signal  armor_multiplier_changed
 signal  current_xp_changed
 signal  xp_to_next_level_changed
+signal  player_damage_changed
+signal  player_money_changed
 
 # Variables
 var current_floor: int = 1
@@ -80,3 +82,9 @@ func level_up():
 func change_player_damage(damage):
 	player_damage = damage
 	emit_signal("player_damage_changed", player_damage)	
+
+# Function: change_player_money
+# This function changes the player's money and emits a signal
+func change_player_money(amount):
+	player_money += amount
+	emit_signal("player_money_changed", player_money)

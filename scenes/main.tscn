@@ -91,3 +91,4 @@ text = "Add Money"
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Add XP" to="." method="_on_add_xp_pressed"]
 [connection signal="pressed" from="Add Damage" to="." method="_on_add_damage_pressed"]
+[connection signal="pressed" from="Add Money" to="." method="_on_add_money_pressed"]

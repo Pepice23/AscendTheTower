@@ -26,4 +26,8 @@ func _on_add_xp_pressed():
 
 
 func _on_add_damage_pressed():
-	pass # Replace with function body.
+	PlayerData.change_player_damage(10)
+
+
+func _on_add_money_pressed():
+	PlayerData.change_player_money(10)
