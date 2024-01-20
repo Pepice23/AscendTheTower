@@ -41,30 +41,6 @@ offset_top = 152.0
 offset_right = 384.0
 offset_bottom = 272.0
 
-[node name="AttackButton" parent="." instance=ExtResource("5_hvta3")]
-offset_left = 477.0
-offset_top = 152.0
-offset_right = 1509.0
-offset_bottom = 1184.0
-
-[node name="MonsterCard" parent="." instance=ExtResource("6_y56es")]
-offset_left = 768.0
-offset_top = 152.0
-offset_right = 1152.0
-offset_bottom = 272.0
-
-[node name="EquipmentContainer" parent="." instance=ExtResource("7_a44sx")]
-offset_left = 1.0
-offset_top = 364.0
-offset_right = 577.0
-offset_bottom = 518.0
-
-[node name="WeaponContainer" parent="." instance=ExtResource("8_c4uo5")]
-offset_left = 574.0
-offset_top = 370.0
-offset_right = 1150.0
-offset_bottom = 520.0
-
 [node name="Add XP" type="Button" parent="."]
 offset_left = 14.0
 offset_top = 297.0
@@ -86,9 +62,49 @@ offset_right = 338.0
 offset_bottom = 328.0
 text = "Add Money"
 
+[node name="AttackButton" parent="." instance=ExtResource("5_hvta3")]
+offset_left = 477.0
+offset_top = 152.0
+offset_right = 1509.0
+offset_bottom = 1184.0
+
+[node name="MonsterCard" parent="." instance=ExtResource("6_y56es")]
+offset_left = 768.0
+offset_top = 152.0
+offset_right = 1152.0
+offset_bottom = 272.0
+
+[node name="SetEnemyHP" type="Button" parent="."]
+offset_left = 768.0
+offset_top = 290.0
+offset_right = 883.0
+offset_bottom = 321.0
+text = "Set Enemy HP"
+
+[node name="DefeatEnemy" type="Button" parent="."]
+offset_left = 919.0
+offset_top = 290.0
+offset_right = 1035.0
+offset_bottom = 321.0
+text = "Defeat Enemy"
+
+[node name="EquipmentContainer" parent="." instance=ExtResource("7_a44sx")]
+offset_left = 1.0
+offset_top = 364.0
+offset_right = 577.0
+offset_bottom = 518.0
+
+[node name="WeaponContainer" parent="." instance=ExtResource("8_c4uo5")]
+offset_left = 574.0
+offset_top = 370.0
+offset_right = 1150.0
+offset_bottom = 520.0
+
 [connection signal="pressed" from="Add Floor" to="." method="_on_add_floor_pressed"]
 [connection signal="pressed" from="Add Monster" to="." method="_on_add_monster_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Add XP" to="." method="_on_add_xp_pressed"]
 [connection signal="pressed" from="Add Damage" to="." method="_on_add_damage_pressed"]
 [connection signal="pressed" from="Add Money" to="." method="_on_add_money_pressed"]
+[connection signal="pressed" from="SetEnemyHP" to="." method="_on_set_enemy_hp_pressed"]
+[connection signal="pressed" from="DefeatEnemy" to="." method="_on_defeat_enemy_pressed"]
