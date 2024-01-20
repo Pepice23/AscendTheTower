@@ -1,28 +1,29 @@
 extends Node
 
 # Signals
-signal  floor_changed
-signal  monster_changed
-signal  player_level_changed
-signal  armor_multiplier_changed
-signal  current_xp_changed
-signal  xp_to_next_level_changed
-signal  player_damage_changed
-signal  player_money_changed
+signal floor_changed
+signal monster_changed
+signal player_level_changed
+signal armor_multiplier_changed
+signal current_xp_changed
+signal xp_to_next_level_changed
+signal player_damage_changed
+signal player_money_changed
 
 # Variables
 var current_floor: int = 1
-var current_mosnter : int = 1
-var player_level : int = 1
-var armor_multiplier : int = 1
-var current_xp : int = 0
-var xp_to_next_level : int = 100
-var player_damage : int = 10
-var player_money : int = 0
+var current_mosnter: int = 1
+var total_enemy_count: int = 0
+var player_level: int = 1
+var armor_multiplier: int = 1
+var current_xp: int = 0
+var xp_to_next_level: int = 100
+var player_damage: int = 10
+var player_money: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	pass  # Replace with function body.
 
 # Group: Game Progression
 # This group contains functions related to the progression of the game
@@ -70,7 +71,7 @@ func increase_xp_to_level_up(increase_percentage):
 # This function levels up the player and adjusts the XP accordingly
 func level_up():
 	player_level += 1
-	var xp_remainder : int = current_xp - xp_to_next_level
+	var xp_remainder: int = current_xp - xp_to_next_level
 	current_xp = xp_remainder
 	increase_xp_to_level_up(10)
 	emit_signal("player_level_changed", player_level)
@@ -81,7 +82,7 @@ func level_up():
 # This function changes the player's damage and emits a signal
 func change_player_damage(damage):
 	player_damage += damage
-	emit_signal("player_damage_changed", player_damage)	
+	emit_signal("player_damage_changed", player_damage)
 
 # Function: change_player_money
 # This function changes the player's money and emits a signal

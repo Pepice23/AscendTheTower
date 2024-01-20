@@ -36,16 +36,16 @@ func update_xp_progressbar_text():
 func _on_current_xp_changed(current_xp):
 	player_xp_progress_bar.value = current_xp
 	update_xp_progressbar_text()
-	
+
 func _on_max_xp_changed(max_xp):
 	player_xp_progress_bar.max_value = max_xp
 	update_xp_progressbar_text()
 
 func _on_level_changed(level):
 	player_level_text.text = str(level)
-	
+
 func _on_damage_changed(damage):
 	player_damage_text.text = Utils.format_number(damage)
-	
+
 func _on_money_changed(money):
 	player_money_text.text = Utils.format_number(money) + " Gold"
