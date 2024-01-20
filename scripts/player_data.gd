@@ -17,7 +17,7 @@ var player_level : int = 1
 var armor_multiplier : int = 1
 var current_xp : int = 0
 var xp_to_next_level : int = 100
-var player_damage : int = 1
+var player_damage : int = 10
 var player_money : int = 0
 
 # Called when the node enters the scene tree for the first time.
@@ -72,7 +72,7 @@ func level_up():
 	player_level += 1
 	var xp_remainder : int = current_xp - xp_to_next_level
 	current_xp = xp_remainder
-	increase_xp_to_level_up(5)
+	increase_xp_to_level_up(10)
 	emit_signal("player_level_changed", player_level)
 	emit_signal("current_xp_changed", current_xp)
 	emit_signal("xp_to_next_level_changed", xp_to_next_level)
@@ -80,7 +80,7 @@ func level_up():
 # Function: change_player_damage
 # This function changes the player's damage and emits a signal
 func change_player_damage(damage):
-	player_damage = damage
+	player_damage += damage
 	emit_signal("player_damage_changed", player_damage)	
 
 # Function: change_player_money
