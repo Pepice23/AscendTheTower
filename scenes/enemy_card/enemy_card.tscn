@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://5lm4uhwa8scb"]
 
-[ext_resource type="Script" path="res://scenes/monster_card.gd" id="1_gbinx"]
+[ext_resource type="Script" path="res://scenes/enemy_card/enemy_card.gd" id="1_gbinx"]
 
-[node name="MonsterCard" type="VBoxContainer"]
+[node name="EnemyCard" type="VBoxContainer"]
 custom_minimum_size = Vector2(384, 0)
 anchors_preset = 10
 anchor_right = 1.0
