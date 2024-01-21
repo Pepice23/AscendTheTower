@@ -9,10 +9,13 @@ signal current_xp_changed
 signal xp_to_next_level_changed
 signal player_damage_changed
 signal player_money_changed
+signal show_boss_timer
+signal hide_boss_timer
+
 
 # Variables
 var current_floor: int = 1
-var current_mosnter: int = 1
+var current_enemy: int = 1
 var total_enemy_count: int = 0
 var player_level: int = 1
 var armor_multiplier: int = 1
@@ -37,8 +40,16 @@ func on_floor_changed():
 # Function: change_monster_count
 # This function increments the current monster count and emits a signal
 func change_monster_count():
-	current_mosnter += 1
-	emit_signal("monster_changed", current_mosnter)
+	current_enemy += 1
+	emit_signal("monster_changed", current_enemy)
+	boss_timer_toggle()
+
+# Function: reset_monster_count
+# This function resets the current monster count and emits a signal
+func reset_enemy_count():
+	current_enemy = 1
+	emit_signal("monster_changed", current_enemy)
+	boss_timer_toggle()
 
 # Group: Player Stats
 # This group contains functions related to the player's stats
@@ -89,3 +100,11 @@ func change_player_damage(damage):
 func change_player_money(amount):
 	player_money += amount
 	emit_signal("player_money_changed", player_money)
+
+# Function: toggle_boss_timer
+# This function toggles the boss timer
+func boss_timer_toggle():
+	if current_enemy == 15:
+		emit_signal("show_boss_timer")
+	else:
+		emit_signal("hide_boss_timer")
