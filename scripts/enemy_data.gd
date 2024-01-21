@@ -2,6 +2,7 @@ extends Node
 
 signal enemy_current_hp_changed
 signal enemy_max_hp_changed
+signal attack_button_disabled
 
 var enemy_level = PlayerData.current_floor
 var enemy_max_hp = 0
@@ -48,3 +49,10 @@ func enemy_defeat():
 	enemy_current_hp = 0
 	PlayerData.total_enemy_count += 1
 	emit_signal("enemy_current_hp_changed", enemy_current_hp)
+
+func manual_attack():
+	if enemy_current_hp > PlayerData.player_damage:
+		enemy_current_hp -= PlayerData.player_damage
+		emit_signal("enemy_current_hp_changed", enemy_current_hp)
+		if enemy_current_hp <= PlayerData.player_damage:
+			emit_signal("attack_button_disabled")

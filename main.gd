@@ -3,7 +3,7 @@ extends Node2D
 @onready var animation_player = $BattleAnimation/AnimationPlayer
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass  # Replace with function body.
+	EnemyData.connect("attack_button_disabled", attack_button_disabled)
 
 func _on_add_floor_pressed():
 	PlayerData.on_floor_changed()
@@ -40,3 +40,10 @@ func _on_set_enemy_hp_pressed():
 
 func _on_defeat_enemy_pressed():
 	EnemyData.enemy_defeat()
+
+
+func _on_attack_button_pressed():
+	EnemyData.manual_attack()
+
+func attack_button_disabled():
+	$AttackButton.disabled = true

@@ -1,13 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://oi4sb03ye3f1"]
+[gd_scene load_steps=10 format=3 uid="uid://oi4sb03ye3f1"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_7x64e"]
 [ext_resource type="PackedScene" uid="uid://dkheq8j8am8l3" path="res://scenes/stage_control/stage_control.tscn" id="2_kgwdb"]
 [ext_resource type="PackedScene" uid="uid://dnpnbkfgqhwe0" path="res://scenes/battle_animation.tscn" id="3_5r4wo"]
 [ext_resource type="PackedScene" uid="uid://t4xejt4tmn8i" path="res://scenes/player_card/player_card.tscn" id="4_w4osn"]
-[ext_resource type="PackedScene" uid="uid://hvyijc1sntwy" path="res://scenes/attack_button.tscn" id="5_hvta3"]
+[ext_resource type="Texture2D" uid="uid://nwq2udama0ec" path="res://assets/ui/attack_button_disabled.png" id="6_lby3h"]
 [ext_resource type="PackedScene" uid="uid://5lm4uhwa8scb" path="res://scenes/enemy_card/enemy_card.tscn" id="6_y56es"]
 [ext_resource type="PackedScene" uid="uid://djuo5kmtb1vvg" path="res://scenes/equipment_container.tscn" id="7_a44sx"]
 [ext_resource type="PackedScene" uid="uid://v3wju4xge6by" path="res://scenes/loot_info_card.tscn" id="8_c4uo5"]
+[ext_resource type="Texture2D" uid="uid://b2k4ykflygqiv" path="res://assets/ui/attack_button.png" id="8_fhthb"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_7x64e")
@@ -62,11 +63,23 @@ offset_right = 338.0
 offset_bottom = 328.0
 text = "Add Money"
 
-[node name="AttackButton" parent="." instance=ExtResource("5_hvta3")]
-offset_left = 477.0
+[node name="AttackButton" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(150, 150)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 496.0
 offset_top = 152.0
-offset_right = 1509.0
-offset_bottom = 1184.0
+offset_right = 646.0
+offset_bottom = 302.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("8_fhthb")
+texture_disabled = ExtResource("6_lby3h")
+ignore_texture_size = true
+stretch_mode = 0
 
 [node name="EnemyCard" parent="." instance=ExtResource("6_y56es")]
 offset_left = 768.0
@@ -106,5 +119,6 @@ offset_bottom = 520.0
 [connection signal="pressed" from="Add XP" to="." method="_on_add_xp_pressed"]
 [connection signal="pressed" from="Add Damage" to="." method="_on_add_damage_pressed"]
 [connection signal="pressed" from="Add Money" to="." method="_on_add_money_pressed"]
+[connection signal="pressed" from="AttackButton" to="." method="_on_attack_button_pressed"]
 [connection signal="pressed" from="SetEnemyHP" to="." method="_on_set_enemy_hp_pressed"]
 [connection signal="pressed" from="DefeatEnemy" to="." method="_on_defeat_enemy_pressed"]
