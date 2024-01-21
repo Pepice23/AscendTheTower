@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://t4xejt4tmn8i"]
 
-[ext_resource type="Script" path="res://scenes/player_card.gd" id="1_idbn6"]
+[ext_resource type="Script" path="res://scenes/player_card/player_card.gd" id="1_idbn6"]
 
 [node name="PlayerCard" type="VBoxContainer"]
 custom_minimum_size = Vector2(384, 0)
