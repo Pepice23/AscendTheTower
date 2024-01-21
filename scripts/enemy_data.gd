@@ -4,6 +4,7 @@ signal enemy_current_hp_changed
 signal enemy_max_hp_changed
 signal attack_button_disabled
 
+
 var enemy_level = PlayerData.current_floor
 var enemy_max_hp = 0
 var enemy_current_hp = 0
@@ -56,3 +57,4 @@ func manual_attack():
 		emit_signal("enemy_current_hp_changed", enemy_current_hp)
 		if enemy_current_hp <= PlayerData.player_damage:
 			emit_signal("attack_button_disabled")
+
