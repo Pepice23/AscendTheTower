@@ -3,6 +3,7 @@ extends VBoxContainer
 @onready var enemy_level_text = $LevelContainer/LevelText
 @onready var enemy_hp_progress_bar = $HPContainer/HPProgressBar
 @onready var enemy_hp_progress_bar_text = $HPContainer/HPProgressBar/HPTextLabel
+@onready var boss_timer_container = $BossTimerContainer
 @onready var boss_time_progress_bar = $BossTimerContainer/TimeProgressBar
 @onready var boss_time_progress_bar_text = $BossTimerContainer/TimeProgressBar/TimeTextLabel
 
@@ -12,10 +13,16 @@ extends VBoxContainer
 func _ready():
 	EnemyData.connect("enemy_current_hp_changed", _on_current_hp_changed)
 	EnemyData.connect("enemy_max_hp_changed", _on_max_hp_changed)
+	PlayerData.connect("show_boss_timer", _on_show_bossfight_timer)
+	PlayerData.connect("hide_boss_timer", _on_hide_bossfight_timer)
+	PlayerData.connect("floor_changed", _on_level_changed)
+	set_defaults()
+
 
 func set_defaults():
 	set_hp_progress_fill_color()
 	set_boss_progress_fill_color()
+	boss_timer_container.visible = false
 
 
 func set_hp_progress_fill_color():
@@ -47,3 +54,9 @@ func _on_current_time_changed(current_time):
 
 func _on_level_changed(level):
 	enemy_level_text.text = str(level)
+
+func _on_show_bossfight_timer():
+	boss_timer_container.visible = true
+
+func _on_hide_bossfight_timer():
+	boss_timer_container.visible = false
