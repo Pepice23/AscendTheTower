@@ -2,7 +2,7 @@ extends Node
 
 # Signals
 signal floor_changed
-signal monster_changed
+signal enemy_changed
 signal player_level_changed
 signal armor_multiplier_changed
 signal current_xp_changed
@@ -41,14 +41,14 @@ func on_floor_changed():
 # This function increments the current monster count and emits a signal
 func change_monster_count():
 	current_enemy += 1
-	emit_signal("monster_changed", current_enemy)
+	emit_signal("enemy_changed", current_enemy)
 	boss_timer_toggle()
 
 # Function: reset_monster_count
 # This function resets the current monster count and emits a signal
 func reset_enemy_count():
 	current_enemy = 1
-	emit_signal("monster_changed", current_enemy)
+	emit_signal("enemy_changed", current_enemy)
 	boss_timer_toggle()
 
 # Group: Player Stats
