@@ -33,7 +33,6 @@ func _on_add_money_pressed():
 	PlayerData.change_player_money(10)
 
 
-
 func _on_set_enemy_hp_pressed():
 	EnemyData.calculate_enemy_hp()
 
@@ -41,9 +40,12 @@ func _on_set_enemy_hp_pressed():
 func _on_defeat_enemy_pressed():
 	EnemyData.enemy_defeat()
 
-
 func _on_attack_button_pressed():
 	EnemyData.manual_attack()
 
 func attack_button_disabled():
 	$AttackButton.disabled = true
+
+
+func _on_reset_enemy_pressed():
+	PlayerData.reset_enemy_count()
