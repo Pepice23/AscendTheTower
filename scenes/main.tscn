@@ -25,11 +25,18 @@ offset_right = 202.0
 offset_bottom = 598.0
 text = "Add Floor"
 
-[node name="Add Monster" type="Button" parent="."]
+[node name="Add Enemy" type="Button" parent="."]
 offset_top = 567.0
 offset_right = 108.0
 offset_bottom = 598.0
-text = "Add Monster"
+text = "Add Enemy"
+
+[node name="Reset Enemy" type="Button" parent="."]
+offset_left = 221.0
+offset_top = 567.0
+offset_right = 329.0
+offset_bottom = 598.0
+text = "Reset Enemy"
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true
@@ -114,7 +121,8 @@ offset_right = 1150.0
 offset_bottom = 520.0
 
 [connection signal="pressed" from="Add Floor" to="." method="_on_add_floor_pressed"]
-[connection signal="pressed" from="Add Monster" to="." method="_on_add_monster_pressed"]
+[connection signal="pressed" from="Add Enemy" to="." method="_on_add_monster_pressed"]
+[connection signal="pressed" from="Reset Enemy" to="." method="_on_reset_enemy_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="pressed" from="Add XP" to="." method="_on_add_xp_pressed"]
 [connection signal="pressed" from="Add Damage" to="." method="_on_add_damage_pressed"]
