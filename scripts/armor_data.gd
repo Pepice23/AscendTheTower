@@ -84,3 +84,16 @@ var level_90_armor = {
 	"armor_multiplier": 18,
 	"image": "res://assets/armors/level90.png"
 }
+
+var available_armors = [
+	level_1_armor,
+	level_10_armor,
+	level_20_armor,
+	level_30_armor,
+	level_40_armor,
+	level_50_armor,
+	level_60_armor,
+	level_70_armor,
+	level_80_armor,
+	level_90_armor
+]
