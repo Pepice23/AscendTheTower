@@ -49,7 +49,6 @@ func create_weapon():
 
 	# Get the player's level and armor multiplier from PlayerData
 	var level: int = PlayerData.player_level
-	var armor_multiplier: int = PlayerData.armor_multiplier
 
 	# Calculate the level multiplier based on the player's level
 	var level_multiplier = 1 + ((level - 1) * 0.42) ** 6
@@ -62,7 +61,7 @@ func create_weapon():
 	var weapon_quality = qualities[random_index]
 
 	# Calculate the weapon damage based on the selected quality, base damage, level multiplier, and armor multiplier
-	var weapon_damage: int = weapon_qualities[weapon_quality] * base_damage * level_multiplier * armor_multiplier
+	var weapon_damage: int = weapon_qualities[weapon_quality] * base_damage * level_multiplier
 
 	# Load the weapon images
 	var weapon_images: Dictionary = load_weapon_images()
