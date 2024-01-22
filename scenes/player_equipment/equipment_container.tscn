@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://djuo5kmtb1vvg"]
+[gd_scene load_steps=4 format=3 uid="uid://djuo5kmtb1vvg"]
 
+[ext_resource type="Script" path="res://scenes/player_equipment/equipment_container.gd" id="1_doun1"]
 [ext_resource type="Texture2D" uid="uid://bmjh3w53vbo7h" path="res://assets/weapons/starter.png" id="1_jcc77"]
 [ext_resource type="Texture2D" uid="uid://b6bf766e83g51" path="res://assets/armors/level1.png" id="2_ovj5c"]
 
@@ -7,6 +8,7 @@
 custom_minimum_size = Vector2(576, 150)
 offset_right = 576.0
 offset_bottom = 154.0
+script = ExtResource("1_doun1")
 
 [node name="WeaponContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
