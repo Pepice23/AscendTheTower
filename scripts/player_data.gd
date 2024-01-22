@@ -12,6 +12,7 @@ signal player_money_changed
 signal show_boss_timer
 signal hide_boss_timer
 signal player_weapon_changed
+signal weapon_image_changed
 
 
 # Variables
@@ -117,3 +118,4 @@ func add_new_weapon():
 	player_weapon = WeaponCreator.create_weapon()
 	emit_signal("player_weapon_changed", player_weapon)
 	emit_signal("player_damage_changed", player_weapon.damage)
+	emit_signal("weapon_image_changed", player_weapon.image)
