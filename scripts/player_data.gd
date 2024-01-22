@@ -11,6 +11,7 @@ signal player_damage_changed
 signal player_money_changed
 signal show_boss_timer
 signal hide_boss_timer
+signal player_weapon_changed
 
 
 # Variables
@@ -23,6 +24,7 @@ var current_xp: int = 0
 var xp_to_next_level: int = 100
 var player_damage: int = 10
 var player_money: int = 0
+var player_weapon = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -92,7 +94,7 @@ func level_up():
 # Function: change_player_damage
 # This function changes the player's damage and emits a signal
 func change_player_damage(damage):
-	player_damage += damage
+	player_damage = damage
 	emit_signal("player_damage_changed", player_damage)
 
 # Function: change_player_money
@@ -108,3 +110,10 @@ func boss_timer_toggle():
 		emit_signal("show_boss_timer")
 	else:
 		emit_signal("hide_boss_timer")
+
+# Function: add_new_weapon
+# This function adds a new weapon to the player's inventory
+func add_new_weapon():
+	player_weapon = WeaponCreator.create_weapon()
+	emit_signal("player_weapon_changed", player_weapon)
+	emit_signal("player_damage_changed", player_weapon.damage)

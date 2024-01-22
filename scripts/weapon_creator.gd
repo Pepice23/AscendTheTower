@@ -42,8 +42,7 @@ var base_damage: int = 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for i in range(0, 10):
-		create_weapon()
+	pass
 
 # A function that creates a new weapon with random stats
 func create_weapon():
@@ -85,6 +84,5 @@ func create_weapon():
 				}
 
 	# Print the weapon dictionary and return it
-	print(weapon)
 	return weapon
 
