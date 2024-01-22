@@ -13,6 +13,7 @@ signal show_boss_timer
 signal hide_boss_timer
 signal player_weapon_changed
 signal weapon_image_changed
+signal player_armor_changed
 
 
 # Variables
@@ -26,6 +27,7 @@ var xp_to_next_level: int = 100
 var player_damage: int = 10
 var player_money: int = 0
 var player_weapon = null
+var player_armor = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -117,5 +119,12 @@ func boss_timer_toggle():
 func add_new_weapon():
 	player_weapon = WeaponCreator.create_weapon()
 	emit_signal("player_weapon_changed", player_weapon)
-	emit_signal("player_damage_changed", player_weapon.damage)
 	emit_signal("weapon_image_changed", player_weapon.image)
+	change_player_damage(player_weapon.damage * armor_multiplier)
+
+# Function: get_next_armor
+# This function gets the next armor in the list
+func get_next_armor():
+	player_armor = ArmorData.level_10_armor
+	emit_signal("player_armor_changed", player_armor)
+	change_armor_multiplier(player_armor.armor_multiplier)
