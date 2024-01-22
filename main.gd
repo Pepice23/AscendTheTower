@@ -53,3 +53,7 @@ func _on_reset_enemy_pressed():
 
 func _on_button_pressed():
 	PlayerData.add_new_weapon()
+
+
+func _on_add_armor_pressed():
+	PlayerData.get_next_armor()
