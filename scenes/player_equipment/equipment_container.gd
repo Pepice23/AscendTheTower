@@ -14,6 +14,7 @@ extends VBoxContainer
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	PlayerData.connect("player_weapon_changed", get_weapon_from_signal)
+	PlayerData.connect("player_armor_changed", get_armor_from_signal)
 
 # Weapon
 func get_weapon_from_signal(weapon):
@@ -31,8 +32,13 @@ func change_weapon_damage(weapon_damage):
 	weapon_damage_text.text = Utils.format_number(weapon_damage)
 
 # Armor
+func get_armor_from_signal(armor):
+	change_armor_image(armor.image)
+	change_armor_name(armor.name)
+	change_armor_multiplier(armor.armor_multiplier)
+
 func change_armor_image(armor_image):
-	armor_image.texture = load(armor_image)
+	armor_picture.texture = load(armor_image)
 
 func change_armor_name(armor_name):
 	armor_name_text.text = armor_name
