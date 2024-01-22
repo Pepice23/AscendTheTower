@@ -49,3 +49,7 @@ func attack_button_disabled():
 
 func _on_reset_enemy_pressed():
 	PlayerData.reset_enemy_count()
+
+
+func _on_button_pressed():
+	PlayerData.add_new_weapon()
