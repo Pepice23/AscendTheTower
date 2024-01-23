@@ -5,11 +5,15 @@ signal enemy_max_hp_changed
 signal attack_button_disabled
 signal enemy_image_changed
 signal stop_auto_attack
+signal bossfight_current_time_changed
+signal bossfight_max_time_changed
 
 
 var enemy_level = PlayerData.current_floor
 var enemy_max_hp = 0
 var enemy_current_hp = 0
+var bossfifight_max_time = 30
+var bossfifight_current_time = 0
 
 
 
@@ -77,3 +81,22 @@ func auto_attack():
 		if enemy_current_hp <= 0:
 			change_enemy_current_hp(0)
 			emit_signal("stop_auto_attack")
+
+func boss_auto_attack():
+	if enemy_current_hp > 0:
+		enemy_current_hp -= PlayerData.player_damage
+		change_enemy_current_hp(enemy_current_hp)
+		if enemy_current_hp <= 0:
+			change_enemy_current_hp(0)
+
+
+
+func set_bossfight_time(time):
+	bossfifight_max_time = time
+	bossfifight_current_time = time
+	emit_signal("bossfight_current_time_changed", bossfifight_current_time)
+	emit_signal("bossfight_max_time_changed", bossfifight_max_time)
+
+func decrease_bossfight_time():
+	bossfifight_current_time -= 1
+	emit_signal("bossfight_current_time_changed", bossfifight_current_time)
