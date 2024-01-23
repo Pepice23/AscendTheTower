@@ -4,7 +4,7 @@ signal start_normal_battle
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	choose_battle_type()
+	pass
 
 func choose_battle_type():
 	if PlayerData.current_enemy != 15:

@@ -47,6 +47,7 @@ func on_floor_changed():
 func change_monster_count():
 	current_enemy += 1
 	emit_signal("enemy_changed", current_enemy)
+	total_enemy_count += 1
 	boss_timer_toggle()
 
 # Function: reset_monster_count

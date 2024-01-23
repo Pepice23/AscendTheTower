@@ -39,28 +39,41 @@ func armor_multiplier(level):
 	else:
 		return 18
 
+func change_enemy_current_hp(hp):
+	enemy_current_hp = hp
+	emit_signal("enemy_current_hp_changed", enemy_current_hp)
+
+func change_enemy_max_hp(max_hp):
+	enemy_max_hp = max_hp
+	emit_signal("enemy_max_hp_changed", enemy_max_hp)
+
+func change_enemy_image(image):
+	emit_signal("enemy_image_changed", image)
+
+
 func calculate_enemy_hp():
 	var base_hp = 100
 	var level_multiplier = 1 + ((enemy_level - 1) * 0.29) ** 7 + PlayerData.total_enemy_count
 	var enemy_hp = base_hp * level_multiplier * 28 * armor_multiplier(PlayerData.player_level)
-	enemy_max_hp = enemy_hp
-	enemy_current_hp = enemy_hp
-	emit_signal("enemy_max_hp_changed", enemy_max_hp)
-	emit_signal("enemy_current_hp_changed", enemy_current_hp)
-
-func enemy_defeat():
-	enemy_current_hp = 0
-	PlayerData.total_enemy_count += 1
-	emit_signal("enemy_current_hp_changed", enemy_current_hp)
+	change_enemy_max_hp(enemy_hp)
+	change_enemy_current_hp(enemy_hp)
 
 func manual_attack():
 	if enemy_current_hp > PlayerData.player_damage:
 		enemy_current_hp -= PlayerData.player_damage
-		emit_signal("enemy_current_hp_changed", enemy_current_hp)
+		change_enemy_current_hp(enemy_current_hp)
 		if enemy_current_hp <= PlayerData.player_damage:
 			emit_signal("attack_button_disabled")
 
 func pick_random_enemy_picture():
 	var random_number = randi() % 6 + 1
 	var enemy_picture = "res://assets/enemies/enemy" + str(random_number) + ".png"
-	emit_signal("enemy_image_changed", enemy_picture)
+	change_enemy_image(enemy_picture)
+
+func auto_attack():
+	if enemy_current_hp > 0:
+		enemy_current_hp -= PlayerData.player_damage
+		change_enemy_current_hp(enemy_current_hp)
+		if enemy_current_hp <= 0:
+			change_enemy_current_hp(0)
+			emit_signal("stop_auto_attack")

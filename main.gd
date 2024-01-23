@@ -8,6 +8,8 @@ func _ready():
 	EnemyData.connect("attack_button_disabled", attack_button_disabled)
 	EnemyData.connect("stop_auto_attack", stop_battle_timer)
 	Battle.connect("start_normal_battle", _on_battle_timer_start)
+	animation_player.connect("animation_finished", _on_animation_player_animation_finished)
+	Battle.choose_battle_type()
 
 func _on_add_floor_pressed():
 	PlayerData.on_floor_changed()
@@ -61,10 +63,22 @@ func _on_add_armor_pressed():
 
 func _on_battle_timer_start():
 	battle_timer.start()
+	$AttackButton.disabled = false
 
 func _on_battle_timer_timeout():
 	animation_player.play("automatic_attack")
-	EnemyData.auto_attack()
+
 
 func stop_battle_timer():
 	battle_timer.stop()
+	animation_player.play("monster_death")
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "automatic_attack":
+		EnemyData.auto_attack()
+	elif anim_name == "monster_death":
+		PlayerData.gain_random_xp(5, 8)
+		PlayerData.change_player_money(10)
+		PlayerData.change_monster_count()
+		Battle.choose_battle_type()
