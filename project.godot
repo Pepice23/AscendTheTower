@@ -21,6 +21,7 @@ WeaponCreator="*res://scripts/weapon_creator.gd"
 Utils="*res://scripts/utils.gd"
 EnemyData="*res://scripts/enemy_data.gd"
 ArmorData="*res://scripts/armor_data.gd"
+Battle="*res://scripts/battle.gd"
 
 [display]
 

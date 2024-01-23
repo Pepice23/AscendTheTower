@@ -3,6 +3,8 @@ extends Node
 signal enemy_current_hp_changed
 signal enemy_max_hp_changed
 signal attack_button_disabled
+signal enemy_image_changed
+signal stop_auto_attack
 
 
 var enemy_level = PlayerData.current_floor
@@ -58,3 +60,7 @@ func manual_attack():
 		if enemy_current_hp <= PlayerData.player_damage:
 			emit_signal("attack_button_disabled")
 
+func pick_random_enemy_picture():
+	var random_number = randi() % 6 + 1
+	var enemy_picture = "res://assets/enemies/enemy" + str(random_number) + ".png"
+	emit_signal("enemy_image_changed", enemy_picture)

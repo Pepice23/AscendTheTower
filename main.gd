@@ -1,9 +1,13 @@
 extends Node2D
 
+@onready var battle_timer = $BattleTimer
 @onready var animation_player = $BattleAnimation/AnimationPlayer
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	EnemyData.connect("attack_button_disabled", attack_button_disabled)
+	EnemyData.connect("stop_auto_attack", stop_battle_timer)
+	Battle.connect("start_normal_battle", _on_battle_timer_start)
 
 func _on_add_floor_pressed():
 	PlayerData.on_floor_changed()
@@ -11,10 +15,6 @@ func _on_add_floor_pressed():
 
 func _on_add_monster_pressed():
 	PlayerData.change_monster_count()
-
-
-func _on_timer_timeout():
-	animation_player.play("automatic_attack")
 
 
 func _on_add_level_pressed():
@@ -57,3 +57,14 @@ func _on_button_pressed():
 
 func _on_add_armor_pressed():
 	PlayerData.get_next_armor()
+
+
+func _on_battle_timer_start():
+	battle_timer.start()
+
+func _on_battle_timer_timeout():
+	animation_player.play("automatic_attack")
+	EnemyData.auto_attack()
+
+func stop_battle_timer():
+	battle_timer.stop()

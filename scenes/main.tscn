@@ -38,8 +38,7 @@ offset_right = 329.0
 offset_bottom = 598.0
 text = "Reset Enemy"
 
-[node name="Timer" type="Timer" parent="."]
-autostart = true
+[node name="BattleTimer" type="Timer" parent="."]
 
 [node name="BattleAnimation" parent="." instance=ExtResource("3_5r4wo")]
 position = Vector2(0, 40)
@@ -137,7 +136,7 @@ text = "Add Armor"
 [connection signal="pressed" from="Add Floor" to="." method="_on_add_floor_pressed"]
 [connection signal="pressed" from="Add Enemy" to="." method="_on_add_monster_pressed"]
 [connection signal="pressed" from="Reset Enemy" to="." method="_on_reset_enemy_pressed"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="BattleTimer" to="." method="_on_battle_timer_timeout"]
 [connection signal="pressed" from="Add XP" to="." method="_on_add_xp_pressed"]
 [connection signal="pressed" from="Add Damage" to="." method="_on_add_damage_pressed"]
 [connection signal="pressed" from="Add Money" to="." method="_on_add_money_pressed"]

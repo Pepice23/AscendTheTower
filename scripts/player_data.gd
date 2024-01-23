@@ -128,3 +128,4 @@ func get_next_armor():
 	player_armor = ArmorData.level_10_armor
 	emit_signal("player_armor_changed", player_armor)
 	change_armor_multiplier(player_armor.armor_multiplier)
+	change_player_damage(player_weapon.damage * armor_multiplier)
