@@ -22,8 +22,8 @@ func set_defaults():
 	player_xp_progress_bar.value = PlayerData.current_xp
 	player_xp_progress_bar.max_value = PlayerData.xp_to_next_level
 	update_xp_progressbar_text()
-	player_damage_text.text = str(PlayerData.player_damage)
-	player_money_text.text = str(PlayerData.player_money) + " Gold"
+	player_damage_text.text = Utils.format_number(PlayerData.player_damage)
+	player_money_text.text = Utils.format_number(PlayerData.player_money) + " Gold"
 
 func set_progress_fill_color():
 	var progress_fill_style = StyleBoxFlat.new()
