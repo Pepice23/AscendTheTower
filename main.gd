@@ -71,6 +71,7 @@ func _on_animation_player_animation_finished(anim_name):
 			PlayerData.change_player_money(50)
 			PlayerData.reset_enemy_count()
 			PlayerData.on_floor_changed()
+			PlayerData.save_game()
 
 func _on_boss_battle_timer_timeout():
 	animation_player.play("boss_automatic_attack")

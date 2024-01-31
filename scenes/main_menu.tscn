@@ -54,3 +54,4 @@ offset_bottom = 379.0
 text = "Load Game"
 
 [connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="LoadGame" to="." method="_on_load_game_pressed"]

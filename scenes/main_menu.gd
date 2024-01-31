@@ -8,3 +8,8 @@ func _ready():
 
 func _on_start_game_pressed():
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
+
+
+func _on_load_game_pressed():
+	PlayerData.load_game()
+	get_tree().change_scene_to_file("res://scenes/main.tscn")

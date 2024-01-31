@@ -1,5 +1,7 @@
 extends Node
 
+var save_path = "user://save_game.json"
+
 # Signals
 signal floor_changed
 signal enemy_changed
@@ -28,6 +30,55 @@ var player_damage: int = 10000
 var player_money: int = 0
 var player_weapon = null
 var player_armor = null
+
+# Group: Save/Load
+# This group contains functions related to saving and loading the game
+
+# Function: save_game
+# This function saves the game
+func save_game():
+	var file = FileAccess.open(save_path, FileAccess.WRITE)
+	file.store_var(current_floor)
+	file.store_var(total_enemy_count)
+	file.store_var(player_level)
+	file.store_var(armor_multiplier)
+	file.store_var(current_xp)
+	file.store_var(xp_to_next_level)
+	file.store_var(player_damage)
+	file.store_var(player_money)
+	file.store_var(player_weapon)
+	file.store_var(player_armor)
+	file.close()
+
+# Function: load_game
+# This function loads the game
+func load_game():
+	if FileAccess.file_exists(save_path):
+		var file = FileAccess.open(save_path, FileAccess.READ)
+		current_floor = file.get_var()
+		total_enemy_count = file.get_var()
+		player_level = file.get_var()
+		armor_multiplier = file.get_var()
+		current_xp = file.get_var()
+		xp_to_next_level = file.get_var()
+		player_damage = file.get_var()
+		player_money = file.get_var()
+		player_weapon = file.get_var()
+		player_armor = file.get_var()
+		file.close()
+		emit_signal("floor_changed", current_floor)
+		emit_signal("enemy_changed", total_enemy_count)
+		emit_signal("player_level_changed", player_level)
+		emit_signal("armor_multiplier_changed", armor_multiplier)
+		emit_signal("current_xp_changed", current_xp)
+		emit_signal("xp_to_next_level_changed", xp_to_next_level)
+		emit_signal("player_damage_changed", player_damage)
+		emit_signal("player_money_changed", player_money)
+		emit_signal("player_weapon_changed", player_weapon)
+		emit_signal("weapon_image_changed", player_weapon.image)
+		emit_signal("player_armor_changed", player_armor)
+	else:
+		print("No save file found")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -94,6 +145,7 @@ func level_up():
 	emit_signal("player_level_changed", player_level)
 	emit_signal("current_xp_changed", current_xp)
 	emit_signal("xp_to_next_level_changed", xp_to_next_level)
+	save_game()
 
 # Function: change_player_damage
 # This function changes the player's damage and emits a signal
