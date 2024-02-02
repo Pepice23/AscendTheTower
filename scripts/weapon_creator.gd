@@ -57,8 +57,20 @@ func create_weapon():
 	var qualities: Array = weapon_qualities.keys()
 
 	# Generate a random index to select a random quality
-	var random_index = randi() % qualities.size()
+	var dice_roll = randi_range(1, 100)
+	var random_index: int = 0
+	if dice_roll >= 1 and dice_roll <= 60:
+		random_index = 0
+	elif dice_roll >= 61 and dice_roll <= 85:
+		random_index = 1
+	elif dice_roll >= 86 and dice_roll <= 95:
+		random_index = 2
+	elif dice_roll >= 96 and dice_roll <= 99:
+		random_index = 3
+	elif dice_roll == 100:
+		random_index = 4
 	var weapon_quality = qualities[random_index]
+
 
 	# Calculate the weapon damage based on the selected quality, base damage, level multiplier, and armor multiplier
 	var weapon_damage: int = weapon_qualities[weapon_quality] * base_damage * level_multiplier
