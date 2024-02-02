@@ -10,6 +10,7 @@ extends HBoxContainer
 func _ready():
 	PlayerData.connect("xp_gained", change_xp_gain_text)
 	PlayerData.connect("gold_gained", change_gold_gain_text)
+	PlayerData.connect("weapon_compare", change_loot_compare_text)
 
 func change_weapon_image(picture):
 	loot_weapon_image.texture = load(picture)

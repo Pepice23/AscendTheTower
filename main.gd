@@ -55,6 +55,7 @@ func _on_animation_player_animation_finished(anim_name):
 	elif anim_name == "monster_death":
 		PlayerData.gain_random_xp(5, 8)
 		PlayerData.change_player_money(10)
+		PlayerData.roll_for_weapon()
 		PlayerData.change_monster_count()
 		Battle.choose_battle_type()
 	elif anim_name == "boss_automatic_attack":
@@ -69,6 +70,7 @@ func _on_animation_player_animation_finished(anim_name):
 			print("Player wins")
 			PlayerData.gain_random_xp(20, 25)
 			PlayerData.change_player_money(50)
+			PlayerData.add_weapon()
 			PlayerData.reset_enemy_count()
 			PlayerData.on_floor_changed()
 			PlayerData.save_game()

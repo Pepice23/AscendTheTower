@@ -18,6 +18,7 @@ signal weapon_image_changed
 signal player_armor_changed
 signal xp_gained
 signal gold_gained
+signal weapon_compare
 
 
 # Variables
@@ -196,3 +197,23 @@ func get_next_armor():
 	emit_signal("player_armor_changed", player_armor)
 	change_armor_multiplier(player_armor.armor_multiplier)
 	change_player_damage(player_weapon.damage * armor_multiplier)
+
+func roll_for_weapon():
+	var roll = randi_range(1, 100)
+	if roll <= 25:
+		var new_weapon = WeaponCreator.create_weapon()
+		compare_weapons(new_weapon)
+
+func add_weapon():
+	var weapon = WeaponCreator.create_weapon()
+	compare_weapons(weapon)
+
+func compare_weapons(new_weapon):
+	if player_weapon.damage < new_weapon.damage:
+		player_weapon = new_weapon
+		emit_signal("player_weapon_changed", player_weapon)
+		emit_signal("weapon_image_changed", player_weapon.image)
+		change_player_damage(player_weapon.damage * armor_multiplier)
+	else:
+		emit_signal("weapon_compare", "Your current weapon is better than the new weapon. You sold it for " + str(new_weapon.value) + " gold.")
+		change_player_money(new_weapon.value)
