@@ -16,6 +16,8 @@ signal hide_boss_timer
 signal player_weapon_changed
 signal weapon_image_changed
 signal player_armor_changed
+signal xp_gained
+signal gold_gained
 
 
 # Variables
@@ -133,7 +135,7 @@ func change_armor_multiplier(multiplier):
 func gain_random_xp(min_percentage, max_percentage):
 	var random_percentage = randi_range(min_percentage, max_percentage)
 	var xp_gain: int = (xp_to_next_level * (random_percentage / 100.0))
-	print(xp_gain)
+	emit_signal("xp_gained", xp_gain)
 	current_xp += xp_gain
 	emit_signal("current_xp_changed", current_xp)
 	if current_xp >= xp_to_next_level:
@@ -169,6 +171,7 @@ func change_player_damage(damage):
 func change_player_money(amount):
 	player_money += amount
 	emit_signal("player_money_changed", player_money)
+	emit_signal("gold_gained", amount)
 
 # Function: toggle_boss_timer
 # This function toggles the boss timer

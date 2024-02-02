@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://v3wju4xge6by"]
+[gd_scene load_steps=3 format=3 uid="uid://v3wju4xge6by"]
 
 [ext_resource type="Texture2D" uid="uid://bmjh3w53vbo7h" path="res://assets/weapons/starter.png" id="1_f0r18"]
+[ext_resource type="Script" path="res://scenes/loot_info_card.gd" id="1_sa1dh"]
 
 [node name="LootInfoCard" type="HBoxContainer"]
+script = ExtResource("1_sa1dh")
 
 [node name="WeaponImage" type="TextureRect" parent="."]
 custom_minimum_size = Vector2(150, 150)
