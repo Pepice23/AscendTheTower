@@ -7,10 +7,17 @@ extends HBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	set_progress_fill_color()
 	PlayerData.connect("floor_changed", _on_floor_changed)
 	PlayerData.connect("enemy_changed", _on_enemy_count_changed)
+	set_defaults()
 
+
+func set_defaults():
+	set_progress_fill_color()
+	floor_progressbar.value = PlayerData.current_floor
+	enemy_progressbar.value = PlayerData.current_enemy
+	update_floor_progressbar_text()
+	update_enemy_progressbar_text()
 
 func set_progress_fill_color():
 	var progress_fill_style = StyleBoxFlat.new()

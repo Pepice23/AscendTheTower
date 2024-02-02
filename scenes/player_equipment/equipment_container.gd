@@ -13,8 +13,13 @@ extends VBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_defaults()
 	PlayerData.connect("player_weapon_changed", get_weapon_from_signal)
 	PlayerData.connect("player_armor_changed", get_armor_from_signal)
+
+func set_defaults():
+	get_weapon_from_signal(PlayerData.player_weapon)
+	get_armor_from_signal(PlayerData.player_armor)
 
 # Weapon
 func get_weapon_from_signal(weapon):

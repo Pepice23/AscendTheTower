@@ -1,6 +1,6 @@
 extends Node
 
-var save_path = "user://save_game.json"
+var save_path = "user://save_game.save"
 
 # Signals
 signal floor_changed
@@ -26,10 +26,21 @@ var player_level: int = 1
 var armor_multiplier: int = 1
 var current_xp: int = 0
 var xp_to_next_level: int = 100
-var player_damage: int = 10000
+var player_damage: int = 100000
 var player_money: int = 0
-var player_weapon = null
-var player_armor = null
+var player_weapon = {
+	"quality": "Poor",
+	"name": "Starter Weapon",
+	"damage": 100,
+	"value": 1,
+	"image": "res://assets/weapons/starter.png"}
+var player_armor = {
+	"name": "Starter Armor",
+	"required_level": 1,
+	"price:": 0,
+	"armor_multiplier": 1,
+	"image": "res://assets/armors/level1.png"
+}
 
 # Group: Save/Load
 # This group contains functions related to saving and loading the game

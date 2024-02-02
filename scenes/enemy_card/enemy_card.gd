@@ -25,6 +25,7 @@ func set_defaults():
 	set_hp_progress_fill_color()
 	set_boss_progress_fill_color()
 	boss_timer_container.visible = false
+	enemy_level_text.text = str(PlayerData.current_floor)
 
 
 func set_hp_progress_fill_color():
