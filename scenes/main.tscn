@@ -1,13 +1,13 @@
 [gd_scene load_steps=10 format=3 uid="uid://oi4sb03ye3f1"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_7x64e"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_7x64e"]
 [ext_resource type="PackedScene" uid="uid://dkheq8j8am8l3" path="res://scenes/stage_control/stage_control.tscn" id="2_kgwdb"]
-[ext_resource type="PackedScene" uid="uid://dnpnbkfgqhwe0" path="res://scenes/battle_animation.tscn" id="3_5r4wo"]
+[ext_resource type="PackedScene" uid="uid://dnpnbkfgqhwe0" path="res://scenes/battle_animation/battle_animation.tscn" id="3_5r4wo"]
 [ext_resource type="PackedScene" uid="uid://t4xejt4tmn8i" path="res://scenes/player_card/player_card.tscn" id="4_w4osn"]
 [ext_resource type="Texture2D" uid="uid://nwq2udama0ec" path="res://assets/ui/attack_button_disabled.png" id="6_lby3h"]
 [ext_resource type="PackedScene" uid="uid://5lm4uhwa8scb" path="res://scenes/enemy_card/enemy_card.tscn" id="6_y56es"]
 [ext_resource type="PackedScene" uid="uid://djuo5kmtb1vvg" path="res://scenes/player_equipment/equipment_container.tscn" id="7_a44sx"]
-[ext_resource type="PackedScene" uid="uid://v3wju4xge6by" path="res://scenes/loot_info_card.tscn" id="8_c4uo5"]
+[ext_resource type="PackedScene" uid="uid://v3wju4xge6by" path="res://scenes/loot_info_card/loot_info_card.tscn" id="8_c4uo5"]
 [ext_resource type="Texture2D" uid="uid://b2k4ykflygqiv" path="res://assets/ui/attack_button.png" id="8_fhthb"]
 
 [node name="Main" type="Node2D"]

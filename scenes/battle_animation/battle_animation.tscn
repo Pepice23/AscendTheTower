@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dnpnbkfgqhwe0"]
 
-[ext_resource type="Script" path="res://scenes/battle_animation.gd" id="1_ouuq3"]
+[ext_resource type="Script" path="res://scenes/battle_animation/battle_animation.gd" id="1_ouuq3"]
 [ext_resource type="Texture2D" uid="uid://i5gg7l8bf5mj" path="res://assets/characters/Aric.png" id="1_smdjo"]
 [ext_resource type="Texture2D" uid="uid://bmjh3w53vbo7h" path="res://assets/weapons/starter.png" id="2_0eluo"]
 [ext_resource type="Texture2D" uid="uid://b6mksu7by1gts" path="res://assets/enemies/enemy1.png" id="3_ax6kw"]
