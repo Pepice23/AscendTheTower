@@ -8,7 +8,6 @@ signal stop_auto_attack
 signal bossfight_current_time_changed
 signal bossfight_max_time_changed
 
-
 var enemy_level = PlayerData.current_floor
 var enemy_max_hp = 0
 var enemy_current_hp = 0
@@ -16,10 +15,10 @@ var bossfifight_max_time = 30
 var bossfifight_current_time = 0
 
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass  # Replace with function body.
+
 
 func armor_multiplier(level):
 	if level < 10:
@@ -43,13 +42,16 @@ func armor_multiplier(level):
 	else:
 		return 18
 
+
 func change_enemy_current_hp(hp):
 	enemy_current_hp = hp
 	emit_signal("enemy_current_hp_changed", enemy_current_hp)
 
+
 func change_enemy_max_hp(max_hp):
 	enemy_max_hp = max_hp
 	emit_signal("enemy_max_hp_changed", enemy_max_hp)
+
 
 func change_enemy_image(image):
 	emit_signal("enemy_image_changed", image)
@@ -62,6 +64,7 @@ func calculate_enemy_hp():
 	change_enemy_max_hp(enemy_hp)
 	change_enemy_current_hp(enemy_hp)
 
+
 func manual_attack():
 	if enemy_current_hp > PlayerData.player_damage:
 		enemy_current_hp -= PlayerData.player_damage
@@ -69,10 +72,12 @@ func manual_attack():
 		if enemy_current_hp <= PlayerData.player_damage:
 			emit_signal("attack_button_disabled")
 
+
 func pick_random_enemy_picture():
 	var random_number = randi() % 6 + 1
 	var enemy_picture = "res://assets/enemies/enemy" + str(random_number) + ".png"
 	change_enemy_image(enemy_picture)
+
 
 func auto_attack():
 	if enemy_current_hp > 0:
@@ -82,6 +87,7 @@ func auto_attack():
 			change_enemy_current_hp(0)
 			emit_signal("stop_auto_attack")
 
+
 func boss_auto_attack():
 	if enemy_current_hp > 0:
 		enemy_current_hp -= PlayerData.player_damage
@@ -90,12 +96,12 @@ func boss_auto_attack():
 			change_enemy_current_hp(0)
 
 
-
 func set_bossfight_time(time):
 	bossfifight_max_time = time
 	bossfifight_current_time = time
 	emit_signal("bossfight_current_time_changed", bossfifight_current_time)
 	emit_signal("bossfight_max_time_changed", bossfifight_max_time)
+
 
 func decrease_bossfight_time():
 	bossfifight_current_time -= 1

@@ -1,5 +1,6 @@
 extends Node
 
+
 func format_number(value: float) -> String:
 	var units: PackedStringArray = ["", "K", "M", "B", "T", "P", "E", "Z", "Y"]
 	var unit_index: int = 0

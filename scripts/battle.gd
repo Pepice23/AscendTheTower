@@ -3,9 +3,11 @@ extends Node
 signal start_normal_battle
 signal start_boss_battle
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
+
 
 func choose_battle_type():
 	if PlayerData.current_enemy != 15:
@@ -14,6 +16,7 @@ func choose_battle_type():
 	else:
 		boss_battle()
 		print("boss battle")
+
 
 func normal_battle():
 	EnemyData.pick_random_enemy_picture()
