@@ -20,7 +20,6 @@ signal xp_gained
 signal gold_gained
 signal weapon_compare
 
-
 # Variables
 var current_floor: int = 1
 var current_enemy: int = 1
@@ -36,7 +35,8 @@ var player_weapon = {
 	"name": "Starter Weapon",
 	"damage": 100,
 	"value": 1,
-	"image": "res://assets/weapons/starter.png"}
+	"image": "res://assets/weapons/starter.png"
+}
 var player_armor = {
 	"name": "Starter Armor",
 	"required_level": 1,
@@ -47,6 +47,7 @@ var player_armor = {
 
 # Group: Save/Load
 # This group contains functions related to saving and loading the game
+
 
 # Function: save_game
 # This function saves the game
@@ -63,6 +64,7 @@ func save_game():
 	file.store_var(player_weapon)
 	file.store_var(player_armor)
 	file.close()
+
 
 # Function: load_game
 # This function loads the game
@@ -94,18 +96,22 @@ func load_game():
 	else:
 		print("No save file found")
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass  # Replace with function body.
 
+
 # Group: Game Progression
 # This group contains functions related to the progression of the game
+
 
 # Function: on_floor_changed
 # This function increments the current floor and emits a signal
 func on_floor_changed():
 	current_floor = current_floor + 1
 	emit_signal("floor_changed", current_floor)
+
 
 # Function: change_monster_count
 # This function increments the current monster count and emits a signal
@@ -115,6 +121,7 @@ func change_monster_count():
 	total_enemy_count += 1
 	boss_timer_toggle()
 
+
 # Function: reset_monster_count
 # This function resets the current monster count and emits a signal
 func reset_enemy_count():
@@ -122,8 +129,10 @@ func reset_enemy_count():
 	emit_signal("enemy_changed", current_enemy)
 	boss_timer_toggle()
 
+
 # Group: Player Stats
 # This group contains functions related to the player's stats
+
 
 # Function: change_armor_multiplier
 # This function changes the armor multiplier and emits a signal
@@ -131,16 +140,18 @@ func change_armor_multiplier(multiplier):
 	armor_multiplier = multiplier
 	emit_signal("armor_multiplier_changed", armor_multiplier)
 
+
 # Function: gain_random_xp
 # This function increases the player's XP by a random amount and checks if the player should level up
 func gain_random_xp(min_percentage, max_percentage):
 	var random_percentage = randi_range(min_percentage, max_percentage)
-	var xp_gain: int = (xp_to_next_level * (random_percentage / 100.0))
+	var xp_gain: int = xp_to_next_level * (random_percentage / 100.0)
 	emit_signal("xp_gained", xp_gain)
 	current_xp += xp_gain
 	emit_signal("current_xp_changed", current_xp)
 	if current_xp >= xp_to_next_level:
 		level_up()
+
 
 # Function: increase_xp_to_level_up
 # This function increases the XP needed to level up
@@ -148,6 +159,7 @@ func increase_xp_to_level_up(increase_percentage):
 	var xp_increase = round(xp_to_next_level * (increase_percentage / 100.0))
 	xp_to_next_level += xp_increase
 	emit_signal("xp_to_next_level_changed", xp_to_next_level)
+
 
 # Function: level_up
 # This function levels up the player and adjusts the XP accordingly
@@ -161,11 +173,13 @@ func level_up():
 	emit_signal("xp_to_next_level_changed", xp_to_next_level)
 	save_game()
 
+
 # Function: change_player_damage
 # This function changes the player's damage and emits a signal
 func change_player_damage(damage):
 	player_damage = damage
 	emit_signal("player_damage_changed", player_damage)
+
 
 # Function: change_player_money
 # This function changes the player's money and emits a signal
@@ -173,6 +187,7 @@ func change_player_money(amount):
 	player_money += amount
 	emit_signal("player_money_changed", player_money)
 	emit_signal("gold_gained", amount)
+
 
 # Function: toggle_boss_timer
 # This function toggles the boss timer
@@ -182,6 +197,7 @@ func boss_timer_toggle():
 	else:
 		emit_signal("hide_boss_timer")
 
+
 # Function: add_new_weapon
 # This function adds a new weapon to the player's inventory
 func add_new_weapon():
@@ -189,6 +205,7 @@ func add_new_weapon():
 	emit_signal("player_weapon_changed", player_weapon)
 	emit_signal("weapon_image_changed", player_weapon.image)
 	change_player_damage(player_weapon.damage * armor_multiplier)
+
 
 # Function: get_next_armor
 # This function gets the next armor in the list
@@ -198,15 +215,18 @@ func get_next_armor():
 	change_armor_multiplier(player_armor.armor_multiplier)
 	change_player_damage(player_weapon.damage * armor_multiplier)
 
+
 func roll_for_weapon():
 	var roll = randi_range(1, 100)
 	if roll <= 25:
 		var new_weapon = WeaponCreator.create_weapon()
 		compare_weapons(new_weapon)
 
+
 func add_weapon():
 	var weapon = WeaponCreator.create_weapon()
 	compare_weapons(weapon)
+
 
 func compare_weapons(new_weapon):
 	if player_weapon.damage < new_weapon.damage:
@@ -215,5 +235,12 @@ func compare_weapons(new_weapon):
 		emit_signal("weapon_image_changed", player_weapon.image)
 		change_player_damage(player_weapon.damage * armor_multiplier)
 	else:
-		emit_signal("weapon_compare", "Your current weapon is better than the new weapon. You sold it for " + str(new_weapon.value) + " gold.")
+		emit_signal(
+			"weapon_compare",
+			(
+				"Your current weapon is better than the new weapon. You sold it for "
+				+ str(new_weapon.value)
+				+ " gold."
+			)
+		)
 		change_player_money(new_weapon.value)

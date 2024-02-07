@@ -5,6 +5,7 @@ extends Node
 func _ready():
 	pass  # Replace with function body.
 
+
 var level_1_armor = {
 	"name": "Starter Armor",
 	"required_level": 1,

@@ -17,6 +17,7 @@ func _ready():
 	PlayerData.connect("player_money_changed", _on_money_changed)
 	set_defaults()
 
+
 func set_defaults():
 	player_level_text.text = str(PlayerData.player_level)
 	player_xp_progress_bar.value = PlayerData.current_xp
@@ -25,27 +26,38 @@ func set_defaults():
 	player_damage_text.text = Utils.format_number(PlayerData.player_damage)
 	player_money_text.text = Utils.format_number(PlayerData.player_money) + " Gold"
 
+
 func set_progress_fill_color():
 	var progress_fill_style = StyleBoxFlat.new()
 	progress_fill_style.bg_color = Color(Color.PURPLE)
 	player_xp_progress_bar.add_theme_stylebox_override("fill", progress_fill_style)
 
+
 func update_xp_progressbar_text():
-	player_xp_progress_bar_text.text = Utils.format_number(player_xp_progress_bar.value) + " / " + Utils.format_number(player_xp_progress_bar.max_value)
+	player_xp_progress_bar_text.text = (
+		Utils.format_number(player_xp_progress_bar.value)
+		+ " / "
+		+ Utils.format_number(player_xp_progress_bar.max_value)
+	)
+
 
 func _on_current_xp_changed(current_xp):
 	player_xp_progress_bar.value = current_xp
 	update_xp_progressbar_text()
 
+
 func _on_max_xp_changed(max_xp):
 	player_xp_progress_bar.max_value = max_xp
 	update_xp_progressbar_text()
 
+
 func _on_level_changed(level):
 	player_level_text.text = str(level)
 
+
 func _on_damage_changed(damage):
 	player_damage_text.text = Utils.format_number(damage)
+
 
 func _on_money_changed(money):
 	player_money_text.text = Utils.format_number(money) + " Gold"

@@ -4,6 +4,7 @@ extends Node2D
 @onready var boss_battle_timer = $BossBattleTimer
 @onready var animation_player = $BattleAnimation/AnimationPlayer
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	EnemyData.connect("attack_button_disabled", attack_button_disabled)
@@ -13,8 +14,10 @@ func _ready():
 	animation_player.connect("animation_finished", _on_animation_player_animation_finished)
 	Battle.choose_battle_type()
 
+
 func _on_attack_button_pressed():
 	EnemyData.manual_attack()
+
 
 func attack_button_disabled():
 	$AttackButton.disabled = true
@@ -36,9 +39,11 @@ func _on_battle_timer_start():
 	battle_timer.start()
 	$AttackButton.disabled = false
 
+
 func _on_boss_battle_timer_start():
 	boss_battle_timer.start()
 	$AttackButton.disabled = false
+
 
 func _on_battle_timer_timeout():
 	animation_player.play("automatic_attack")
@@ -59,12 +64,14 @@ func _on_animation_player_animation_finished(anim_name):
 		PlayerData.change_monster_count()
 		Battle.choose_battle_type()
 	elif anim_name == "boss_automatic_attack":
-		EnemyData.auto_attack()
+		EnemyData.boss_auto_attack()
 		EnemyData.decrease_bossfight_time()
 		print(EnemyData.bossfifight_current_time)
 		if EnemyData.bossfifight_current_time == 0 && EnemyData.enemy_current_hp > 0:
 			boss_battle_timer.stop()
 			print("Player lost")
+			PlayerData.reset_enemy_count()
+			Battle.choose_battle_type()
 		elif EnemyData.bossfifight_current_time > 0 && EnemyData.enemy_current_hp <= 0:
 			boss_battle_timer.stop()
 			print("Player wins")
@@ -74,6 +81,8 @@ func _on_animation_player_animation_finished(anim_name):
 			PlayerData.reset_enemy_count()
 			PlayerData.on_floor_changed()
 			PlayerData.save_game()
+			Battle.choose_battle_type()
+
 
 func _on_boss_battle_timer_timeout():
 	animation_player.play("boss_automatic_attack")
