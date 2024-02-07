@@ -83,17 +83,17 @@ func auto_attack():
 	if enemy_current_hp > 0:
 		enemy_current_hp -= PlayerData.player_damage
 		change_enemy_current_hp(enemy_current_hp)
-		if enemy_current_hp <= 0:
-			change_enemy_current_hp(0)
-			emit_signal("stop_auto_attack")
+	if enemy_current_hp <= 0:
+		change_enemy_current_hp(0)
+		emit_signal("stop_auto_attack")
 
 
 func boss_auto_attack():
 	if enemy_current_hp > 0:
 		enemy_current_hp -= PlayerData.player_damage
 		change_enemy_current_hp(enemy_current_hp)
-		if enemy_current_hp <= 0:
-			change_enemy_current_hp(0)
+	if enemy_current_hp <= 0:
+		change_enemy_current_hp(0)
 
 
 func set_bossfight_time(time):

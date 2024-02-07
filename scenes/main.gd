@@ -64,12 +64,14 @@ func _on_animation_player_animation_finished(anim_name):
 		PlayerData.change_monster_count()
 		Battle.choose_battle_type()
 	elif anim_name == "boss_automatic_attack":
-		EnemyData.auto_attack()
+		EnemyData.boss_auto_attack()
 		EnemyData.decrease_bossfight_time()
 		print(EnemyData.bossfifight_current_time)
 		if EnemyData.bossfifight_current_time == 0 && EnemyData.enemy_current_hp > 0:
 			boss_battle_timer.stop()
 			print("Player lost")
+			PlayerData.reset_enemy_count()
+			Battle.choose_battle_type()
 		elif EnemyData.bossfifight_current_time > 0 && EnemyData.enemy_current_hp <= 0:
 			boss_battle_timer.stop()
 			print("Player wins")
@@ -79,6 +81,7 @@ func _on_animation_player_animation_finished(anim_name):
 			PlayerData.reset_enemy_count()
 			PlayerData.on_floor_changed()
 			PlayerData.save_game()
+			Battle.choose_battle_type()
 
 
 func _on_boss_battle_timer_timeout():
