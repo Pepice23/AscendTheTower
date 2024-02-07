@@ -38,7 +38,7 @@ func load_weapon_images():
 				# Return the dictionary of weapon images
 				return weapon_images
 
-var base_damage: int = 100
+var base_damage: int = 225
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -51,7 +51,7 @@ func create_weapon():
 	var level: int = PlayerData.player_level
 
 	# Calculate the level multiplier based on the player's level
-	var level_multiplier = 1 + ((level - 1) * 0.42) ** 6
+	var level_multiplier = 1 + ((level - 1) * 0.45) ** 3.8
 
 	# Get the keys (qualities) from the weapon_qualities dictionary
 	var qualities: Array = weapon_qualities.keys()

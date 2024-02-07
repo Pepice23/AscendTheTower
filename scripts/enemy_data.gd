@@ -56,8 +56,8 @@ func change_enemy_image(image):
 
 
 func calculate_enemy_hp():
-	var base_hp = 100
-	var level_multiplier = 1 + ((enemy_level - 1) * 0.29) ** 7 + PlayerData.total_enemy_count
+	var base_hp = 225
+	var level_multiplier = (1 + ((enemy_level - 1) * 0.4) ** 3.7) + 0.1
 	var enemy_hp = base_hp * level_multiplier * 28 * armor_multiplier(PlayerData.player_level)
 	change_enemy_max_hp(enemy_hp)
 	change_enemy_current_hp(enemy_hp)
