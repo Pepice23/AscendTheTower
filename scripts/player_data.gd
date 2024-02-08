@@ -235,12 +235,4 @@ func compare_weapons(new_weapon):
 		emit_signal("weapon_image_changed", player_weapon.image)
 		change_player_damage(player_weapon.damage * armor_multiplier)
 	else:
-		emit_signal(
-			"weapon_compare",
-			(
-				"Your current weapon is better than the new weapon. You sold it for "
-				+ str(new_weapon.value)
-				+ " gold."
-			)
-		)
 		change_player_money(new_weapon.value)
