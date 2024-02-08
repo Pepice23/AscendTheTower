@@ -111,6 +111,8 @@ func _ready():
 func on_floor_changed():
 	current_floor = current_floor + 1
 	emit_signal("floor_changed", current_floor)
+	if current_floor == 8:
+		get_tree().change_scene_to_file("res://scenes/game_finish/game_finished.tscn")
 
 
 # Function: change_monster_count
