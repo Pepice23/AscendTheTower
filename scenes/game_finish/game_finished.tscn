@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpo3jcep64j5f"]
+
+[ext_resource type="Script" path="res://scenes/game_finish/game_finished.gd" id="1_cwmyr"]
+[ext_resource type="Texture2D" uid="uid://slyyujfnf21u" path="res://assets/ui/thumbs.webp" id="1_l2s50"]
+
+[node name="GameFinished" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_cwmyr")
+
+[node name="ThumbsUp" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+texture = ExtResource("1_l2s50")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Thanks" type="Label" parent="."]
+layout_mode = 2
+text = "You have successfully saved the day, and reached the end of the game. Thank you for playing. Please leave feedback of your experience!"
+horizontal_alignment = 1
+
+[node name="Email" type="Label" parent="."]
+layout_mode = 2
+text = "Email: neona.studios92@outlook.com"
+horizontal_alignment = 1
+
+[node name="Credits" type="Label" parent="."]
+layout_mode = 2
+text = "Credits:"
+horizontal_alignment = 1
+
+[node name="Credits2" type="Label" parent="."]
+layout_mode = 2
+text = "Original Idea and Producer: Pepó"
+horizontal_alignment = 1
+
+[node name="Credits3" type="Label" parent="."]
+layout_mode = 2
+text = "Programing help, Applier of Best Practices: Zafir"
+horizontal_alignment = 1
+
+[node name="Credits4" type="Label" parent="."]
+layout_mode = 2
+text = "Encouragement and Marketing Strategist: Csaba"
+horizontal_alignment = 1
+
+[node name="Credits5" type="Label" parent="."]
+layout_mode = 2
+text = "Enthusiasm and WIlling Game Tester: Krisztián"
+horizontal_alignment = 1
+
+[node name="Credits6" type="Label" parent="."]
+layout_mode = 2
+text = "Thank you for everyone who helped in any shape or form to make this game a reality"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+
+[node name="BackToMenu" type="Button" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+text = "Back to the Main Menu"
+
+[connection signal="pressed" from="BackToMenu" to="." method="_on_back_to_menu_pressed"]
