@@ -61,7 +61,7 @@ func _on_animation_player_animation_finished(anim_name):
 		PlayerData.gain_random_xp(5, 8)
 		PlayerData.change_player_money(10)
 		PlayerData.roll_for_weapon()
-		PlayerData.change_monster_count()
+		PlayerData.change_enemy_count()
 		Battle.choose_battle_type()
 	elif anim_name == "boss_automatic_attack":
 		EnemyData.boss_auto_attack()

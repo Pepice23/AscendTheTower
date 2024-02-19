@@ -3,8 +3,6 @@ extends Node
 var save_path = "user://save_game.save"
 
 # Signals
-signal floor_changed
-signal enemy_changed
 signal player_level_changed
 signal armor_multiplier_changed
 signal current_xp_changed
@@ -105,19 +103,24 @@ func _ready():
 # Group: Game Progression
 # This group contains functions related to the progression of the game
 
-
 # Function: on_floor_changed
 # This function increments the current floor and emits a signal
+signal floor_changed
+
+
 func on_floor_changed():
 	current_floor = current_floor + 1
 	emit_signal("floor_changed", current_floor)
-	if current_floor == 8:
+	if current_floor == 101:
 		get_tree().change_scene_to_file("res://scenes/game_finish/game_finished.tscn")
 
 
-# Function: change_monster_count
+# Function: change_enemy_count
 # This function increments the current monster count and emits a signal
-func change_monster_count():
+signal enemy_changed
+
+
+func change_enemy_count():
 	current_enemy += 1
 	emit_signal("enemy_changed", current_enemy)
 	total_enemy_count += 1
