@@ -1,0 +1,67 @@
+﻿@inject PlayerService PlayerService
+@inject EnemyService EnemyService
+@implements IDisposable
+
+<div class="row m-3">
+    <div class="row m-1">
+        <div class="col">
+            <img src="images/enemies/enemy1.png" alt="Enemy" class="enemy-image" />
+        </div>
+    </div>
+    <div class="row m-1">
+        <div class="col">
+            <h4>Level: @PlayerService.CurrentFloor</h4>
+        </div>
+    </div>
+    <div class="row m-2 text-black">
+        <div class="col">
+            <div class="progress position-relative" style="height: 30px">
+                <div
+                    class="progress-bar bg-danger"
+                    role="progressbar"
+                    style="width: @(100 * EnemyService.EnemyCurrentHp / EnemyService.EnemyMaxHp)%"
+                ></div>
+                <h4 class="justify-content-center d-flex position-absolute w-100">
+                    HP: @HelperFunctions.FormatNumberCompact(EnemyService.EnemyCurrentHp) / @HelperFunctions.FormatNumberCompact(EnemyService.EnemyMaxHp)
+                </h4>
+            </div>
+        </div>
+    </div>
+    @if (PlayerService.CurrentEnemy == 15)
+    {
+        <div class="row m-2 text-black" v-if="playerStore.currentEnemy === 15">
+            <div class="col">
+                <div class="progress position-relative" style="height: 30px">
+                    <div
+                        class="progress-bar bg-warning"
+                        role="progressbar"
+                        style="width: @(100 * EnemyService.CurrentBossTime / EnemyService.MaxBossTime)%"
+                    ></div>
+                    <h4 class="justify-content-center d-flex position-absolute w-100">
+                        @EnemyService.CurrentBossTime seconds left
+                    </h4>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<style>
+    .enemy-image {
+        width: 150px;
+        height: 150px;
+    }
+</style>
+@code {
+    protected override void OnInitialized()
+    {
+        PlayerService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        PlayerService.OnChange -= StateHasChanged;
+    }
+}
