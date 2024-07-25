@@ -1,4 +1,6 @@
 ﻿using System;
+using AscendTheTower.Helper;
+
 namespace AscendTheTower.Services;
 
 public class PlayerService
@@ -12,6 +14,7 @@ public class PlayerService
     public long MaxXp { get; private set; } = 400;
     public long PlayerDamage { get; private set; } = 1;
     public int PlayerMoney { get; private set; } = 0;
+    public string BackgroundImage { get; private set; }
 
     public void AddFloor()
     {
@@ -63,5 +66,11 @@ public class PlayerService
             CalculateMaxXp();
             OnChange?.Invoke();
         }
+    }
+
+    public void SetBackgroundImage()
+    {
+        BackgroundImage = HelperFunctions.GetRandomBackgroundImage();
+        OnChange?.Invoke();
     }
 }

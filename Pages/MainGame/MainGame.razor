@@ -1,5 +1,6 @@
 ﻿@inject PlayerService PlayerService
-<div :style="backgroundImageStyle">
+@implements IDisposable
+<div class="background-image">
     <StageContainer />
     <div class="row">
         <div class="col">
@@ -16,8 +17,27 @@
 <div class="row">
     <button class="btn btn-primary" @onclick="() => PlayerService.AddXpMinMax(5,8)">Add Random XP</button>
     <button class="btn btn-primary" @onclick="() => PlayerService.AddXp(20)">Add Flat XP</button>
+    <button class="btn btn-primary" @onclick="PlayerService.SetBackgroundImage">Set Background</button>
 </div>
 
+<style>
+    .background-image {
+        background-image: @PlayerService.BackgroundImage;
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+
 @code {
-    
+    protected override void OnInitialized()
+    {
+        PlayerService.SetBackgroundImage();
+        PlayerService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        PlayerService.OnChange -= StateHasChanged;
+    }
 }
