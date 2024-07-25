@@ -1,5 +1,5 @@
 ﻿using System;
-
+using AscendTheTower.Helper;
 namespace AscendTheTower.Services;
 
 public class EnemyService
@@ -14,6 +14,7 @@ public class EnemyService
     public long EnemyMaxHp { get; private set; } = 100;
     public int CurrentBossTime { get; private set; } = 30;
     public int MaxBossTime { get; private set; } = 30;
+    public string EnemyImage { get; private set; }
 
     private const int BaseHp = 100;
     private const double GrowthRate  = 0.02;
@@ -24,6 +25,7 @@ public class EnemyService
         var calculatedHp = BaseHp * Math.Pow(1 + GrowthRate, _playerService.CurrentFloor) * Math.Pow(1 + EnemyIncrement, _playerService.TotalEnemyCount);
         EnemyMaxHp = (long)calculatedHp;
         EnemyCurrentHp = EnemyMaxHp;
+        SetEnemyImage();
         OnChange?.Invoke();
     }
 
@@ -49,6 +51,12 @@ public class EnemyService
     public void SetCurrentHpToNull()
     {
         EnemyCurrentHp = 0;
+        OnChange?.Invoke();
+    }
+
+    public void SetEnemyImage()
+    {
+        EnemyImage = HelperFunctions.GetRandomEnemyImage();
         OnChange?.Invoke();
     }
 

@@ -6,7 +6,7 @@
 <div class="row m-3">
     <div class="row m-1">
         <div class="col">
-            <img src="images/enemies/enemy1.png" alt="Enemy" class="enemy-image" />
+            <img src="@EnemyService.EnemyImage" alt="Enemy" class="enemy-image" />
         </div>
     </div>
     <div class="row m-1">
@@ -59,6 +59,7 @@
     {
         PlayerService.OnChange += StateHasChanged;
         EnemyService.OnChange += StateHasChanged;
+        EnemyService.SetEnemyImage();
         BattleService.OnChange += StateHasChanged;
     }
 

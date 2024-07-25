@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 
@@ -25,6 +26,17 @@ public static class HelperFunctions
         var imageFiles = Directory.GetFiles(imageFolder);
         var randomIndex = new Random().Next(imageFiles.Length);
         var randomImage = $"url(images/backgrounds/bg{randomIndex + 1}.png)";
+        Debug.WriteLine(randomImage);
+        return randomImage;
+    }
+
+    public static string GetRandomEnemyImage()
+    {
+        const string imageFolder = "wwwroot/images/enemies";
+        var imageFiles = Directory.GetFiles(imageFolder);
+        var randomIndex = new Random().Next(imageFiles.Length);
+        var randomImage = $"images/enemies/enemy{randomIndex + 1}.png";
+        Debug.WriteLine(randomImage);
         return randomImage;
     }
 
