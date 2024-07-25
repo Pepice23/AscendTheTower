@@ -1,4 +1,30 @@
-﻿<h3>EnemyCounter</h3>
+﻿@inject PlayerService PlayerService
+
+<div class="col m-3 text-black">
+    <div class="progress position-relative" style="height: 30px">
+        <div
+            class="progress-bar"
+            role="progressbar"
+            style="width: @(100 * PlayerService.CurrentEnemy/15)%"
+        ></div>
+        @if (PlayerService.CurrentEnemy < 15)
+        {
+            <h4
+                class="justify-content-center d-flex position-absolute w-100"
+            >
+                Enemy: @PlayerService.CurrentEnemy / 15
+            </h4>
+        }
+        @if (PlayerService.CurrentEnemy == 15)
+        {
+            <h4
+                class="justify-content-center d-flex position-absolute w-100"
+            >
+                Boss of the Floor!
+            </h4>
+        }
+    </div>
+</div>
 
 @code {
     
