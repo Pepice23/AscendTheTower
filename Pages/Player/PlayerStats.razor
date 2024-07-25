@@ -1,4 +1,5 @@
 ﻿@inject PlayerService PlayerService
+@implements IDisposable
 <div class="row m-3">
         <div class="row m-1">
             <div class="col">
@@ -50,5 +51,14 @@
 </style>
 
 @code {
-    
+    protected override void OnInitialized()
+    {
+        PlayerService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        PlayerService.OnChange -= StateHasChanged;
+    }
 }
