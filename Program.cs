@@ -1,4 +1,5 @@
 ﻿using System;
+using AscendTheTower.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Photino.Blazor;
 
@@ -13,6 +14,10 @@ namespace AscendTheTower
 
             appBuilder.Services
                 .AddLogging();
+
+            // register custom services
+            appBuilder.Services
+                .AddSingleton<PlayerService>();
 
             // register root component and selector
             appBuilder.RootComponents.Add<App>("app");

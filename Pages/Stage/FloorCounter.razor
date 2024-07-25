@@ -1,0 +1,18 @@
+﻿@inject PlayerService PlayerService
+
+<div class="col m-3 text-black">
+    <div class="progress position-relative" style="height: 30px">
+        <div
+            class="progress-bar"
+            role="progressbar"
+            style="width: @PlayerService.CurrentFloor%"
+        ></div>
+        <h4 class="justify-content-center d-flex position-absolute w-100">
+            Floor: @PlayerService.CurrentFloor / 100
+        </h4>
+    </div>
+</div>
+
+@code {
+    
+}
