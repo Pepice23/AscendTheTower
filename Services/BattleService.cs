@@ -68,7 +68,7 @@ public class BattleService
                 _playerService.SetBackgroundImage();
                 break;
             }
-            if (_enemyService.CurrentBossTime <= 0 && _enemyService.EnemyCurrentHp > 0) //Player lost
+            if (_enemyService.CurrentBossTime <= 0 ) //Player lost
             {
                 _autoAttackTimer.Dispose();
                 _enemyService.SetCurrentHpToNull();
