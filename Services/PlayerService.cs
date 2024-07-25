@@ -9,10 +9,11 @@ public class PlayerService
 
     public int CurrentFloor { get; private set; } = 1;
     public int CurrentEnemy { get; private set; } = 1;
+    public int TotalEnemyCount { get; private set; }
     public int PlayerLevel { get; private set; } = 1;
-    public long CurrentXp { get; private set; } = 0;
+    public long CurrentXp { get; private set; }
     public long MaxXp { get; private set; } = 400;
-    public long PlayerDamage { get; private set; } = 1;
+    public long PlayerDamage { get; private set; } = 11;
     public int PlayerMoney { get; private set; } = 0;
     public string BackgroundImage { get; private set; }
 
@@ -26,6 +27,7 @@ public class PlayerService
     public void AddEnemy()
     {
         CurrentEnemy++;
+        TotalEnemyCount++;
         OnChange?.Invoke();
     }
 

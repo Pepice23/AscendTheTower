@@ -1,5 +1,6 @@
 ﻿@inject PlayerService PlayerService
 @inject EnemyService EnemyService
+@inject BattleService BattleService
 @implements IDisposable
 
 <div class="row m-3">
@@ -57,11 +58,15 @@
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
+        EnemyService.OnChange += StateHasChanged;
+        BattleService.OnChange += StateHasChanged;
     }
 
 
     public void Dispose()
     {
         PlayerService.OnChange -= StateHasChanged;
+        EnemyService.OnChange -= StateHasChanged;
+        BattleService.OnChange -= StateHasChanged;
     }
 }

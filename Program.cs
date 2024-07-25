@@ -20,6 +20,8 @@ namespace AscendTheTower
                 .AddSingleton<PlayerService>();
             appBuilder.Services
                 .AddSingleton<EnemyService>();
+            appBuilder.Services.
+                AddSingleton<BattleService>();
 
             // register root component and selector
             appBuilder.RootComponents.Add<App>("app");

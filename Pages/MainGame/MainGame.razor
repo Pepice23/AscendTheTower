@@ -1,4 +1,5 @@
 ﻿@inject PlayerService PlayerService
+@inject BattleService BattleService
 @implements IDisposable
 <div class="background-image">
     <StageContainer />
@@ -27,12 +28,15 @@
     protected override void OnInitialized()
     {
         PlayerService.SetBackgroundImage();
+        BattleService.StartBattle();
         PlayerService.OnChange += StateHasChanged;
+        BattleService.OnChange += StateHasChanged;
     }
 
 
     public void Dispose()
     {
         PlayerService.OnChange -= StateHasChanged;
+        BattleService.OnChange -= StateHasChanged;
     }
 }
