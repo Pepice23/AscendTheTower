@@ -1,8 +1,11 @@
-﻿<script setup></script>
+﻿@inject PlayerService PlayerService
+@inject EnemyService EnemyService
+@implements IDisposable
 
-    <button class="btn btn-dark m-3">
-        <img src="images/ui/attack-button.png" alt="Attack Button" class="attack-button" />
-    </button>
+<button class="btn btn-dark m-3" @onclick="EnemyService.ManualAttack"
+        disabled="@(EnemyService.EnemyCurrentHp < PlayerService.PlayerDamage)">
+    <img src="images/ui/attack-button.png" alt="Attack Button" class="attack-button"  />
+</button>
 
 <style >
     .attack-button {
@@ -12,5 +15,16 @@
 </style>
 
 @code {
+    protected override void OnInitialized()
+    {
+        PlayerService.OnChange += StateHasChanged;
+        EnemyService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        PlayerService.OnChange -= StateHasChanged;
+        EnemyService.OnChange -= StateHasChanged;
+    }
     
 }

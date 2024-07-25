@@ -48,6 +48,15 @@ public class EnemyService
         OnChange?.Invoke();
     }
 
+    public void ManualAttack()
+    {
+        if (EnemyCurrentHp>_playerService.PlayerDamage)
+        {
+            EnemyCurrentHp-= _playerService.PlayerDamage;
+            OnChange?.Invoke();
+        }
+    }
+
     public void SetCurrentHpToNull()
     {
         EnemyCurrentHp = 0;

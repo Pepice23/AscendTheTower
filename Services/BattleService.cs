@@ -33,7 +33,7 @@ public class BattleService
 
     private async void StartNormalBattle()
     {
-        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(0.5));
+        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         while (await _autoAttackTimer.WaitForNextTickAsync())
         {
             _enemyService.AutoAttack();
