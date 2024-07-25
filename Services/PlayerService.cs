@@ -31,9 +31,10 @@ public class PlayerService
         OnChange?.Invoke();
     }
 
-    public void ResetEnemy()
+    public void ResetFloor()
     {
         CurrentEnemy = 1;
+        TotalEnemyCount -= 14;
         OnChange?.Invoke();
     }
 

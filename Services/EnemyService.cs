@@ -39,7 +39,14 @@ public class EnemyService
         OnChange?.Invoke();
     }
 
-    public void SetCurrentHPToNull()
+    public void BossAutoAttack()
+    {
+        EnemyCurrentHp -= _playerService.PlayerDamage;
+        CurrentBossTime--;
+        OnChange?.Invoke();
+    }
+
+    public void SetCurrentHpToNull()
     {
         EnemyCurrentHp = 0;
         OnChange?.Invoke();

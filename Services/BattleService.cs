@@ -21,6 +21,7 @@ public class BattleService
     {
         if (_playerService.CurrentEnemy == 15)
         {
+            _enemyService.SetBossTime();
             StartBossBattle();
         }
         else
@@ -32,24 +33,51 @@ public class BattleService
 
     private async void StartNormalBattle()
     {
-        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(0.5));
         while (await _autoAttackTimer.WaitForNextTickAsync())
         {
             _enemyService.AutoAttack();
             OnChange?.Invoke();
             if (_enemyService.EnemyCurrentHp <= 0)
             {
-                _enemyService.SetCurrentHPToNull();
                 _autoAttackTimer.Dispose();
+                _enemyService.SetCurrentHpToNull();
                 break;
             }
         }
+        _playerService.AddXpMinMax(5,8);
+        _playerService.AddEnemy();
+        _enemyService.SetEnemyHp();
+        StartBattle();
     }
 
 
-    private void StartBossBattle()
+    private async void StartBossBattle()
     {
-        Console.WriteLine("Starting boss battle");
+        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        while (await _autoAttackTimer.WaitForNextTickAsync())
+        {
+            _enemyService.BossAutoAttack();
+            OnChange?.Invoke();
+            if (_enemyService.EnemyCurrentHp <= 0 && _enemyService.CurrentBossTime > 0) //Player won
+            {
+                _autoAttackTimer.Dispose();
+                _enemyService.SetCurrentHpToNull();
+                _playerService.AddXp(20);
+                _playerService.AddFloor();
+                _playerService.SetBackgroundImage();
+                break;
+            }
+            if (_enemyService.CurrentBossTime <= 0 && _enemyService.EnemyCurrentHp > 0) //Player lost
+            {
+                _autoAttackTimer.Dispose();
+                _enemyService.SetCurrentHpToNull();
+                _playerService.ResetFloor();
+                break;
+            }
+        }
+        _enemyService.SetEnemyHp();
+        StartBattle();
     }
 
 
