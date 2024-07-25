@@ -1,4 +1,5 @@
-﻿<div :style="backgroundImageStyle">
+﻿@inject PlayerService PlayerService
+<div :style="backgroundImageStyle">
     <StageContainer />
     <div class="row">
         <div class="col">
@@ -11,6 +12,10 @@
             <EnemyStats />
         </div>
     </div>
+</div>
+<div class="row">
+    <button class="btn btn-primary" @onclick="() => PlayerService.AddXpMinMax(5,8)">Add Random XP</button>
+    <button class="btn btn-primary" @onclick="() => PlayerService.AddXp(20)">Add Flat XP</button>
 </div>
 
 @code {

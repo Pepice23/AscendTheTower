@@ -31,5 +31,37 @@ public class PlayerService
         CurrentEnemy = 1;
         OnChange?.Invoke();
     }
-    
+
+    public void AddXpMinMax(int minPercent, int maxPercent)
+    {
+        var percent = new Random().Next(minPercent, maxPercent);
+        CurrentXp += percent * MaxXp / 100;
+        CheckLevelUp();
+        OnChange?.Invoke();
+    }
+
+    public void AddXp(int percent)
+    {
+        CurrentXp += percent * MaxXp / 100;
+        CheckLevelUp();
+        OnChange?.Invoke();
+    }
+
+    private void CalculateMaxXp()
+    {
+        var newXp = MaxXp * 1.15;
+        MaxXp = (long)newXp;
+        OnChange?.Invoke();
+    }
+
+    private void CheckLevelUp()
+    {
+        if (CurrentXp >= MaxXp)
+        {
+            CurrentXp -= MaxXp;
+            PlayerLevel++;
+            CalculateMaxXp();
+            OnChange?.Invoke();
+        }
+    }
 }
