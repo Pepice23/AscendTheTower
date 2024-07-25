@@ -1,4 +1,5 @@
 ﻿@inject PlayerService PlayerService
+@implements IDisposable
 
 <div class="col m-3 text-black">
     <div class="progress position-relative" style="height: 30px">
@@ -14,5 +15,14 @@
 </div>
 
 @code {
-    
+    protected override void OnInitialized()
+    {
+        PlayerService.OnChange += StateHasChanged;
+    }
+
+
+    public void Dispose()
+    {
+        PlayerService.OnChange -= StateHasChanged;
+    }
 }
