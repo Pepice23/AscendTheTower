@@ -1,9 +1,28 @@
-﻿@page "/"
+﻿@inject PlayerService PlayerService
+@inject NavigationManager NavigationManager
+@implements IDisposable
+@page "/"
 
-<MainGame/>
-
-@code {
-
+@if (PlayerService.CurrentFloor == 2)
+{
+    NavigationManager.NavigateTo("/GameEnd");
+}
+else
+{
+    <MainGame/>
 }
 
 
+@code {
+
+    protected override void OnInitialized()
+    {
+        PlayerService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        PlayerService.OnChange -= StateHasChanged;
+    }
+
+}
