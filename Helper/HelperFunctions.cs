@@ -40,4 +40,38 @@ public static class HelperFunctions
         return randomImage;
     }
 
+    public static string GetRandomWeaponImage(string rarity)
+    {
+        var imageFolder = "";
+        var imgPath = "";
+        switch (rarity)
+        {
+            case "poor":
+                imageFolder = "wwwroot/images/weapons/poor";
+                imgPath = "images/weapons/poor/p";
+                break;
+            case "uncommon":
+                imageFolder = "wwwroot/images/weapons/uncommon";
+                imgPath = "images/weapons/uncommon/u";
+                break;
+            case "rare":
+                imageFolder = "wwwroot/images/weapons/rare";
+                imgPath = "images/weapons/rare/r";
+                break;
+            case "epic":
+                imageFolder = "wwwroot/images/weapons/epic";
+                imgPath = "images/weapons/epic/e";
+                break;
+            case "legendary":
+                imageFolder = "wwwroot/images/weapons/legendary";
+                imgPath = "images/weapons/legendary/l";
+                break;
+        }
+
+        var imageFiles = Directory.GetFiles(imageFolder);
+        var randomIndex = new Random().Next(imageFiles.Length);
+        var randomImage = $"{imgPath}{randomIndex + 1}.png";
+        Debug.WriteLine(randomImage);
+        return randomImage;
+    }
 }
