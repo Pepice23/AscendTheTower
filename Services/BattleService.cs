@@ -38,6 +38,7 @@ public class BattleService
     {
         await NormalBattleTimer();
         _playerService.AddXpMinMax(5, 8);
+        _playerService.AddGold(_playerService.CurrentFloor * 10);
         RollDiceForWeapon();
         _playerService.AddEnemy();
         _enemyService.SetEnemyHp();
@@ -79,6 +80,7 @@ public class BattleService
                 _autoAttackTimer.Dispose();
                 _enemyService.SetCurrentHpToNull();
                 _playerService.AddXp(20);
+                _playerService.AddGold(_playerService.CurrentFloor * 10 + 100);
                 _weaponService.CreateRandomWeapon();
                 _playerService.AddFloor();
                 _playerService.SetBackgroundImage();

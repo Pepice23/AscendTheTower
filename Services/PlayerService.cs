@@ -89,4 +89,10 @@ public class PlayerService
         TotalDamage = PlayerWeaponDamage * _armorMultiplier;
         OnChange?.Invoke();
     }
+
+    public void AddGold(int gold)
+    {
+        PlayerMoney += gold;
+        OnChange?.Invoke();
+    }
 }
