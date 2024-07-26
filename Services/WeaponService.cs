@@ -30,15 +30,14 @@ public class WeaponService
         Legendary
     }
 
-    private readonly Dictionary<WeaponRarity, Tuple<string, double>> _rarityWeights =
-        new Dictionary<WeaponRarity, Tuple<string, double>>()
-        {
-            { WeaponRarity.Poor, new Tuple<string, double>("Poor Weapon", 1) },
-            { WeaponRarity.Uncommon, new Tuple<string, double>("Uncommon Weapon", 1.2) },
-            { WeaponRarity.Rare, new Tuple<string, double>("Rare Weapon", 1.4) },
-            { WeaponRarity.Epic, new Tuple<string, double>("Epic Weapon", 1.6) },
-            { WeaponRarity.Legendary, new Tuple<string, double>("Legendary Weapon", 2) },
-        };
+    private readonly Dictionary<WeaponRarity, (string name, double multiplier)> _rarityWeights = new()
+    {
+        { WeaponRarity.Poor, ("Poor Weapon", 1) },
+        { WeaponRarity.Uncommon, ("Uncommon Weapon", 1.2) },
+        { WeaponRarity.Rare, ("Rare Weapon", 1.4) },
+        { WeaponRarity.Epic, ("Epic Weapon", 1.6) },
+        { WeaponRarity.Legendary, ("Legendary Weapon", 2) }
+    };
 
 
     private void GetScalingFactor()
@@ -86,28 +85,28 @@ public class WeaponService
         switch (diceRoll)
         {
             case <= 50:
-                _weaponName = _rarityWeights[WeaponRarity.Poor].Item1;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Poor].Item2;
+                _weaponName = _rarityWeights[WeaponRarity.Poor].name;
+                _weaponMultiplier = _rarityWeights[WeaponRarity.Poor].multiplier;
                 _weaponImage = HelperFunctions.GetRandomWeaponImage("poor");
                 break;
             case > 50 and <= 75:
-                _weaponName = _rarityWeights[WeaponRarity.Uncommon].Item1;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Uncommon].Item2;
+                _weaponName = _rarityWeights[WeaponRarity.Uncommon].name;
+                _weaponMultiplier = _rarityWeights[WeaponRarity.Uncommon].multiplier;
                 _weaponImage = HelperFunctions.GetRandomWeaponImage("uncommon");
                 break;
             case > 75 and <= 90:
-                _weaponName = _rarityWeights[WeaponRarity.Rare].Item1;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Rare].Item2;
+                _weaponName = _rarityWeights[WeaponRarity.Rare].name;
+                _weaponMultiplier = _rarityWeights[WeaponRarity.Rare].multiplier;
                 _weaponImage = HelperFunctions.GetRandomWeaponImage("rare");
                 break;
             case > 90 and <= 97:
-                _weaponName = _rarityWeights[WeaponRarity.Epic].Item1;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Epic].Item2;
+                _weaponName = _rarityWeights[WeaponRarity.Epic].name;
+                _weaponMultiplier = _rarityWeights[WeaponRarity.Epic].multiplier;
                 _weaponImage = HelperFunctions.GetRandomWeaponImage("epic");
                 break;
             case > 97:
-                _weaponName = _rarityWeights[WeaponRarity.Legendary].Item1;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Legendary].Item2;
+                _weaponName = _rarityWeights[WeaponRarity.Legendary].name;
+                _weaponMultiplier = _rarityWeights[WeaponRarity.Legendary].multiplier;
                 _weaponImage = HelperFunctions.GetRandomWeaponImage("legendary");
                 break;
         }
