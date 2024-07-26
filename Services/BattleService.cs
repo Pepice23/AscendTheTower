@@ -37,10 +37,15 @@ public class BattleService
     private async void StartNormalBattle()
     {
         await NormalBattleTimer();
-        _playerService.AddXpMinMax(5, 8);
-        _playerService.AddGold(_playerService.CurrentFloor * 10);
-        RollDiceForWeapon();
+        GiveRewardNormal();
         _playerService.AddEnemy();
+        _enemyService.SetEnemyHp();
+        StartBattle();
+    }
+
+    private async void StartBossBattle()
+    {
+        await BossBattleTimer();
         _enemyService.SetEnemyHp();
         StartBattle();
     }
@@ -61,12 +66,6 @@ public class BattleService
         }
     }
 
-    private async void StartBossBattle()
-    {
-        await BossBattleTimer();
-        _enemyService.SetEnemyHp();
-        StartBattle();
-    }
 
     private async Task BossBattleTimer()
     {
@@ -75,20 +74,20 @@ public class BattleService
         {
             _enemyService.BossAutoAttack();
             OnChange?.Invoke();
-            if (_enemyService.EnemyCurrentHp <= 0 && _enemyService.CurrentBossTime > 0) //Player won
+            if (_enemyService.EnemyCurrentHp <= 0 && _enemyService.CurrentBossTime > 0)
             {
+                //Player won
                 _autoAttackTimer.Dispose();
                 _enemyService.SetCurrentHpToNull();
-                _playerService.AddXp(20);
-                _playerService.AddGold(_playerService.CurrentFloor * 10 + 100);
-                _weaponService.CreateRandomWeapon();
+                GiveRewardBoss();
                 _playerService.AddFloor();
                 _playerService.SetBackgroundImage();
                 break;
             }
 
-            if (_enemyService.CurrentBossTime <= 0) //Player lost
+            if (_enemyService.CurrentBossTime <= 0)
             {
+                //Player lost
                 _autoAttackTimer.Dispose();
                 _enemyService.SetCurrentHpToNull();
                 _playerService.ResetFloor();
@@ -104,5 +103,19 @@ public class BattleService
         {
             _weaponService.CreateRandomWeapon();
         }
+    }
+
+    private void GiveRewardNormal()
+    {
+        _playerService.AddXpMinMax(5, 8);
+        _playerService.AddGold(_playerService.CurrentFloor * 10);
+        RollDiceForWeapon();
+    }
+
+    private void GiveRewardBoss()
+    {
+        _playerService.AddXp(20);
+        _playerService.AddGold(_playerService.CurrentFloor * 10 + 100);
+        _weaponService.CreateRandomWeapon();
     }
 }
