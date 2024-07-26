@@ -38,7 +38,7 @@ public class BattleService
     {
         await NormalBattleTimer();
         _playerService.AddXpMinMax(5, 8);
-        _weaponService.CreateRandomWeapon();
+        RollDiceForWeapon();
         _playerService.AddEnemy();
         _enemyService.SetEnemyHp();
         StartBattle();
@@ -79,6 +79,7 @@ public class BattleService
                 _autoAttackTimer.Dispose();
                 _enemyService.SetCurrentHpToNull();
                 _playerService.AddXp(20);
+                _weaponService.CreateRandomWeapon();
                 _playerService.AddFloor();
                 _playerService.SetBackgroundImage();
                 break;
@@ -91,6 +92,15 @@ public class BattleService
                 _playerService.ResetFloor();
                 break;
             }
+        }
+    }
+
+    private void RollDiceForWeapon()
+    {
+        var roll = new Random().Next(1, 101);
+        if (roll <= 10)
+        {
+            _weaponService.CreateRandomWeapon();
         }
     }
 }
