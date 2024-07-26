@@ -13,9 +13,13 @@ public class PlayerService
     public int PlayerLevel { get; private set; } = 1;
     public long CurrentXp { get; private set; }
     public long MaxXp { get; private set; } = 400;
-    public long PlayerDamage { get; private set; } = 11;
+    public long TotalDamage { get; private set; } = 10;
     public int PlayerMoney { get; private set; } = 0;
+    public string PlayerWeaponName { get; private set; }
+    public string PlayerWeaponImage { get; private set; }
+    public long PlayerWeaponDamage { get; private set; }
     public string BackgroundImage { get; private set; }
+    private int _armorMultiplier = 1;
 
     public void AddFloor()
     {
@@ -74,6 +78,15 @@ public class PlayerService
     public void SetBackgroundImage()
     {
         BackgroundImage = HelperFunctions.GetRandomBackgroundImage();
+        OnChange?.Invoke();
+    }
+
+    public void UpdatePlayerWeapon(string name, string image, long damage)
+    {
+        PlayerWeaponName = name;
+        PlayerWeaponImage = image;
+        PlayerWeaponDamage = damage;
+        TotalDamage = PlayerWeaponDamage * _armorMultiplier;
         OnChange?.Invoke();
     }
 }

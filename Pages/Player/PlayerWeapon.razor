@@ -1,10 +1,17 @@
-﻿<div class="row m-1">
+﻿@inject PlayerService PlayerService
+@implements IDisposable
+
+<div class="row m-1">
     <div class="col">
-        <img src="images/weapons/poor/p1.png" alt="Weapon" class="weapon-image" />
+        <img src="@PlayerService.PlayerWeaponImage" alt="Weapon" class="weapon-image"/>
     </div>
     <div class="col">
-        <div class="row"><h4>Starter Weapon</h4></div>
-        <div class="row"><h4>Weapon Damage: 10</h4></div>
+        <div class="row">
+            <h4>@PlayerService.PlayerWeaponName</h4>
+        </div>
+        <div class="row">
+            <h4>Weapon Damage: @HelperFunctions.FormatNumberCompact(PlayerService.PlayerWeaponDamage)</h4>
+        </div>
     </div>
 </div>
 
@@ -17,5 +24,15 @@
 </style>
 
 @code {
-    
+
+    protected override void OnInitialized()
+    {
+        PlayerService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        PlayerService.OnChange -= StateHasChanged;
+    }
+
 }

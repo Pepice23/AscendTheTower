@@ -1,43 +1,43 @@
 ﻿@inject PlayerService PlayerService
 @implements IDisposable
 <div class="row m-3">
-        <div class="row m-1">
-            <div class="col">
-                <img src="images/player/andaric.png" alt="Player" class="player-image" />
-            </div>
+    <div class="row m-1">
+        <div class="col">
+            <img src="images/player/andaric.png" alt="Player" class="player-image"/>
         </div>
-        <div class="row m-1">
-            <div class="col">
-                <h4>Level: @PlayerService.PlayerLevel</h4>
-            </div>
-        </div>
-        <div class="row m-1">
-            <div class="col text-black">
-                <div class="progress position-relative" style="height: 30px">
-                    <div
-                        class="progress-bar wow-xp-bar-color"
-                        role="progressbar"
-                        style="width: @(100 * PlayerService.CurrentXp / PlayerService.MaxXp)%"
-                    ></div>
-                    <h4 class="justify-content-center d-flex position-absolute w-100">
-                        XP: @HelperFunctions.FormatNumberCompact(PlayerService.CurrentXp) / @HelperFunctions.FormatNumberCompact(PlayerService.MaxXp)
-                    </h4>
-                </div>
-            </div>
-        </div>
-        <div class="row m-1">
-            <div class="col">
-                <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.PlayerDamage)</h4>
-            </div>
-        </div>
-        <div class="row m-1">
-            <div class="col">
-                <h4>Money: @HelperFunctions.FormatNumberCompact(PlayerService.PlayerMoney)</h4>
-            </div>
-        </div>
-        <PlayerWeapon />
-        <PlayerArmor />
     </div>
+    <div class="row m-1">
+        <div class="col">
+            <h4>Level: @PlayerService.PlayerLevel</h4>
+        </div>
+    </div>
+    <div class="row m-1">
+        <div class="col text-black">
+            <div class="progress position-relative" style="height: 30px">
+                <div
+                    class="progress-bar wow-xp-bar-color"
+                    role="progressbar"
+                    style="width: @(100 * PlayerService.CurrentXp / PlayerService.MaxXp)%">
+                </div>
+                <h4 class="justify-content-center d-flex position-absolute w-100">
+                    XP: @HelperFunctions.FormatNumberCompact(PlayerService.CurrentXp) / @HelperFunctions.FormatNumberCompact(PlayerService.MaxXp)
+                </h4>
+            </div>
+        </div>
+    </div>
+    <div class="row m-1">
+        <div class="col">
+            <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage)</h4>
+        </div>
+    </div>
+    <div class="row m-1">
+        <div class="col">
+            <h4>Money: @HelperFunctions.FormatNumberCompact(PlayerService.PlayerMoney)</h4>
+        </div>
+    </div>
+    <PlayerWeapon/>
+    <PlayerArmor/>
+</div>
 
 <style>
     .wow-xp-bar-color {
@@ -51,6 +51,7 @@
 </style>
 
 @code {
+
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
@@ -61,4 +62,5 @@
     {
         PlayerService.OnChange -= StateHasChanged;
     }
+
 }

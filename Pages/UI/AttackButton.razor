@@ -3,8 +3,8 @@
 @implements IDisposable
 
 <button class="btn btn-dark m-3" @onclick="EnemyService.ManualAttack"
-        disabled="@(EnemyService.EnemyCurrentHp < PlayerService.PlayerDamage)">
-    <img src="images/ui/attack-button.png" alt="Attack Button" class="attack-button"  />
+        disabled="@(EnemyService.EnemyCurrentHp < PlayerService.PlayerWeaponDamage)">
+    <img src="images/ui/attack-button.png" alt="Attack Button" class="attack-button"/>
 </button>
 
 <style >
@@ -15,6 +15,7 @@
 </style>
 
 @code {
+
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
@@ -26,5 +27,5 @@
         PlayerService.OnChange -= StateHasChanged;
         EnemyService.OnChange -= StateHasChanged;
     }
-    
+
 }
