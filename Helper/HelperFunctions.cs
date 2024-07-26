@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace AscendTheTower.Helper;
 
@@ -23,8 +24,8 @@ public static class HelperFunctions
     public static string GetRandomBackgroundImage()
     {
         const string imageFolder = "wwwroot/images/backgrounds";
-        var imageFiles = Directory.GetFiles(imageFolder);
-        var randomIndex = new Random().Next(imageFiles.Length);
+        var imageFiles = Directory.EnumerateFiles(imageFolder);
+        var randomIndex = new Random().Next(imageFiles.Count());
         var randomImage = $"url(images/backgrounds/bg{randomIndex + 1}.png)";
         Debug.WriteLine(randomImage);
         return randomImage;
@@ -33,8 +34,8 @@ public static class HelperFunctions
     public static string GetRandomEnemyImage()
     {
         const string imageFolder = "wwwroot/images/enemies";
-        var imageFiles = Directory.GetFiles(imageFolder);
-        var randomIndex = new Random().Next(imageFiles.Length);
+        var imageFiles = Directory.EnumerateFiles(imageFolder);
+        var randomIndex = new Random().Next(imageFiles.Count());
         var randomImage = $"images/enemies/enemy{randomIndex + 1}.png";
         Debug.WriteLine(randomImage);
         return randomImage;
@@ -68,8 +69,8 @@ public static class HelperFunctions
                 break;
         }
 
-        var imageFiles = Directory.GetFiles(imageFolder);
-        var randomIndex = new Random().Next(imageFiles.Length);
+        var imageFiles = Directory.EnumerateFiles(imageFolder);
+        var randomIndex = new Random().Next(imageFiles.Count());
         var randomImage = $"{imgPath}{randomIndex + 1}.png";
         Debug.WriteLine(randomImage);
         return randomImage;
