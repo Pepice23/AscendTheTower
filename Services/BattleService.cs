@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace AscendTheTower.Services;
 
@@ -9,6 +10,7 @@ public class BattleService
     private readonly EnemyService _enemyService;
 
     private PeriodicTimer _autoAttackTimer;
+
     public BattleService(PlayerService playerService, EnemyService enemyService)
     {
         _playerService = playerService;
@@ -28,10 +30,18 @@ public class BattleService
         {
             StartNormalBattle();
         }
-
     }
 
     private async void StartNormalBattle()
+    {
+        await NormalBattleTimer();
+        _playerService.AddXpMinMax(5, 8);
+        _playerService.AddEnemy();
+        _enemyService.SetEnemyHp();
+        StartBattle();
+    }
+
+    private async Task NormalBattleTimer()
     {
         _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         while (await _autoAttackTimer.WaitForNextTickAsync())
@@ -45,14 +55,17 @@ public class BattleService
                 break;
             }
         }
-        _playerService.AddXpMinMax(5,8);
-        _playerService.AddEnemy();
-        _enemyService.SetEnemyHp();
-        StartBattle();
     }
 
 
     private async void StartBossBattle()
+    {
+        await BossBattleTimer();
+        _enemyService.SetEnemyHp();
+        StartBattle();
+    }
+
+    private async Task BossBattleTimer()
     {
         _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         while (await _autoAttackTimer.WaitForNextTickAsync())
@@ -68,7 +81,8 @@ public class BattleService
                 _playerService.SetBackgroundImage();
                 break;
             }
-            if (_enemyService.CurrentBossTime <= 0 ) //Player lost
+
+            if (_enemyService.CurrentBossTime <= 0) //Player lost
             {
                 _autoAttackTimer.Dispose();
                 _enemyService.SetCurrentHpToNull();
@@ -76,13 +90,5 @@ public class BattleService
                 break;
             }
         }
-        _enemyService.SetEnemyHp();
-        StartBattle();
     }
-
-
-
-
-
-
 }
