@@ -56,8 +56,7 @@ public class BattleService
             }
         }
     }
-
-
+    
     private async void StartBossBattle()
     {
         await BossBattleTimer();
