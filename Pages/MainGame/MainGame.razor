@@ -1,17 +1,18 @@
 ﻿@inject PlayerService PlayerService
 @inject BattleService BattleService
+@inject NavigationManager NavigationManager
 @implements IDisposable
 <div class="background-image">
-    <StageContainer />
+    <StageContainer/>
     <div class="row">
         <div class="col">
-            <PlayerStats />
+            <PlayerStats/>
         </div>
         <div class="col">
-            <AttackButton />
+            <AttackButton/>
         </div>
         <div class="col">
-            <EnemyStats />
+            <EnemyStats/>
         </div>
     </div>
 </div>
@@ -25,6 +26,7 @@
 </style>
 
 @code {
+
     protected override void OnInitialized()
     {
         PlayerService.SetBackgroundImage();
@@ -39,4 +41,5 @@
         PlayerService.OnChange -= StateHasChanged;
         BattleService.OnChange -= StateHasChanged;
     }
+
 }
