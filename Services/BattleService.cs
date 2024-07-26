@@ -8,13 +8,15 @@ public class BattleService
 {
     private readonly PlayerService _playerService;
     private readonly EnemyService _enemyService;
+    private readonly WeaponService _weaponService;
 
     private PeriodicTimer _autoAttackTimer;
 
-    public BattleService(PlayerService playerService, EnemyService enemyService)
+    public BattleService(PlayerService playerService, EnemyService enemyService, WeaponService weaponService)
     {
         _playerService = playerService;
         _enemyService = enemyService;
+        _weaponService = weaponService;
     }
 
     public event Action OnChange;
@@ -36,6 +38,7 @@ public class BattleService
     {
         await NormalBattleTimer();
         _playerService.AddXpMinMax(5, 8);
+        _weaponService.CreateRandomWeapon();
         _playerService.AddEnemy();
         _enemyService.SetEnemyHp();
         StartBattle();

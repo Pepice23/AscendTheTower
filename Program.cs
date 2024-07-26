@@ -20,8 +20,8 @@ namespace AscendTheTower
                 .AddSingleton<PlayerService>();
             appBuilder.Services
                 .AddSingleton<EnemyService>();
-            appBuilder.Services.
-                AddSingleton<BattleService>();
+            appBuilder.Services.AddSingleton<BattleService>();
+            appBuilder.Services.AddSingleton<WeaponService>();
 
             // register root component and selector
             appBuilder.RootComponents.Add<App>("app");
@@ -31,7 +31,7 @@ namespace AscendTheTower
             // customize window
             app.MainWindow
                 .SetIconFile("favicon.ico")
-                .SetTitle("Photino Blazor Sample");
+                .SetTitle("Ascend the Tower");
 
             AppDomain.CurrentDomain.UnhandledException += (sender, error) =>
             {
