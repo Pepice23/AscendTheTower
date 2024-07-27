@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using AscendTheTower.Helper;
 
 namespace AscendTheTower.Services;
@@ -81,7 +80,6 @@ public class WeaponService
     private void GetRandomRarity()
     {
         var diceRoll = new Random().Next(1, 101);
-        Debug.WriteLine("Dice roll: " + diceRoll);
         switch (diceRoll)
         {
             case <= 50:
@@ -124,7 +122,6 @@ public class WeaponService
         GetRandomRarity();
         GetScalingFactor();
         _weaponDamage = CalculateWeaponDamage();
-        Debug.WriteLine("Weapon created: {0} Damage: {1} Image: {2}", _weaponDamage, _weaponDamage, _weaponImage);
         if (_weaponDamage > _playerService.PlayerWeaponDamage)
         {
             _playerService.UpdatePlayerWeapon(_weaponName, _weaponImage, _weaponDamage);
