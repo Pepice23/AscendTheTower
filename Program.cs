@@ -22,6 +22,7 @@ namespace AscendTheTower
                 .AddSingleton<EnemyService>();
             appBuilder.Services.AddSingleton<BattleService>();
             appBuilder.Services.AddSingleton<WeaponService>();
+            appBuilder.Services.AddSingleton<ArmorService>();
 
             // register root component and selector
             appBuilder.RootComponents.Add<App>("app");
