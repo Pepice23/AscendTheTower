@@ -13,11 +13,11 @@ public class PlayerService
     public int PlayerLevel { get; private set; } = 1;
     public long CurrentXp { get; private set; }
     public long MaxXp { get; private set; } = 400;
-    public long TotalDamage { get; private set; } = 1500;
+    public long TotalDamage { get; private set; } = 10;
     public int PlayerMoney { get; private set; }
     public string PlayerWeaponName { get; private set; } = "Starter Weapon";
     public string PlayerWeaponImage { get; private set; } = "images/weapons/poor/p1.png";
-    public long PlayerWeaponDamage { get; private set; } = 100;
+    public long PlayerWeaponDamage { get; private set; } = 10;
     public string BackgroundImage { get; private set; }
     public string PlayerArmorName { get; private set; } = "Starter Armor";
     public string PlayerArmorImage { get; private set; } = "images/armors/starter.png";
