@@ -9,17 +9,21 @@ public class BattleService
     private readonly PlayerService _playerService;
     private readonly EnemyService _enemyService;
     private readonly WeaponService _weaponService;
+    private readonly ArmorService _armorService;
 
     private PeriodicTimer _autoAttackTimer;
 
-    public BattleService(PlayerService playerService, EnemyService enemyService, WeaponService weaponService)
+    public BattleService(PlayerService playerService, EnemyService enemyService, WeaponService weaponService,
+        ArmorService armorService)
     {
         _playerService = playerService;
         _enemyService = enemyService;
         _weaponService = weaponService;
+        _armorService = armorService;
     }
 
     public event Action OnChange;
+    public Armor PurchasableArmor { get; set; }
 
     public void StartBattle()
     {
@@ -81,6 +85,7 @@ public class BattleService
                 _enemyService.SetCurrentHpToNull();
                 GiveRewardBoss();
                 _playerService.AddFloor();
+                PurchasableArmor = _armorService.GetNextPurchasableArmor();
                 _playerService.SetBackgroundImage();
                 break;
             }
@@ -117,5 +122,13 @@ public class BattleService
         _playerService.AddXp(20);
         _playerService.AddGold(_playerService.CurrentFloor * 10 + 100);
         _weaponService.CreateRandomWeapon();
+    }
+
+    public void PurchaseArmor()
+    {
+        _playerService.RemoveGold(PurchasableArmor.Price);
+        _playerService.UpdatePlayerArmor(PurchasableArmor.Name, PurchasableArmor.Image, PurchasableArmor.Multiplier);
+        PurchasableArmor = null;
+        OnChange?.Invoke();
     }
 }

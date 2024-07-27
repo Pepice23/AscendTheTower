@@ -13,13 +13,15 @@ public class PlayerService
     public int PlayerLevel { get; private set; } = 1;
     public long CurrentXp { get; private set; }
     public long MaxXp { get; private set; } = 400;
-    public long TotalDamage { get; private set; } = 10;
+    public long TotalDamage { get; private set; } = 1500;
     public int PlayerMoney { get; private set; }
     public string PlayerWeaponName { get; private set; } = "Starter Weapon";
     public string PlayerWeaponImage { get; private set; } = "images/weapons/poor/p1.png";
-    public long PlayerWeaponDamage { get; private set; } = 10;
+    public long PlayerWeaponDamage { get; private set; } = 100;
     public string BackgroundImage { get; private set; }
-    private int _armorMultiplier = 1;
+    public string PlayerArmorName { get; private set; } = "Starter Armor";
+    public string PlayerArmorImage { get; private set; } = "images/armors/starter.png";
+    public int ArmorMultiplier { get; private set; } = 1;
 
     public void AddFloor()
     {
@@ -86,13 +88,28 @@ public class PlayerService
         PlayerWeaponName = name;
         PlayerWeaponImage = image;
         PlayerWeaponDamage = damage;
-        TotalDamage = PlayerWeaponDamage * _armorMultiplier;
+        TotalDamage = PlayerWeaponDamage * ArmorMultiplier;
+        OnChange?.Invoke();
+    }
+
+    public void UpdatePlayerArmor(string name, string image, int multiplier)
+    {
+        PlayerArmorName = name;
+        PlayerArmorImage = image;
+        ArmorMultiplier = multiplier;
+        TotalDamage = PlayerWeaponDamage * ArmorMultiplier;
         OnChange?.Invoke();
     }
 
     public void AddGold(int gold)
     {
         PlayerMoney += gold;
+        OnChange?.Invoke();
+    }
+
+    public void RemoveGold(int gold)
+    {
+        PlayerMoney -= gold;
         OnChange?.Invoke();
     }
 }
