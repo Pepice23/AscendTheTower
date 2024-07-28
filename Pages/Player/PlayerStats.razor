@@ -30,7 +30,7 @@
         @if (EnemyService.PlayerCriticalStrike)
         {
             <div class="col text-danger">
-                <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage * 1.5)</h4>
+                <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage * 2)</h4>
             </div>
         }
         else
@@ -39,6 +39,11 @@
                 <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage)</h4>
             </div>
         }
+    </div>
+    <div class="row m-1">
+        <div class="col">
+            <h4>Critical Strike Chance: @PlayerService.CriticalChance%</h4>
+        </div>
     </div>
     <div class="row m-1">
         <div class="col">

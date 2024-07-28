@@ -22,6 +22,7 @@ public class PlayerService
     public string PlayerArmorName { get; private set; } = "Starter Armor";
     public string PlayerArmorImage { get; private set; } = "images/armors/starter.png";
     public int ArmorMultiplier { get; private set; } = 1;
+    public int CriticalChance { get; private set; } = 5;
 
     public void AddFloor()
     {

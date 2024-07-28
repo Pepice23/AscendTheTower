@@ -46,8 +46,7 @@ public class EnemyService
         if (roll <= 5)
         {
             PlayerCriticalStrike = true;
-            var criticalDamage = _playerService.TotalDamage * 1.5;
-            EnemyCurrentHp -= (long)criticalDamage;
+            EnemyCurrentHp -= _playerService.TotalDamage * 2;
         }
         else
         {
