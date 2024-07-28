@@ -32,10 +32,10 @@ public class WeaponService
     private readonly Dictionary<WeaponRarity, (string name, double multiplier)> _rarityWeights = new()
     {
         { WeaponRarity.Poor, ("Poor Weapon", 1) },
-        { WeaponRarity.Uncommon, ("Uncommon Weapon", 1.2) },
-        { WeaponRarity.Rare, ("Rare Weapon", 1.4) },
-        { WeaponRarity.Epic, ("Epic Weapon", 1.6) },
-        { WeaponRarity.Legendary, ("Legendary Weapon", 2) }
+        { WeaponRarity.Uncommon, ("Uncommon Weapon", 1.5) },
+        { WeaponRarity.Rare, ("Rare Weapon", 2) },
+        { WeaponRarity.Epic, ("Epic Weapon", 2.5) },
+        { WeaponRarity.Legendary, ("Legendary Weapon", 3) }
     };
 
 
@@ -123,8 +123,6 @@ public class WeaponService
         GetScalingFactor();
         _weaponDamage = CalculateWeaponDamage();
         if (_weaponDamage > _playerService.PlayerWeaponDamage)
-        {
             _playerService.UpdatePlayerWeapon(_weaponName, _weaponImage, _weaponDamage);
-        }
     }
 }
