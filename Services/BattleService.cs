@@ -23,7 +23,7 @@ public class BattleService
     }
 
     public event Action OnChange;
-    public Armor PurchasableArmor { get; set; }
+    public Armor PurchasableArmor { get; private set; }
 
     public void StartBattle()
     {
@@ -104,10 +104,7 @@ public class BattleService
     private void RollDiceForWeapon()
     {
         var roll = new Random().Next(1, 101);
-        if (roll <= 10)
-        {
-            _weaponService.CreateRandomWeapon();
-        }
+        if (roll <= 10) _weaponService.CreateRandomWeapon();
     }
 
     private void GiveRewardNormal()
