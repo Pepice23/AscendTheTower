@@ -1,0 +1,32 @@
+﻿@inject UpgradeService UpgradeService
+@inject PlayerService PlayerService
+@implements IDisposable
+
+<div class="row m-2">
+    <div class="col">
+        <button class="btn btn-primary m-1"
+                disabled="@(UpgradeService.CriticalStrikeChanceUpgrade.CurrentRank == UpgradeService.CriticalStrikeChanceUpgrade.MaxRank || PlayerService.PlayerMoney < UpgradeService.CriticalStrikeChanceUpgrade.Price)"
+                @onclick="UpgradeService.UpgradeCriticalStrikeChance">
+            Upgrade Critical Strike Chance
+        </button>
+        <h3>Rank: @UpgradeService.CriticalStrikeChanceUpgrade.CurrentRank / @UpgradeService.CriticalStrikeChanceUpgrade.MaxRank</h3>
+        <h3>Price: @HelperFunctions.FormatNumberCompact(UpgradeService.CriticalStrikeChanceUpgrade.Price) Gold</h3>
+        <h3>@UpgradeService.CriticalStrikeChanceUpgrade.Effect</h3>
+    </div>
+</div>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        UpgradeService.OnChange += StateHasChanged;
+        PlayerService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        UpgradeService.OnChange -= StateHasChanged;
+        PlayerService.OnChange -= StateHasChanged;
+    }
+
+}

@@ -14,7 +14,7 @@ public class PlayerService
     public long CurrentXp { get; private set; }
     public long MaxXp { get; private set; } = 400;
     public long TotalDamage { get; private set; } = 10;
-    public int PlayerMoney { get; private set; }
+    public int PlayerMoney { get; private set; } = 25000;
     public string PlayerWeaponName { get; private set; } = "Starter Weapon";
     public string PlayerWeaponImage { get; private set; } = "images/weapons/poor/p1.png";
     public long PlayerWeaponDamage { get; private set; } = 10;
@@ -111,6 +111,12 @@ public class PlayerService
     public void RemoveGold(int gold)
     {
         PlayerMoney -= gold;
+        OnChange?.Invoke();
+    }
+
+    public void UpgradeCriticalChance()
+    {
+        CriticalChance++;
         OnChange?.Invoke();
     }
 }

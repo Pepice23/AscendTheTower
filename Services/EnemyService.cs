@@ -43,7 +43,7 @@ public class EnemyService
     public void AutoAttack()
     {
         var roll = new Random().Next(1, 101);
-        if (roll <= 5)
+        if (roll <= _playerService.CriticalChance)
         {
             PlayerCriticalStrike = true;
             EnemyCurrentHp -= _playerService.TotalDamage * 2;
