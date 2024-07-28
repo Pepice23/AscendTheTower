@@ -1,35 +1,21 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿namespace AscendTheTower.Services;
 
-namespace AscendTheTower.Services;
-
-public class BattleService
+public class BattleService(
+    PlayerService playerService,
+    EnemyService enemyService,
+    WeaponService weaponService,
+    ArmorService armorService)
 {
-    private readonly PlayerService _playerService;
-    private readonly EnemyService _enemyService;
-    private readonly WeaponService _weaponService;
-    private readonly ArmorService _armorService;
+    private PeriodicTimer? _autoAttackTimer;
 
-    private PeriodicTimer _autoAttackTimer;
-
-    public BattleService(PlayerService playerService, EnemyService enemyService, WeaponService weaponService,
-        ArmorService armorService)
-    {
-        _playerService = playerService;
-        _enemyService = enemyService;
-        _weaponService = weaponService;
-        _armorService = armorService;
-    }
-
-    public event Action OnChange;
-    public Armor PurchasableArmor { get; private set; }
+    public event Action? OnChange;
+    public Armor? PurchasableArmor { get; private set; }
 
     public void StartBattle()
     {
-        if (_playerService.CurrentEnemy == 15)
+        if (playerService.CurrentEnemy == 15)
         {
-            _enemyService.SetBossTime();
+            enemyService.SetBossTime();
             StartBossBattle();
         }
         else
@@ -42,15 +28,15 @@ public class BattleService
     {
         await NormalBattleTimer();
         GiveRewardNormal();
-        _playerService.AddEnemy();
-        _enemyService.SetEnemyHp();
+        playerService.AddEnemy();
+        enemyService.SetEnemyHp();
         StartBattle();
     }
 
     private async void StartBossBattle()
     {
         await BossBattleTimer();
-        _enemyService.SetEnemyHp();
+        enemyService.SetEnemyHp();
         StartBattle();
     }
 
@@ -59,12 +45,12 @@ public class BattleService
         _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         while (await _autoAttackTimer.WaitForNextTickAsync())
         {
-            _enemyService.AutoAttack();
+            enemyService.AutoAttack();
             OnChange?.Invoke();
-            if (_enemyService.EnemyCurrentHp <= 0)
+            if (enemyService.EnemyCurrentHp <= 0)
             {
                 _autoAttackTimer.Dispose();
-                _enemyService.SetCurrentHpToNull();
+                enemyService.SetCurrentHpToNull();
                 break;
             }
         }
@@ -76,26 +62,26 @@ public class BattleService
         _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
         while (await _autoAttackTimer.WaitForNextTickAsync())
         {
-            _enemyService.BossAutoAttack();
+            enemyService.BossAutoAttack();
             OnChange?.Invoke();
-            if (_enemyService.EnemyCurrentHp <= 0 && _enemyService.CurrentBossTime > 0)
+            if (enemyService.EnemyCurrentHp <= 0 && enemyService.CurrentBossTime > 0)
             {
                 //Player won
                 _autoAttackTimer.Dispose();
-                _enemyService.SetCurrentHpToNull();
+                enemyService.SetCurrentHpToNull();
                 GiveRewardBoss();
-                _playerService.AddFloor();
-                PurchasableArmor = _armorService.GetNextPurchasableArmor();
-                _playerService.SetBackgroundImage();
+                playerService.AddFloor();
+                PurchasableArmor = armorService.GetNextPurchasableArmor();
+                playerService.SetBackgroundImage();
                 break;
             }
 
-            if (_enemyService.CurrentBossTime <= 0)
+            if (enemyService.CurrentBossTime <= 0)
             {
                 //Player lost
                 _autoAttackTimer.Dispose();
-                _enemyService.SetCurrentHpToNull();
-                _playerService.ResetFloor();
+                enemyService.SetCurrentHpToNull();
+                playerService.ResetFloor();
                 break;
             }
         }
@@ -104,27 +90,31 @@ public class BattleService
     private void RollDiceForWeapon()
     {
         var roll = new Random().Next(1, 101);
-        if (roll <= 10) _weaponService.CreateRandomWeapon();
+        if (roll <= 10) weaponService.CreateRandomWeapon();
     }
 
     private void GiveRewardNormal()
     {
-        _playerService.AddXpMinMax(5, 8);
-        _playerService.AddGold(_playerService.CurrentFloor * 30);
+        playerService.AddXpMinMax(5, 8);
+        playerService.AddGold(playerService.CurrentFloor * 30);
         RollDiceForWeapon();
     }
 
     private void GiveRewardBoss()
     {
-        _playerService.AddXp(20);
-        _playerService.AddGold(_playerService.CurrentFloor * 30 + 300);
-        _weaponService.CreateRandomWeapon();
+        playerService.AddXp(20);
+        playerService.AddGold(playerService.CurrentFloor * 30 + 300);
+        weaponService.CreateRandomWeapon();
     }
 
     public void PurchaseArmor()
     {
-        _playerService.RemoveGold(PurchasableArmor.Price);
-        _playerService.UpdatePlayerArmor(PurchasableArmor.Name, PurchasableArmor.Image, PurchasableArmor.Multiplier);
+        if (PurchasableArmor != null)
+        {
+            playerService.RemoveGold(PurchasableArmor.Price);
+            playerService.UpdatePlayerArmor(PurchasableArmor.Name, PurchasableArmor.Image, PurchasableArmor.Multiplier);
+        }
+
         PurchasableArmor = null;
         OnChange?.Invoke();
     }

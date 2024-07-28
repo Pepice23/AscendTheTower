@@ -1,23 +1,15 @@
-﻿using System;
-using AscendTheTower.Helper;
+﻿using AscendTheTower.Helper;
 
 namespace AscendTheTower.Services;
 
-public class EnemyService
+public class EnemyService(PlayerService playerService)
 {
-    private readonly PlayerService _playerService;
-
-    public EnemyService(PlayerService playerService)
-    {
-        _playerService = playerService;
-    }
-
-    public event Action OnChange;
+    public event Action? OnChange;
     public long EnemyCurrentHp { get; private set; } = 100;
     public long EnemyMaxHp { get; private set; } = 100;
     public int CurrentBossTime { get; private set; } = 30;
     public int MaxBossTime { get; private set; } = 30;
-    public string EnemyImage { get; private set; }
+    public string? EnemyImage { get; private set; }
     public bool PlayerCriticalStrike { get; private set; }
 
     private const int BaseHp = 100;
@@ -26,8 +18,8 @@ public class EnemyService
 
     public void SetEnemyHp()
     {
-        var calculatedHp = BaseHp * Math.Pow(1 + GrowthRate, _playerService.CurrentFloor) *
-                           Math.Pow(1 + EnemyIncrement, _playerService.TotalEnemyCount);
+        var calculatedHp = BaseHp * Math.Pow(1 + GrowthRate, playerService.CurrentFloor) *
+                           Math.Pow(1 + EnemyIncrement, playerService.TotalEnemyCount);
         EnemyMaxHp = (long)calculatedHp;
         EnemyCurrentHp = EnemyMaxHp;
         SetEnemyImage();
@@ -43,15 +35,15 @@ public class EnemyService
     public void AutoAttack()
     {
         var roll = new Random().Next(1, 101);
-        if (roll <= _playerService.CriticalChance)
+        if (roll <= playerService.CriticalChance)
         {
             PlayerCriticalStrike = true;
-            EnemyCurrentHp -= _playerService.TotalDamage * 2;
+            EnemyCurrentHp -= playerService.TotalDamage * 2;
         }
         else
         {
             PlayerCriticalStrike = false;
-            EnemyCurrentHp -= _playerService.TotalDamage;
+            EnemyCurrentHp -= playerService.TotalDamage;
         }
 
         OnChange?.Invoke();
@@ -59,16 +51,16 @@ public class EnemyService
 
     public void BossAutoAttack()
     {
-        EnemyCurrentHp -= _playerService.TotalDamage;
+        EnemyCurrentHp -= playerService.TotalDamage;
         CurrentBossTime--;
         OnChange?.Invoke();
     }
 
     public void ManualAttack()
     {
-        if (EnemyCurrentHp > _playerService.TotalDamage)
+        if (EnemyCurrentHp > playerService.TotalDamage)
         {
-            EnemyCurrentHp -= _playerService.TotalDamage;
+            EnemyCurrentHp -= playerService.TotalDamage;
             OnChange?.Invoke();
         }
     }

@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using AscendTheTower.Helper;
+﻿using AscendTheTower.Helper;
 
 namespace AscendTheTower.Services;
 
-public class WeaponService
+public class WeaponService(PlayerService playerService)
 {
-    private readonly PlayerService _playerService;
     private const int BaseDamage = 10;
 
-    public WeaponService(PlayerService playerService)
-    {
-        _playerService = playerService;
-    }
-
-    private string _weaponName;
+    private string? _weaponName;
     private double _weaponMultiplier;
-    private string _weaponImage;
+    private string? _weaponImage;
     private long _weaponDamage;
     private double _weaponScalingFactor;
 
@@ -29,7 +21,7 @@ public class WeaponService
         Legendary
     }
 
-    private readonly Dictionary<WeaponRarity, (string name, double multiplier)> _rarityWeights = new()
+    private readonly Dictionary<WeaponRarity, (string? name, double multiplier)> _rarityWeights = new()
     {
         { WeaponRarity.Poor, ("Poor Weapon", 1) },
         { WeaponRarity.Uncommon, ("Uncommon Weapon", 1.5) },
@@ -41,7 +33,7 @@ public class WeaponService
 
     private void GetScalingFactor()
     {
-        switch (_playerService.PlayerLevel)
+        switch (playerService.PlayerLevel)
         {
             case <= 10:
                 _weaponScalingFactor = 1.22;
@@ -113,7 +105,7 @@ public class WeaponService
     private long CalculateWeaponDamage()
     {
         var calculatedDamage =
-            BaseDamage * _weaponMultiplier * Math.Pow(_weaponScalingFactor, _playerService.PlayerLevel);
+            BaseDamage * _weaponMultiplier * Math.Pow(_weaponScalingFactor, playerService.PlayerLevel);
         return (long)calculatedDamage;
     }
 
@@ -122,7 +114,7 @@ public class WeaponService
         GetRandomRarity();
         GetScalingFactor();
         _weaponDamage = CalculateWeaponDamage();
-        if (_weaponDamage > _playerService.PlayerWeaponDamage)
-            _playerService.UpdatePlayerWeapon(_weaponName, _weaponImage, _weaponDamage);
+        if (_weaponDamage > playerService.PlayerWeaponDamage)
+            playerService.UpdatePlayerWeapon(_weaponName, _weaponImage, _weaponDamage);
     }
 }

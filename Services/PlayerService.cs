@@ -1,11 +1,10 @@
-﻿using System;
-using AscendTheTower.Helper;
+﻿using AscendTheTower.Helper;
 
 namespace AscendTheTower.Services;
 
 public class PlayerService
 {
-    public event Action OnChange;
+    public event Action? OnChange;
 
     public int CurrentFloor { get; private set; } = 1;
     public int CurrentEnemy { get; private set; } = 1;
@@ -15,12 +14,12 @@ public class PlayerService
     public long MaxXp { get; private set; } = 400;
     public long TotalDamage { get; private set; } = 10;
     public int PlayerMoney { get; private set; } = 25000;
-    public string PlayerWeaponName { get; private set; } = "Starter Weapon";
-    public string PlayerWeaponImage { get; private set; } = "images/weapons/poor/p1.png";
+    public string? PlayerWeaponName { get; private set; } = "Starter Weapon";
+    public string? PlayerWeaponImage { get; private set; } = "images/weapons/poor/p1.png";
     public long PlayerWeaponDamage { get; private set; } = 10;
-    public string BackgroundImage { get; private set; }
-    public string PlayerArmorName { get; private set; } = "Starter Armor";
-    public string PlayerArmorImage { get; private set; } = "images/armors/starter.png";
+    public string? BackgroundImage { get; private set; }
+    public string? PlayerArmorName { get; private set; } = "Starter Armor";
+    public string? PlayerArmorImage { get; private set; } = "images/armors/starter.png";
     public int ArmorMultiplier { get; private set; } = 1;
     public int CriticalChance { get; private set; } = 5;
 
@@ -84,7 +83,7 @@ public class PlayerService
         OnChange?.Invoke();
     }
 
-    public void UpdatePlayerWeapon(string name, string image, long damage)
+    public void UpdatePlayerWeapon(string? name, string? image, long damage)
     {
         PlayerWeaponName = name;
         PlayerWeaponImage = image;
@@ -93,7 +92,7 @@ public class PlayerService
         OnChange?.Invoke();
     }
 
-    public void UpdatePlayerArmor(string name, string image, int multiplier)
+    public void UpdatePlayerArmor(string? name, string? image, int multiplier)
     {
         PlayerArmorName = name;
         PlayerArmorImage = image;

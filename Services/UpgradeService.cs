@@ -1,26 +1,17 @@
-﻿using System;
-
-namespace AscendTheTower.Services;
+﻿namespace AscendTheTower.Services;
 
 public class Upgrade
 {
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public int CurrentRank { get; set; }
-    public int MaxRank { get; set; }
+    public int MaxRank { get; init; }
     public int Price { get; set; }
-    public string Effect { get; set; }
+    public string? Effect { get; init; }
 }
 
-public class UpgradeService
+public class UpgradeService(PlayerService playerService)
 {
-    private readonly PlayerService _playerService;
-
-    public event Action OnChange;
-
-    public UpgradeService(PlayerService playerService)
-    {
-        _playerService = playerService;
-    }
+    public event Action? OnChange;
 
     public readonly Upgrade CriticalStrikeChanceUpgrade = new()
     {
@@ -33,10 +24,10 @@ public class UpgradeService
 
     public void UpgradeCriticalStrikeChance()
     {
-        _playerService.RemoveGold(CriticalStrikeChanceUpgrade.Price);
+        playerService.RemoveGold(CriticalStrikeChanceUpgrade.Price);
         CriticalStrikeChanceUpgrade.CurrentRank++;
         CriticalStrikeChanceUpgrade.Price += 1000;
-        _playerService.UpgradeCriticalChance();
+        playerService.UpgradeCriticalChance();
         OnChange?.Invoke();
     }
 }

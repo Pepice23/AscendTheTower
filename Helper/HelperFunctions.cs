@@ -1,7 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Globalization;
 
 namespace AscendTheTower.Helper;
 
@@ -29,7 +26,7 @@ public static class HelperFunctions
         return randomImage;
     }
 
-    public static string GetRandomEnemyImage()
+    public static string? GetRandomEnemyImage()
     {
         const string imageFolder = "wwwroot/images/enemies";
         var imageFiles = Directory.EnumerateFiles(imageFolder);
@@ -38,7 +35,7 @@ public static class HelperFunctions
         return randomImage;
     }
 
-    public static string GetRandomWeaponImage(string rarity)
+    public static string? GetRandomWeaponImage(string rarity)
     {
         var imageFolder = "";
         var imgPath = "";
