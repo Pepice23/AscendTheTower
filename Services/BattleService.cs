@@ -110,14 +110,14 @@ public class BattleService
     private void GiveRewardNormal()
     {
         _playerService.AddXpMinMax(5, 8);
-        _playerService.AddGold(_playerService.CurrentFloor * 10);
+        _playerService.AddGold(_playerService.CurrentFloor * 30);
         RollDiceForWeapon();
     }
 
     private void GiveRewardBoss()
     {
         _playerService.AddXp(20);
-        _playerService.AddGold(_playerService.CurrentFloor * 10 + 100);
+        _playerService.AddGold(_playerService.CurrentFloor * 30 + 300);
         _weaponService.CreateRandomWeapon();
     }
 
