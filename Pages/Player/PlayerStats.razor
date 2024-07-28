@@ -1,4 +1,5 @@
 ﻿@inject PlayerService PlayerService
+@inject EnemyService EnemyService
 @implements IDisposable
 <div class="row m-3">
     <div class="row m-1">
@@ -26,9 +27,18 @@
         </div>
     </div>
     <div class="row m-1">
-        <div class="col">
-            <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage)</h4>
-        </div>
+        @if (EnemyService.PlayerCriticalStrike)
+        {
+            <div class="col text-danger">
+                <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage * 1.5)</h4>
+            </div>
+        }
+        else
+        {
+            <div class="col">
+                <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage)</h4>
+            </div>
+        }
     </div>
     <div class="row m-1">
         <div class="col">
@@ -55,12 +65,14 @@
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
+        EnemyService.OnChange += StateHasChanged;
     }
 
 
     public void Dispose()
     {
         PlayerService.OnChange -= StateHasChanged;
+        EnemyService.OnChange -= StateHasChanged;
     }
 
 }

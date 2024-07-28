@@ -18,6 +18,7 @@ public class EnemyService
     public int CurrentBossTime { get; private set; } = 30;
     public int MaxBossTime { get; private set; } = 30;
     public string EnemyImage { get; private set; }
+    public bool PlayerCriticalStrike { get; private set; }
 
     private const int BaseHp = 100;
     private const double GrowthRate = 0.02;
@@ -41,7 +42,19 @@ public class EnemyService
 
     public void AutoAttack()
     {
-        EnemyCurrentHp -= _playerService.TotalDamage;
+        var roll = new Random().Next(1, 101);
+        if (roll <= 5)
+        {
+            PlayerCriticalStrike = true;
+            var criticalDamage = _playerService.TotalDamage * 1.5;
+            EnemyCurrentHp -= (long)criticalDamage;
+        }
+        else
+        {
+            PlayerCriticalStrike = false;
+            EnemyCurrentHp -= _playerService.TotalDamage;
+        }
+
         OnChange?.Invoke();
     }
 
