@@ -22,6 +22,7 @@ public class PlayerService
     public string? PlayerArmorImage { get; private set; } = "images/armors/starter.png";
     public int ArmorMultiplier { get; private set; } = 1;
     public int CriticalChance { get; private set; } = 5;
+    public int GoldMultiplier { get; private set; } = 1;
 
     public void AddFloor()
     {
@@ -116,6 +117,12 @@ public class PlayerService
     public void UpgradeCriticalChance()
     {
         CriticalChance++;
+        OnChange?.Invoke();
+    }
+
+    public void UpgradeGoldGain()
+    {
+        GoldMultiplier++;
         OnChange?.Invoke();
     }
 }

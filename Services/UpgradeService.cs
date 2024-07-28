@@ -2,32 +2,63 @@
 
 public class Upgrade
 {
-    public string? Name { get; set; }
+    public string? Name { get; init; }
     public int CurrentRank { get; set; }
     public int MaxRank { get; init; }
     public int Price { get; set; }
     public string? Effect { get; init; }
+    public Action<Upgrade>? UpgradeMethod { get; init; }
 }
 
-public class UpgradeService(PlayerService playerService)
+public class UpgradeService
 {
+    private readonly PlayerService _playerService;
+    public List<Upgrade> Upgrades { get; set; }
+
+    public UpgradeService(PlayerService playerService)
+    {
+        _playerService = playerService;
+        Upgrades = new List<Upgrade>()
+        {
+            new()
+            {
+                Name = "Critical Strike Chance",
+                CurrentRank = 0,
+                MaxRank = 15,
+                Price = 1000,
+                Effect = "Critical strike chance increased by 1% per rank",
+                UpgradeMethod = UpgradeCriticalStrikeChance
+            },
+            new()
+            {
+                Name = "Gold Gain",
+                CurrentRank = 1,
+                MaxRank = 4,
+                Price = 2000,
+                Effect = "Gold gain multiplied by 1x per rank",
+                UpgradeMethod = UpgradeGoldGain
+            }
+        };
+    }
+
     public event Action? OnChange;
 
-    public readonly Upgrade CriticalStrikeChanceUpgrade = new()
-    {
-        Name = "Critical Strike Chance",
-        CurrentRank = 0,
-        MaxRank = 15,
-        Price = 1000,
-        Effect = "Critical strike chance increased by 1% per rank"
-    };
 
-    public void UpgradeCriticalStrikeChance()
+    private void UpgradeCriticalStrikeChance(Upgrade upgrade)
     {
-        playerService.RemoveGold(CriticalStrikeChanceUpgrade.Price);
-        CriticalStrikeChanceUpgrade.CurrentRank++;
-        CriticalStrikeChanceUpgrade.Price += 1000;
-        playerService.UpgradeCriticalChance();
+        _playerService.RemoveGold(upgrade.Price);
+        upgrade.CurrentRank++;
+        upgrade.Price += 1000;
+        _playerService.UpgradeCriticalChance();
+        OnChange?.Invoke();
+    }
+
+    private void UpgradeGoldGain(Upgrade upgrade)
+    {
+        _playerService.RemoveGold(upgrade.Price);
+        upgrade.CurrentRank++;
+        upgrade.Price += 2000;
+        _playerService.UpgradeGoldGain();
         OnChange?.Invoke();
     }
 }
