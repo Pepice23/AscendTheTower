@@ -2,18 +2,26 @@
 @inject PlayerService PlayerService
 @implements IDisposable
 
-<div class="row m-2">
+<div class="row m-2 border-1 upgrade-card">
     <div class="col">
+        <h3>@UpgradeService.CriticalStrikeChanceUpgrade.Name</h3>
+        <h3>Rank: @UpgradeService.CriticalStrikeChanceUpgrade.CurrentRank / @UpgradeService.CriticalStrikeChanceUpgrade.MaxRank</h3>
+        <h3>Price: @HelperFunctions.FormatNumberCompact(UpgradeService.CriticalStrikeChanceUpgrade.Price) Gold</h3>
+        <h3>@UpgradeService.CriticalStrikeChanceUpgrade.Effect</h3>
         <button class="btn btn-primary m-1"
                 disabled="@(UpgradeService.CriticalStrikeChanceUpgrade.CurrentRank == UpgradeService.CriticalStrikeChanceUpgrade.MaxRank || PlayerService.PlayerMoney < UpgradeService.CriticalStrikeChanceUpgrade.Price)"
                 @onclick="UpgradeService.UpgradeCriticalStrikeChance">
             Upgrade Critical Strike Chance
         </button>
-        <h3>Rank: @UpgradeService.CriticalStrikeChanceUpgrade.CurrentRank / @UpgradeService.CriticalStrikeChanceUpgrade.MaxRank</h3>
-        <h3>Price: @HelperFunctions.FormatNumberCompact(UpgradeService.CriticalStrikeChanceUpgrade.Price) Gold</h3>
-        <h3>@UpgradeService.CriticalStrikeChanceUpgrade.Effect</h3>
     </div>
 </div>
+
+<style>
+    .upgrade-card {
+        border: 1px solid black;
+        width: 250px;
+    }
+</style>
 
 @code {
 
