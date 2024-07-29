@@ -23,6 +23,7 @@ public class PlayerService
     public int ArmorMultiplier { get; private set; } = 1;
     public int CriticalChance { get; private set; } = 5;
     public int GoldMultiplier { get; private set; } = 1;
+    public float BattleSpeed { get; private set; } = 1;
 
     public void AddFloor()
     {
@@ -123,6 +124,12 @@ public class PlayerService
     public void UpgradeGoldGain()
     {
         GoldMultiplier++;
+        OnChange?.Invoke();
+    }
+
+    public void UpgradeBattleSpeed()
+    {
+        BattleSpeed -= 0.1f;
         OnChange?.Invoke();
     }
 }

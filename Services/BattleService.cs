@@ -42,7 +42,7 @@ public class BattleService(
 
     private async Task NormalBattleTimer()
     {
-        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(playerService.BattleSpeed));
         while (await _autoAttackTimer.WaitForNextTickAsync())
         {
             enemyService.AutoAttack();
@@ -59,7 +59,7 @@ public class BattleService(
 
     private async Task BossBattleTimer()
     {
-        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+        _autoAttackTimer = new PeriodicTimer(TimeSpan.FromSeconds(playerService.BattleSpeed));
         while (await _autoAttackTimer.WaitForNextTickAsync())
         {
             enemyService.BossAutoAttack();
