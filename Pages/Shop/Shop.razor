@@ -1,0 +1,38 @@
+﻿@inject PlayerService PlayerService
+@inject WeaponService WeaponService
+@implements IDisposable
+<div class="row m-2">
+    <div class="col">
+        <img src="images/npc/aric.png" alt="Weapon Merchant" class="npc-image">
+        <h4>Welcome to my little shop. Want to try your luck?</h4>
+        <button class="btn btn-primary m-1" @onclick="GambleForWeapon" disabled="@(PlayerService.PlayerMoney < 2000)">Gamble for Weapon</button>
+        <h4>Price: @HelperFunctions.FormatNumberCompact(2000) Gold</h4>
+    </div>
+</div>
+
+<style>
+    .npc-image {
+        width: 150px;
+        height: 150px;
+    }
+</style>
+
+@code {
+
+    private void GambleForWeapon()
+    {
+        PlayerService.RemoveGold(2000);
+        WeaponService.CreateRandomWeapon();
+    }
+
+    protected override void OnInitialized()
+    {
+        PlayerService.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        PlayerService.OnChange -= StateHasChanged;
+    }
+
+}
