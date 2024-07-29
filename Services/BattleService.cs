@@ -71,6 +71,7 @@ public class BattleService(
                 enemyService.SetCurrentHpToNull();
                 GiveRewardBoss();
                 playerService.AddFloor();
+                playerService.SavePlayerData();
                 PurchasableArmor = armorService.GetNextPurchasableArmor();
                 playerService.SetBackgroundImage();
                 break;
@@ -82,6 +83,7 @@ public class BattleService(
                 _autoAttackTimer.Dispose();
                 enemyService.SetCurrentHpToNull();
                 playerService.ResetFloor();
+                playerService.SavePlayerData();
                 break;
             }
         }

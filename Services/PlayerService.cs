@@ -1,6 +1,30 @@
-﻿using AscendTheTower.Helper;
+﻿
+using System.Text.Json;
+using AscendTheTower.Helper;
 
 namespace AscendTheTower.Services;
+
+class PlayerData
+{
+    public int CurrentFloor { get; set; }
+    public int CurrentEnemy { get;  set; }
+    public int TotalEnemyCount { get;  set; }
+    public int PlayerLevel { get;  set; }
+    public long CurrentXp { get;  set; }
+    public long MaxXp { get; set; }
+    public long TotalDamage { get;  set; }
+    public int PlayerMoney { get;  set; }
+    public string? PlayerWeaponName { get; set; }
+    public string? PlayerWeaponImage { get;  set; }
+    public long PlayerWeaponDamage { get;  set; }
+    public string? PlayerArmorName { get;  set; }
+    public string? PlayerArmorImage { get;  set; }
+    public int ArmorMultiplier { get;  set; } = 1;
+    public int CriticalChance { get;  set; } = 5;
+    public int GoldMultiplier { get;  set; } = 1;
+    public float BattleSpeed { get;  set; } = 1;
+}
+
 
 public class PlayerService
 {
@@ -131,5 +155,59 @@ public class PlayerService
     {
         BattleSpeed -= 0.1f;
         OnChange?.Invoke();
+    }
+
+    public void SavePlayerData()
+    {
+        var playerData = new PlayerData
+        {
+            CurrentFloor = CurrentFloor,
+            CurrentEnemy = CurrentEnemy,
+            TotalEnemyCount = TotalEnemyCount,
+            PlayerLevel = PlayerLevel,
+            CurrentXp = CurrentXp,
+            MaxXp = MaxXp,
+            TotalDamage = TotalDamage,
+            PlayerMoney = PlayerMoney,
+            PlayerWeaponName = PlayerWeaponName,
+            PlayerWeaponImage = PlayerWeaponImage,
+            PlayerWeaponDamage = PlayerWeaponDamage,
+            PlayerArmorName = PlayerArmorName,
+            PlayerArmorImage = PlayerArmorImage,
+            ArmorMultiplier = ArmorMultiplier,
+            CriticalChance = CriticalChance,
+            GoldMultiplier = GoldMultiplier,
+            BattleSpeed = BattleSpeed
+        };
+
+        var playerDataJson = JsonSerializer.Serialize(playerData);
+
+        File.WriteAllText("playerdata.json", playerDataJson);
+    }
+
+    public void LoadPlayerData()
+    {
+        var playerDataJson = File.ReadAllText("playerdata.json");
+        var playerData = JsonSerializer.Deserialize<PlayerData>(playerDataJson);
+        if (playerData != null)
+        {
+            CurrentFloor = playerData.CurrentFloor;
+            CurrentEnemy = playerData.CurrentEnemy;
+            TotalEnemyCount = playerData.TotalEnemyCount;
+            PlayerLevel = playerData.PlayerLevel;
+            CurrentXp = playerData.CurrentXp;
+            MaxXp = playerData.MaxXp;
+            TotalDamage = playerData.TotalDamage;
+            PlayerMoney = playerData.PlayerMoney;
+            PlayerWeaponName = playerData.PlayerWeaponName;
+            PlayerWeaponImage = playerData.PlayerWeaponImage;
+            PlayerWeaponDamage = playerData.PlayerWeaponDamage;
+            PlayerArmorName = playerData.PlayerArmorName;
+            PlayerArmorImage = playerData.PlayerArmorImage;
+            ArmorMultiplier = playerData.ArmorMultiplier;
+            CriticalChance = playerData.CriticalChance;
+            GoldMultiplier = playerData.GoldMultiplier;
+            BattleSpeed = playerData.BattleSpeed;
+        }
     }
 }

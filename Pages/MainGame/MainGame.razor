@@ -34,6 +34,7 @@
 
     protected override void OnInitialized()
     {
+        PlayerService.LoadPlayerData();
         PlayerService.SetBackgroundImage();
         BattleService.StartBattle();
         PlayerService.OnChange += StateHasChanged;
