@@ -4,19 +4,22 @@
 
 @foreach (var upgrade in UpgradeService.Upgrades)
 {
-    <div class="row m-2 border-1 upgrade-card">
-        <div class="col">
-            <h3>@upgrade.Name</h3>
-            <h3>Rank: @upgrade.CurrentRank / @upgrade.MaxRank</h3>
-            <h3>Price: @HelperFunctions.FormatNumberCompact(upgrade.Price) Gold</h3>
-            <h3>@upgrade.Effect</h3>
-            <button class="btn btn-primary m-1"
-                    disabled="@(upgrade.CurrentRank == upgrade.MaxRank || PlayerService.PlayerMoney < upgrade.Price)"
-                    @onclick="() => { upgrade.UpgradeMethod?.Invoke(upgrade); }">
-                Upgrade @upgrade.Name
-            </button>
+    @if (upgrade.CurrentRank < upgrade.MaxRank)
+    {
+        <div class="row m-2 border-1 upgrade-card">
+            <div class="col m-1">
+                <h3>@upgrade.Name</h3>
+                <h3>Rank: @upgrade.CurrentRank / @upgrade.MaxRank</h3>
+                <h3>Price: @HelperFunctions.FormatNumberCompact(upgrade.Price) Gold</h3>
+                <h3>@upgrade.Effect</h3>
+                <button class="btn btn-primary m-1"
+                        disabled="@(upgrade.CurrentRank == upgrade.MaxRank || PlayerService.PlayerMoney < upgrade.Price)"
+                        @onclick="() => { upgrade.UpgradeMethod?.Invoke(upgrade); }">
+                    Upgrade @upgrade.Name
+                </button>
+            </div>
         </div>
-    </div>
+    }
 }
 
 
