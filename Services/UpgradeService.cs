@@ -62,6 +62,7 @@ public class UpgradeService
         upgrade.Price += 1000;
         _playerService.UpgradeCriticalChance();
         SaveUpgrades();
+        _playerService.SavePlayerData();
         OnChange?.Invoke();
     }
 
@@ -72,6 +73,7 @@ public class UpgradeService
         upgrade.Price += 2000;
         _playerService.UpgradeGoldGain();
         SaveUpgrades();
+        _playerService.SavePlayerData();
         OnChange?.Invoke();
     }
 
@@ -82,6 +84,7 @@ public class UpgradeService
         upgrade.Price += 5000;
         _playerService.UpgradeBattleSpeed();
         SaveUpgrades();
+        _playerService.SavePlayerData();
         OnChange?.Invoke();
     }
 
