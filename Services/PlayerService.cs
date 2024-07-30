@@ -1,30 +1,28 @@
-﻿
-using System.Text.Json;
+﻿using System.Text.Json;
 using AscendTheTower.Helper;
 
 namespace AscendTheTower.Services;
 
-class PlayerData
+internal class PlayerData
 {
-    public int CurrentFloor { get; set; }
-    public int CurrentEnemy { get;  set; }
-    public int TotalEnemyCount { get;  set; }
-    public int PlayerLevel { get;  set; }
-    public long CurrentXp { get;  set; }
-    public long MaxXp { get; set; }
-    public long TotalDamage { get;  set; }
-    public int PlayerMoney { get;  set; }
-    public string? PlayerWeaponName { get; set; }
-    public string? PlayerWeaponImage { get;  set; }
-    public long PlayerWeaponDamage { get;  set; }
-    public string? PlayerArmorName { get;  set; }
-    public string? PlayerArmorImage { get;  set; }
-    public int ArmorMultiplier { get;  set; } = 1;
-    public int CriticalChance { get;  set; } = 5;
-    public int GoldMultiplier { get;  set; } = 1;
-    public float BattleSpeed { get;  set; } = 1;
+    public int CurrentFloor { get; init; }
+    public int CurrentEnemy { get; init; }
+    public int TotalEnemyCount { get; init; }
+    public int PlayerLevel { get; init; }
+    public long CurrentXp { get; init; }
+    public long MaxXp { get; init; }
+    public long TotalDamage { get; init; }
+    public int PlayerMoney { get; init; }
+    public string? PlayerWeaponName { get; init; }
+    public string? PlayerWeaponImage { get; init; }
+    public long PlayerWeaponDamage { get; init; }
+    public string? PlayerArmorName { get; init; }
+    public string? PlayerArmorImage { get; init; }
+    public int ArmorMultiplier { get; init; } = 1;
+    public int CriticalChance { get; init; } = 5;
+    public int GoldMultiplier { get; init; } = 1;
+    public float BattleSpeed { get; init; } = 1;
 }
-
 
 public class PlayerService
 {
@@ -115,6 +113,7 @@ public class PlayerService
         PlayerWeaponImage = image;
         PlayerWeaponDamage = damage;
         TotalDamage = PlayerWeaponDamage * ArmorMultiplier;
+        SavePlayerData();
         OnChange?.Invoke();
     }
 
@@ -124,6 +123,7 @@ public class PlayerService
         PlayerArmorImage = image;
         ArmorMultiplier = multiplier;
         TotalDamage = PlayerWeaponDamage * ArmorMultiplier;
+        SavePlayerData();
         OnChange?.Invoke();
     }
 
@@ -187,27 +187,30 @@ public class PlayerService
 
     public void LoadPlayerData()
     {
-        var playerDataJson = File.ReadAllText("playerdata.json");
-        var playerData = JsonSerializer.Deserialize<PlayerData>(playerDataJson);
-        if (playerData != null)
+        if (File.Exists("playerdata.json"))
         {
-            CurrentFloor = playerData.CurrentFloor;
-            CurrentEnemy = playerData.CurrentEnemy;
-            TotalEnemyCount = playerData.TotalEnemyCount;
-            PlayerLevel = playerData.PlayerLevel;
-            CurrentXp = playerData.CurrentXp;
-            MaxXp = playerData.MaxXp;
-            TotalDamage = playerData.TotalDamage;
-            PlayerMoney = playerData.PlayerMoney;
-            PlayerWeaponName = playerData.PlayerWeaponName;
-            PlayerWeaponImage = playerData.PlayerWeaponImage;
-            PlayerWeaponDamage = playerData.PlayerWeaponDamage;
-            PlayerArmorName = playerData.PlayerArmorName;
-            PlayerArmorImage = playerData.PlayerArmorImage;
-            ArmorMultiplier = playerData.ArmorMultiplier;
-            CriticalChance = playerData.CriticalChance;
-            GoldMultiplier = playerData.GoldMultiplier;
-            BattleSpeed = playerData.BattleSpeed;
+            var playerDataJson = File.ReadAllText("playerdata.json");
+            var playerData = JsonSerializer.Deserialize<PlayerData>(playerDataJson);
+            if (playerData != null)
+            {
+                CurrentFloor = playerData.CurrentFloor;
+                CurrentEnemy = playerData.CurrentEnemy;
+                TotalEnemyCount = playerData.TotalEnemyCount;
+                PlayerLevel = playerData.PlayerLevel;
+                CurrentXp = playerData.CurrentXp;
+                MaxXp = playerData.MaxXp;
+                TotalDamage = playerData.TotalDamage;
+                PlayerMoney = playerData.PlayerMoney;
+                PlayerWeaponName = playerData.PlayerWeaponName;
+                PlayerWeaponImage = playerData.PlayerWeaponImage;
+                PlayerWeaponDamage = playerData.PlayerWeaponDamage;
+                PlayerArmorName = playerData.PlayerArmorName;
+                PlayerArmorImage = playerData.PlayerArmorImage;
+                ArmorMultiplier = playerData.ArmorMultiplier;
+                CriticalChance = playerData.CriticalChance;
+                GoldMultiplier = playerData.GoldMultiplier;
+                BattleSpeed = playerData.BattleSpeed;
+            }
         }
     }
 }

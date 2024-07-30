@@ -1,6 +1,7 @@
 ﻿@inject PlayerService PlayerService
 @inject BattleService BattleService
 @inject ArmorService ArmorService
+@inject UpgradeService UpgradeService
 
 @implements IDisposable
 <div class="background-image text-white">
@@ -35,6 +36,7 @@
     protected override void OnInitialized()
     {
         PlayerService.LoadPlayerData();
+        UpgradeService.LoadUpgrades();
         PlayerService.SetBackgroundImage();
         BattleService.StartBattle();
         PlayerService.OnChange += StateHasChanged;

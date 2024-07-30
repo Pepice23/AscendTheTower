@@ -1,13 +1,15 @@
-﻿namespace AscendTheTower.Services;
+﻿using System.Text.Json;
+
+namespace AscendTheTower.Services;
 
 public class Upgrade
 {
     public string? Name { get; init; }
     public int CurrentRank { get; set; }
-    public int MaxRank { get; init; }
+    public int MaxRank { get; set; }
     public int Price { get; set; }
-    public string? Effect { get; init; }
-    public Action<Upgrade>? UpgradeMethod { get; init; }
+    public string? Effect { get; set; }
+    public Action<Upgrade>? UpgradeMethod { get; set; }
 }
 
 public class UpgradeService
@@ -59,6 +61,7 @@ public class UpgradeService
         upgrade.CurrentRank++;
         upgrade.Price += 1000;
         _playerService.UpgradeCriticalChance();
+        SaveUpgrades();
         OnChange?.Invoke();
     }
 
@@ -68,6 +71,7 @@ public class UpgradeService
         upgrade.CurrentRank++;
         upgrade.Price += 2000;
         _playerService.UpgradeGoldGain();
+        SaveUpgrades();
         OnChange?.Invoke();
     }
 
@@ -77,6 +81,40 @@ public class UpgradeService
         upgrade.CurrentRank++;
         upgrade.Price += 5000;
         _playerService.UpgradeBattleSpeed();
+        SaveUpgrades();
         OnChange?.Invoke();
+    }
+
+    private void SaveUpgrades()
+    {
+        var upgradesWithoutMethods = Upgrades
+            .Select(x => new
+            {
+                x.Name,
+                x.CurrentRank,
+                x.MaxRank,
+                x.Price
+            })
+            .ToList();
+        File.WriteAllText("Upgrades.json", JsonSerializer.Serialize(upgradesWithoutMethods));
+    }
+
+    public void LoadUpgrades()
+    {
+        if (File.Exists("Upgrades.json"))
+        {
+            var upgrades = JsonSerializer.Deserialize<List<Upgrade>>(File.ReadAllText("Upgrades.json"));
+            if (upgrades != null)
+                foreach (var upgrade in upgrades)
+                {
+                    var originalUpgrade = Upgrades.FirstOrDefault(u => u.Name == upgrade.Name);
+                    if (originalUpgrade != null)
+                    {
+                        originalUpgrade.CurrentRank = upgrade.CurrentRank;
+                        originalUpgrade.MaxRank = upgrade.MaxRank;
+                        originalUpgrade.Price = upgrade.Price;
+                    }
+                }
+        }
     }
 }
