@@ -15,7 +15,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Autoupdater.NET.Official" Version="1.9.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.WindowsForms" Version="8.*"/>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.*"/>
     </ItemGroup>
