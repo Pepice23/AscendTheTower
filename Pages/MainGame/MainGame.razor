@@ -10,11 +10,14 @@
     <div class="battle-container">
         <div class="player-section">
             <PlayerStats/>
-            <PlayerWeapon/>
-            <PlayerArmor/>
-            <div class="mt-3">
-                <AttackButton/>
+            <div class="equipment-section mt-3">
+                <PlayerWeapon/>
+                <PlayerArmor/>
             </div>
+        </div>
+
+        <div class="attack-section">
+            <AttackButton/>
         </div>
         
         <div class="enemy-section">
@@ -48,7 +51,8 @@
         position: relative;
         display: flex;
         justify-content: space-between;
-        gap: 2rem;
+        align-items: flex-start;
+        gap: 1.5rem;
         margin-top: 2rem;
     }
 
@@ -58,6 +62,18 @@
         padding: 1.5rem;
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .equipment-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .attack-section {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
     }
 
     .shop-container {
@@ -81,6 +97,15 @@
     @@media (max-width: 768px) {
         .battle-container {
             flex-direction: column;
+            align-items: center;
+        }
+
+        .player-section, .enemy-section {
+            width: 100%;
+        }
+
+        .attack-section {
+            padding: 0.5rem;
         }
     }
 </style>

@@ -1,21 +1,116 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @inject EnemyService EnemyService
 @implements IDisposable
 
-<button class="btn btn-dark m-3" @onclick="EnemyService.ManualAttack"
-        disabled="@(EnemyService.EnemyCurrentHp < PlayerService.PlayerWeaponDamage)">
-    <img src="images/ui/attack-button.png" alt="Attack Button" class="attack-button"/>
-</button>
+<div class="attack-button-container">
+    <button class="attack-button @(EnemyService.EnemyCurrentHp < PlayerService.PlayerWeaponDamage ? "disabled" : "")"
+            @onclick="EnemyService.ManualAttack"
+            disabled="@(EnemyService.EnemyCurrentHp < PlayerService.PlayerWeaponDamage)">
+        <div class="button-content">
+            <img src="images/ui/attack-button.png" alt="Attack Button" class="attack-icon"/>
+            <div class="attack-pulse"></div>
+        </div>
+    </button>
+</div>
 
-<style >
+<style>
+    .attack-button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }
+
     .attack-button {
-        width: 150px;
-        height: 150px;
+        position: relative;
+        background: radial-gradient(circle at center, #ff4444, #cc0000);
+        border: none;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 20px rgba(255, 0, 0, 0.3),
+                    inset 0 0 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .attack-button:not(.disabled):hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(255, 0, 0, 0.5),
+                    inset 0 0 20px rgba(255, 255, 255, 0.4);
+    }
+
+    .attack-button:not(.disabled):active {
+        transform: scale(0.95);
+    }
+
+    .button-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .attack-icon {
+        width: 80px;
+        height: 80px;
+        z-index: 2;
+    }
+
+    .attack-button.disabled {
+        background: radial-gradient(circle at center, #888, #666);
+        cursor: not-allowed;
+        opacity: 0.7;
+        box-shadow: none;
+    }
+
+    .attack-pulse {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 0, 0, 0.3);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+    }
+
+    .disabled .attack-pulse {
+        display: none;
+    }
+
+    @@keyframes pulse {
+        0% {
+            transform: translate(-50%, -50%) scale(0.95);
+            opacity: 0.5;
+        }
+        70% {
+            transform: translate(-50%, -50%) scale(1.1);
+            opacity: 0;
+        }
+        100% {
+            transform: translate(-50%, -50%) scale(0.95);
+            opacity: 0;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .attack-button {
+            width: 100px;
+            height: 100px;
+        }
+
+        .attack-icon {
+            width: 70px;
+            height: 70px;
+        }
     }
 </style>
 
 @code {
-
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
@@ -27,5 +122,4 @@
         PlayerService.OnChange -= StateHasChanged;
         EnemyService.OnChange -= StateHasChanged;
     }
-
 }
