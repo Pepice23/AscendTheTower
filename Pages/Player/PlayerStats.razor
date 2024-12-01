@@ -1,83 +1,177 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @inject EnemyService EnemyService
 @implements IDisposable
-<div class="row m-3">
-    <div class="row m-1">
-        <div class="col">
+
+<div class="player-stats">
+    <div class="character-section">
+        <div class="character-portrait">
             <img src="images/player/andaric.png" alt="Player" class="player-image"/>
+            <div class="level-badge">
+                <span class="level-text">Lvl @PlayerService.PlayerLevel</span>
+            </div>
         </div>
     </div>
-    <div class="row m-1">
-        <div class="col">
-            <h4>Level: @PlayerService.PlayerLevel</h4>
-        </div>
-    </div>
-    <div class="row m-1">
-        <div class="col text-black">
-            <div class="progress position-relative" style="height: 30px">
-                <div
-                    class="progress-bar wow-xp-bar-color"
-                    role="progressbar"
-                    style="width: @(100 * PlayerService.CurrentXp / PlayerService.MaxXp)%">
+
+    <div class="stats-section">
+        <div class="xp-bar">
+            <div class="progress position-relative" style="height: 35px">
+                <div class="progress-bar bg-info progress-bar-striped progress-bar-animated"
+                     role="progressbar"
+                     style="width: @(100 * PlayerService.CurrentXp / PlayerService.MaxXp)%">
                 </div>
-                <h4 class="justify-content-center d-flex position-absolute w-100">
+                <div class="progress-text">
                     XP: @HelperFunctions.FormatNumberCompact(PlayerService.CurrentXp) / @HelperFunctions.FormatNumberCompact(PlayerService.MaxXp)
-                </h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-item @(EnemyService.PlayerCriticalStrike ? "critical-hit" : "")">
+                <i class="fas fa-fist-raised"></i>
+                <span class="stat-label">Damage</span>
+                <span class="stat-value">@HelperFunctions.FormatNumberCompact(EnemyService.PlayerCriticalStrike ? PlayerService.TotalDamage * 2 : PlayerService.TotalDamage)</span>
+            </div>
+
+            <div class="stat-item">
+                <i class="fas fa-bullseye"></i>
+                <span class="stat-label">Crit Chance</span>
+                <span class="stat-value">@PlayerService.CriticalChance%</span>
+            </div>
+
+            <div class="stat-item">
+                <i class="fas fa-coins"></i>
+                <span class="stat-label">Money</span>
+                <span class="stat-value">@HelperFunctions.FormatNumberCompact(PlayerService.PlayerMoney)</span>
             </div>
         </div>
     </div>
-    <div class="row m-1">
-        @if (EnemyService.PlayerCriticalStrike)
-        {
-            <div class="col text-danger">
-                <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage * 2)</h4>
-            </div>
-        }
-        else
-        {
-            <div class="col">
-                <h4>Damage: @HelperFunctions.FormatNumberCompact(PlayerService.TotalDamage)</h4>
-            </div>
-        }
-    </div>
-    <div class="row m-1">
-        <div class="col">
-            <h4>Critical Strike Chance: @PlayerService.CriticalChance%</h4>
-        </div>
-    </div>
-    <div class="row m-1">
-        <div class="col">
-            <h4>Money: @HelperFunctions.FormatNumberCompact(PlayerService.PlayerMoney)</h4>
-        </div>
-    </div>
-    <PlayerWeapon/>
-    <PlayerArmor/>
 </div>
 
 <style>
-    .wow-xp-bar-color {
-        background-color: #9482c9;
+    .player-stats {
+        color: white;
+    }
+
+    .character-section {
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .character-portrait {
+        position: relative;
+        display: inline-block;
     }
 
     .player-image {
         width: 150px;
         height: 150px;
+        border-radius: 50%;
+        border: 3px solid #4a90e2;
+        box-shadow: 0 0 15px rgba(74, 144, 226, 0.5);
+    }
+
+    .level-badge {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #4a90e2;
+        padding: 0.3rem 0.6rem;
+        border-radius: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .level-text {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .stats-section {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .xp-bar {
+        margin-bottom: 1rem;
+    }
+
+    .progress-text {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        line-height: 35px;
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 1rem;
+    }
+
+    .stat-item {
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .stat-item:hover {
+        transform: translateY(-2px);
+        background-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .stat-item i {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: #4a90e2;
+    }
+
+    .stat-label {
+        display: block;
+        font-size: 0.9rem;
+        color: #adb5bd;
+        margin-bottom: 0.3rem;
+    }
+
+    .stat-value {
+        display: block;
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+    .critical-hit {
+        animation: criticalPulse 0.5s;
+        -webkit-animation: criticalPulse 0.5s;
+        background-color: rgba(220, 53, 69, 0.3);
+    }
+
+    @@-webkit-keyframes criticalPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    @@keyframes criticalPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
     }
 </style>
 
 @code {
-
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
         EnemyService.OnChange += StateHasChanged;
     }
 
-
     public void Dispose()
     {
         PlayerService.OnChange -= StateHasChanged;
         EnemyService.OnChange -= StateHasChanged;
     }
-
 }

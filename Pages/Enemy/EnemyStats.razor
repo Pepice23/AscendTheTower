@@ -1,59 +1,136 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @inject EnemyService EnemyService
 @inject BattleService BattleService
 @implements IDisposable
 
-<div class="row m-3">
-    <div class="row m-1">
-        <div class="col">
-            <img src="@EnemyService.EnemyImage" alt="Enemy" class="enemy-image" />
-        </div>
-    </div>
-    <div class="row m-1">
-        <div class="col">
-            <h4>Level: @PlayerService.CurrentFloor</h4>
-        </div>
-    </div>
-    <div class="row m-2 text-black">
-        <div class="col">
-            <div class="progress position-relative" style="height: 30px">
-                <div
-                    class="progress-bar bg-danger"
-                    role="progressbar"
-                    style="width: @(100 * EnemyService.EnemyCurrentHp / EnemyService.EnemyMaxHp)%"
-                ></div>
-                <h4 class="justify-content-center d-flex position-absolute w-100">
-                    HP: @HelperFunctions.FormatNumberCompact(EnemyService.EnemyCurrentHp) / @HelperFunctions.FormatNumberCompact(EnemyService.EnemyMaxHp)
-                </h4>
+<div class="enemy-stats">
+    <div class="character-section">
+        <div class="character-portrait @(PlayerService.CurrentEnemy == 15 ? "boss-portrait" : "")">
+            <img src="@EnemyService.EnemyImage" alt="Enemy" class="enemy-image"/>
+            <div class="level-badge">
+                <span class="level-text">Lvl @PlayerService.CurrentFloor</span>
             </div>
         </div>
     </div>
-    @if (PlayerService.CurrentEnemy == 15)
-    {
-        <div class="row m-2 text-black" v-if="playerStore.currentEnemy === 15">
-            <div class="col">
-                <div class="progress position-relative" style="height: 30px">
-                    <div
-                        class="progress-bar bg-warning"
-                        role="progressbar"
-                        style="width: @(100 * EnemyService.CurrentBossTime / EnemyService.MaxBossTime)%"
-                    ></div>
-                    <h4 class="justify-content-center d-flex position-absolute w-100">
-                        @EnemyService.CurrentBossTime seconds left
-                    </h4>
+
+    <div class="stats-section">
+        <div class="health-bar">
+            <div class="progress position-relative" style="height: 35px">
+                <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated"
+                     role="progressbar"
+                     style="width: @(100 * EnemyService.EnemyCurrentHp / EnemyService.EnemyMaxHp)%">
+                </div>
+                <div class="progress-text">
+                    HP: @HelperFunctions.FormatNumberCompact(EnemyService.EnemyCurrentHp) / @HelperFunctions.FormatNumberCompact(EnemyService.EnemyMaxHp)
                 </div>
             </div>
         </div>
-    }
+
+        @if (PlayerService.CurrentEnemy == 15)
+        {
+            <div class="boss-timer mt-3">
+                <div class="progress position-relative" style="height: 35px">
+                    <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated"
+                         role="progressbar"
+                         style="width: @(100 * EnemyService.CurrentBossTime / EnemyService.MaxBossTime)%">
+                    </div>
+                    <div class="progress-text">
+                        <i class="fas fa-hourglass-half"></i> @EnemyService.CurrentBossTime seconds left
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
-
 <style>
+    .enemy-stats {
+        color: white;
+    }
+
+    .character-section {
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .character-portrait {
+        position: relative;
+        display: inline-block;
+    }
+
     .enemy-image {
         width: 150px;
         height: 150px;
+        border-radius: 50%;
+        border: 3px solid #dc3545;
+        box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+        transition: transform 0.3s ease;
+    }
+
+    .boss-portrait .enemy-image {
+        border-color: #ffc107;
+        box-shadow: 0 0 20px rgba(255, 193, 7, 0.7);
+        -webkit-animation: bossGlow 2s infinite;
+        animation: bossGlow 2s infinite;
+    }
+
+    .level-badge {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #dc3545;
+        padding: 0.3rem 0.6rem;
+        border-radius: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .boss-portrait .level-badge {
+        background: #ffc107;
+        color: #000;
+    }
+
+    .level-text {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .stats-section {
+        background-color: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 1rem;
+    }
+
+    .health-bar, .boss-timer {
+        margin-bottom: 1rem;
+    }
+
+    .progress-text {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        line-height: 35px;
+        color: white;
+        font-weight: bold;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .progress-text i {
+        margin-right: 0.5rem;
+    }
+
+    @@-webkit-keyframes bossGlow {
+        0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); }
+        50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 193, 7, 0.9); }
+        100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); }
+    }
+
+    @@keyframes bossGlow {
+        0% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); }
+        50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 193, 7, 0.9); }
+        100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); }
     }
 </style>
+
 @code {
     protected override void OnInitialized()
     {
@@ -62,7 +139,6 @@
         EnemyService.SetEnemyImage();
         BattleService.OnChange += StateHasChanged;
     }
-
 
     public void Dispose()
     {

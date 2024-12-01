@@ -1,16 +1,21 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @implements IDisposable
 
-<div class="col m-3 text-black">
-    <div class="progress position-relative" style="height: 30px">
-        <div
-            class="progress-bar"
-            role="progressbar"
-            style="width: @PlayerService.CurrentFloor%"
-        ></div>
-        <h4 class="justify-content-center d-flex position-absolute w-100">
-            Floor: @PlayerService.CurrentFloor / 100
-        </h4>
+<div class="col-12 col-md-6">
+    <div class="card bg-secondary bg-opacity-25 border-0">
+        <div class="card-body p-3">
+            <h5 class="card-title text-light mb-3">Tower Progress</h5>
+            <div class="progress position-relative" style="height: 35px">
+                <div
+                    class="progress-bar bg-info progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    style="width: @PlayerService.CurrentFloor%"
+                ></div>
+                <h5 class="justify-content-center d-flex position-absolute w-100 m-0" style="line-height: 35px">
+                    <span class="badge bg-dark bg-opacity-75">Floor @PlayerService.CurrentFloor / 100</span>
+                </h5>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -1,38 +1,43 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @implements IDisposable
 
-<div class="col m-3 text-black">
-    <div class="progress position-relative" style="height: 30px">
-        <div
-            class="progress-bar"
-            role="progressbar"
-            style="width: @(100 * PlayerService.CurrentEnemy/15)%"
-        ></div>
-        @if (PlayerService.CurrentEnemy < 15)
-        {
-            <h4
-                class="justify-content-center d-flex position-absolute w-100"
-            >
-                Enemy: @PlayerService.CurrentEnemy / 15
-            </h4>
-        }
-        @if (PlayerService.CurrentEnemy == 15)
-        {
-            <h4
-                class="justify-content-center d-flex position-absolute w-100"
-            >
-                Boss of the Floor!
-            </h4>
-        }
+<div class="col-12 col-md-6">
+    <div class="card bg-secondary bg-opacity-25 border-0">
+        <div class="card-body p-3">
+            <h5 class="card-title text-light mb-3">Enemy Progress</h5>
+            <div class="progress position-relative" style="height: 35px">
+                <div
+                    class="progress-bar @GetProgressBarColor() progress-bar-striped progress-bar-animated"
+                    role="progressbar"
+                    style="width: @(100 * PlayerService.CurrentEnemy/15)%">
+                </div>
+                <h5 class="justify-content-center d-flex position-absolute w-100 m-0" style="line-height: 35px">
+                    @if (PlayerService.CurrentEnemy < 15)
+                    {
+                        <span class="badge bg-dark bg-opacity-75">Enemy @PlayerService.CurrentEnemy / 15</span>
+                    }
+                    @if (PlayerService.CurrentEnemy == 15)
+                    {
+                        <span class="badge bg-danger">🔥 BOSS BATTLE! 🔥</span>
+                    }
+                </h5>
+            </div>
+        </div>
     </div>
 </div>
 
 @code {
+    private string GetProgressBarColor()
+    {
+        if (PlayerService.CurrentEnemy == 15)
+            return "bg-danger";
+        return "bg-warning";
+    }
+
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
     }
-
 
     public void Dispose()
     {
