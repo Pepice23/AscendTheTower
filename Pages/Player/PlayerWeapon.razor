@@ -1,30 +1,60 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @implements IDisposable
 
-<div class="row m-1">
-    <div class="col">
-        <img src="@PlayerService.PlayerWeaponImage" alt="Weapon" class="weapon-image"/>
-    </div>
-    <div class="col">
-        <div class="row">
-            <h4>@PlayerService.PlayerWeaponName</h4>
-        </div>
-        <div class="row">
-            <h4>Weapon Damage: @HelperFunctions.FormatNumberCompact(PlayerService.PlayerWeaponDamage)</h4>
+<div class="card bg-dark bg-opacity-75 border-0 mb-3">
+    <div class="card-body p-3">
+        <div class="d-flex align-items-center">
+            <div class="weapon-image-container me-3">
+                <img src="@PlayerService.PlayerWeaponImage" alt="Weapon" class="weapon-image"/>
+            </div>
+            <div class="weapon-details flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title text-light mb-0">
+                        <i class="fas fa-sword text-warning me-2"></i> 
+                        <span class="text-light">@PlayerService.PlayerWeaponName</span>
+                    </h5>
+                    <span class="badge bg-warning text-dark px-3 py-2">
+                        <i class="fas fa-bolt me-1"></i> @HelperFunctions.FormatNumberCompact(PlayerService.PlayerWeaponDamage)
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-
 <style>
-    .weapon-image {
+    .weapon-image-container {
         width: 100px;
         height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .weapon-image {
+        max-width: 80px;
+        max-height: 80px;
+        object-fit: contain;
+    }
+
+    .weapon-details {
+        flex-grow: 1;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .badge i {
+        margin-right: 0.25rem;
     }
 </style>
 
 @code {
-
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
@@ -34,5 +64,4 @@
     {
         PlayerService.OnChange -= StateHasChanged;
     }
-
 }

@@ -2,7 +2,6 @@
 @inject BattleService BattleService
 @inject ArmorService ArmorService
 @inject UpgradeService UpgradeService
-
 @implements IDisposable
 
 <div class="game-area @(PlayerService.CurrentEnemy == 15 ? "boss-battle" : "")" style="background-image: @PlayerService.BackgroundImage">
@@ -11,6 +10,8 @@
     <div class="battle-container">
         <div class="player-section">
             <PlayerStats/>
+            <PlayerWeapon/>
+            <PlayerArmor/>
             <div class="mt-3">
                 <AttackButton/>
             </div>
@@ -29,7 +30,7 @@
     .game-area {
         padding: 1.5rem;
         border-radius: 10px;
-        background-color: rgba(33, 37, 41, 0.9);
+        background-color: rgba(33, 37, 41, 0.7);
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
         background-size: cover;
         background-position: center;
@@ -37,19 +38,7 @@
         min-height: 600px;
     }
 
-    .game-area::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-        border-radius: 10px;
-        z-index: 1;
-    }
-
-    .boss-battle::before {
+    .boss-battle {
         background-color: rgba(139, 0, 0, 0.4);
         -webkit-animation: pulseBossOverlay 2s infinite;
         animation: pulseBossOverlay 2s infinite;
@@ -57,7 +46,6 @@
 
     .battle-container {
         position: relative;
-        z-index: 2;
         display: flex;
         justify-content: space-between;
         gap: 2rem;
@@ -66,7 +54,7 @@
 
     .player-section, .enemy-section {
         flex: 1;
-        background-color: rgba(0, 0, 0, 0.7);
+        background-color: rgba(0, 0, 0, 0.4);
         padding: 1.5rem;
         border-radius: 10px;
         border: 1px solid rgba(255, 255, 255, 0.1);

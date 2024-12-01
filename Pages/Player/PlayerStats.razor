@@ -86,7 +86,7 @@
     }
 
     .stats-section {
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(0, 0, 0, 0.5);
         border-radius: 10px;
         padding: 1rem;
     }
@@ -102,7 +102,12 @@
         line-height: 35px;
         color: white;
         font-weight: bold;
-        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+                     -1px -1px 0 rgba(0, 0, 0, 0.8),
+                     1px -1px 0 rgba(0, 0, 0, 0.8),
+                     -1px 1px 0 rgba(0, 0, 0, 0.8),
+                     1px 1px 0 rgba(0, 0, 0, 0.8);
+        mix-blend-mode: difference;
     }
 
     .stats-grid {
