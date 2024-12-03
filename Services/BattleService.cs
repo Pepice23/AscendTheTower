@@ -1,4 +1,4 @@
-﻿namespace AscendTheTower.Services;
+namespace AscendTheTower.Services;
 
 public class BattleService(
     PlayerService playerService,
@@ -11,33 +11,60 @@ public class BattleService(
     public event Action? OnChange;
     public Armor? PurchasableArmor { get; private set; }
 
-    public void StartBattle()
+    public async Task StartBattle()
     {
-        if (playerService.CurrentEnemy == 15)
+        try
         {
-            enemyService.SetBossTime();
-            StartBossBattle();
+            if (playerService.CurrentEnemy == 15)
+            {
+                enemyService.SetBossTime();
+                await StartBossBattle();
+            }
+            else
+            {
+                await StartNormalBattle();
+            }
         }
-        else
+        catch (Exception)
         {
-            StartNormalBattle();
+            enemyService.SetCurrentHpToNull();
+            _autoAttackTimer?.Dispose();
+            throw;
         }
     }
 
-    private async void StartNormalBattle()
+    private async Task StartNormalBattle()
     {
-        await NormalBattleTimer();
-        GiveRewardNormal();
-        playerService.AddEnemy();
-        enemyService.SetEnemyHp();
-        StartBattle();
+        try 
+        {
+            await NormalBattleTimer();
+            GiveRewardNormal();
+            playerService.AddEnemy();
+            enemyService.SetEnemyHp();
+            await StartBattle();
+        }
+        catch (Exception)
+        {
+            enemyService.SetCurrentHpToNull();
+            _autoAttackTimer?.Dispose();
+            throw;
+        }
     }
 
-    private async void StartBossBattle()
+    private async Task StartBossBattle()
     {
-        await BossBattleTimer();
-        enemyService.SetEnemyHp();
-        StartBattle();
+        try 
+        {
+            await BossBattleTimer();
+            enemyService.SetEnemyHp();
+            await StartBattle();
+        }
+        catch (Exception)
+        {
+            enemyService.SetCurrentHpToNull();
+            _autoAttackTimer?.Dispose();
+            throw;
+        }
     }
 
     private async Task NormalBattleTimer()

@@ -111,14 +111,23 @@
 </style>
 
 @code {
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        PlayerService.LoadPlayerData();
-        UpgradeService.LoadUpgrades();
-        PlayerService.SetBackgroundImage();
-        BattleService.StartBattle();
-        PlayerService.OnChange += StateHasChanged;
-        BattleService.OnChange += StateHasChanged;
+        try
+        {
+            PlayerService.LoadPlayerData();
+            UpgradeService.LoadUpgrades();
+            PlayerService.SetBackgroundImage();
+            await BattleService.StartBattle();
+            PlayerService.OnChange += StateHasChanged;
+            BattleService.OnChange += StateHasChanged;
+        }
+        catch (Exception ex)
+        {
+            // You might want to show this error to the user through a UI component
+            Console.WriteLine($"Error during game initialization: {ex.Message}");
+            // Consider adding error state handling here
+        }
     }
 
     public void Dispose()
