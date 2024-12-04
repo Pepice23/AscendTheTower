@@ -1,19 +1,19 @@
-﻿namespace AscendTheTower.Services;
+namespace AscendTheTower.Services;
 
 public class Armor
 {
-    public string? Name { get; init; }
-    public int Multiplier { get; init; }
-    public string? Image { get; init; }
-    public int Price { get; init; }
-    public int RequiredFloor { get; init; }
+    public required string Name { get; init; }
+    public required int Multiplier { get; init; }
+    public required string Image { get; init; }
+    public required int Price { get; init; }
+    public required int RequiredFloor { get; init; }
 }
 
 public class ArmorService(PlayerService playerService)
 {
     public event Action? OnChange;
 
-    private readonly List<Armor?> _armors =
+    private readonly List<Armor> _armors =
     [
         new Armor
         {
@@ -73,16 +73,29 @@ public class ArmorService(PlayerService playerService)
 
     public Armor? GetNextPurchasableArmor()
     {
-        foreach (var armor in _armors)
-            if (armor != null &&
-                playerService.CurrentFloor >= armor.RequiredFloor &&
-                playerService.CurrentFloor <= armor.RequiredFloor + 9 && playerService.PlayerMoney > armor.Price &&
-                armor.Multiplier > playerService.ArmorMultiplier)
-            {
-                OnChange?.Invoke();
-                return armor;
-            }
-
-        return null; // No purchasable armor available
+        var purchasableArmor = _armors.FirstOrDefault(armor => 
+            IsArmorAvailable(armor) && 
+            IsWithinFloorRange(armor) && 
+            CanAffordArmor(armor) && 
+            IsArmorUpgrade(armor));
+            
+        if (purchasableArmor != null)
+        {
+            OnChange?.Invoke();
+        }
+        
+        return purchasableArmor;
     }
+    
+    private bool IsArmorAvailable(Armor armor) => 
+        playerService.CurrentFloor >= armor.RequiredFloor;
+        
+    private bool IsWithinFloorRange(Armor armor) => 
+        playerService.CurrentFloor <= armor.RequiredFloor + 9;
+        
+    private bool CanAffordArmor(Armor armor) => 
+        playerService.PlayerMoney > armor.Price;
+        
+    private bool IsArmorUpgrade(Armor armor) => 
+        armor.Multiplier > playerService.ArmorMultiplier;
 }
