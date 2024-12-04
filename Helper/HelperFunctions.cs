@@ -8,7 +8,7 @@ namespace AscendTheTower.Helper;
 /// </summary>
 public static class HelperFunctions
 {
-    private static readonly Random Random = new Random();
+    private static readonly Random Random = new();
     private const string WwwrootPath = "wwwroot";
     
     /// <summary>
@@ -44,7 +44,7 @@ public static class HelperFunctions
             throw new DirectoryNotFoundException($"Image folder not found: {imageFolder}");
             
         var imageFiles = Directory.EnumerateFiles(imageFolder).ToList();
-        if (!imageFiles.Any())
+        if (imageFiles.Count == 0)
             throw new InvalidOperationException($"No images found in folder: {imageFolder}");
             
         var randomIndex = Random.Next(imageFiles.Count);
