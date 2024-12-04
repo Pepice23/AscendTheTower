@@ -1,5 +1,6 @@
 using AscendTheTower.Helper;
 using AscendTheTower.Configuration;
+using AscendTheTower.Services.Models;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using System;
@@ -129,7 +130,7 @@ public class WeaponService(
         }
     }
 
-    public void CreateRandomWeapon()
+    public Weapon? CreateRandomWeapon()
     {
         try
         {
@@ -138,16 +139,26 @@ public class WeaponService(
             GetScalingFactor();
             _weaponDamage = CalculateWeaponDamage();
 
+            var weapon = new Weapon
+            {
+                Name = _weaponName ?? "Unknown Weapon",
+                Damage = _weaponDamage,
+                Rarity = _weaponName?.Split()[0] ?? "Poor",
+                Image = _weaponImage ?? "default_weapon.png"
+            };
+
             if (_weaponDamage > _playerService.PlayerWeaponDamage)
             {
                 _logger.LogInformation("Found better weapon! Old damage: {OldDamage}, New damage: {NewDamage}",
                     _playerService.PlayerWeaponDamage, _weaponDamage);
-                _playerService.UpdatePlayerWeapon(_weaponName, _weaponImage, _weaponDamage);
+                _playerService.UpdatePlayerWeapon(weapon.Name, weapon.Image, weapon.Damage);
+                return weapon;
             }
             else
             {
                 _logger.LogDebug("Generated weapon ({Damage}) not better than current weapon ({CurrentDamage})",
                     _weaponDamage, _playerService.PlayerWeaponDamage);
+                return null;
             }
         }
         catch (Exception ex)
@@ -155,5 +166,10 @@ public class WeaponService(
             _logger.LogError(ex, "Failed to create random weapon");
             throw;
         }
+    }
+
+    public bool IsWeaponBetter(Weapon weapon)
+    {
+        return weapon.Damage > _playerService.PlayerWeaponDamage;
     }
 }

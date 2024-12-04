@@ -1,5 +1,7 @@
 namespace AscendTheTower.Services;
 
+using AscendTheTower.Services.Models;
+
 public class BattleService(
     PlayerService playerService,
     EnemyService enemyService,
@@ -9,6 +11,7 @@ public class BattleService(
     private PeriodicTimer? _autoAttackTimer;
 
     public event Action? OnChange;
+    public event Action<BattleRewardsData>? OnBattleCompleted;
     public Armor? PurchasableArmor { get; private set; }
 
     public async Task StartBattle()
@@ -124,9 +127,30 @@ public class BattleService(
 
     private void GiveRewardNormal()
     {
-        playerService.AddXpMinMax(5, 8);
-        playerService.AddGold(playerService.CurrentFloor * playerService.GoldMultiplier * 10);
-        RollDiceForWeapon();
+        var gold = Random.Shared.Next(10, 21);
+        var xp = Random.Shared.Next(5, 11);
+
+        playerService.AddGold(gold);
+        playerService.AddXp(xp);
+
+        var newWeapon = weaponService.CreateRandomWeapon();
+        var isBetterWeapon = false;
+
+        if (newWeapon is not null)
+        {
+            isBetterWeapon = weaponService.IsWeaponBetter(newWeapon);
+        }
+
+        var rewards = new BattleRewardsData
+        {
+            Gold = gold,
+            Xp = xp,
+            NewWeapon = newWeapon,
+            IsBetterWeapon = isBetterWeapon
+        };
+
+        OnBattleCompleted?.Invoke(rewards);
+        OnChange?.Invoke();
     }
 
     private void GiveRewardBoss()

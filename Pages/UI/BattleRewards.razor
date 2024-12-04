@@ -1,0 +1,271 @@
+@using AscendTheTower.Services.Models
+@inject BattleService BattleService
+@inject WeaponService WeaponService
+@implements IDisposable
+
+@if (CurrentRewards != null)
+{
+    <div class="rewards-container @(IsVisible ? "show" : "")">
+        <div class="rewards-content">
+            <div class="rewards-header">
+                <h4><i class="fas fa-trophy text-warning"></i> Battle Rewards</h4>
+            </div>
+            
+            <div class="rewards-grid">
+                <div class="reward-item">
+                    <i class="fas fa-coins text-warning"></i>
+                    <span>+@CurrentRewards.Gold gold</span>
+                </div>
+                <div class="reward-item">
+                    <i class="fas fa-star text-info"></i>
+                    <span>+@CurrentRewards.Xp XP</span>
+                </div>
+            </div>
+            
+            @if (CurrentRewards.NewWeapon != null)
+            {
+                <div class="weapon-reward">
+                    <div class="weapon @CurrentRewards.NewWeapon.Rarity.ToLower()">
+                        <div class="weapon-header">
+                            <i class="fas fa-sword text-white"></i>
+                            <span>New Weapon Found!</span>
+                        </div>
+                        <div class="weapon-info">
+                            <span class="weapon-name">@CurrentRewards.NewWeapon.Name</span>
+                            <div class="weapon-stats">
+                                <span>DMG: @CurrentRewards.NewWeapon.Damage</span>
+                                <span class="rarity-badge @CurrentRewards.NewWeapon.Rarity.ToLower()">
+                                    @CurrentRewards.NewWeapon.Rarity
+                                </span>
+                            </div>
+                        </div>
+                        @if (CurrentRewards.IsBetterWeapon)
+                        {
+                            <div class="upgrade-indicator better">
+                                <i class="fas fa-arrow-up"></i>
+                                <span>Better weapon!</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="upgrade-indicator worse">
+                                <i class="fas fa-arrow-down"></i>
+                                <span>Not as good</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+<style>
+    .rewards-container {
+        background-color: rgba(45, 50, 56, 0.95);
+        border-radius: 10px;
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        width: 100%;
+        max-width: 300px;
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .rewards-container.show {
+        opacity: 1;
+        pointer-events: auto;
+        z-index: 100;
+    }
+
+    .attack-container {
+        position: relative;
+    }
+
+    .rewards-header {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .rewards-header h4 {
+        margin: 0;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .rewards-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .reward-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    .weapon-reward {
+        margin-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 1rem;
+    }
+
+    .weapon {
+        padding: 0.75rem;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .weapon-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+        color: #fff;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .weapon-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .weapon-name {
+        font-weight: bold;
+        color: #fff;
+        font-size: 1.1rem;
+    }
+
+    .weapon-stats {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+        font-size: 0.9rem;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 0.5rem;
+        border-radius: 4px;
+    }
+
+    .rarity-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-weight: bold;
+    }
+
+    .poor { 
+        background-color: rgba(74, 74, 74, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ccc;
+    }
+    
+    .uncommon { 
+        background-color: rgba(26, 152, 80, 0.5);
+        border: 1px solid #25c168;
+        color: #2eeb7c;
+    }
+    
+    .rare { 
+        background-color: rgba(43, 131, 186, 0.5);
+        border: 1px solid #3a9fd9;
+        color: #5cb9e6;
+    }
+    
+    .epic { 
+        background-color: rgba(123, 50, 148, 0.5);
+        border: 1px solid #9a40b8;
+        color: #c264e3;
+    }
+    
+    .legendary { 
+        background-color: rgba(215, 48, 39, 0.5);
+        border: 1px solid #f54d43;
+        color: #ff7b73;
+    }
+
+    .upgrade-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        font-weight: 500;
+    }
+
+    .upgrade-indicator.better {
+        background-color: rgba(25, 135, 84, 0.2);
+        color: #2eeb7c;
+        border: 1px solid rgba(46, 235, 124, 0.3);
+    }
+
+    .upgrade-indicator.worse {
+        background-color: rgba(220, 53, 69, 0.2);
+        color: #ff7b73;
+        border: 1px solid rgba(255, 123, 115, 0.3);
+    }
+</style>
+
+@code {
+    private bool IsVisible;
+    private BattleRewardsData? CurrentRewards;
+    private System.Timers.Timer? _hideTimer;
+
+    protected override void OnInitialized()
+    {
+        BattleService.OnBattleCompleted += ShowRewards;
+        _hideTimer = new System.Timers.Timer(4000); // Hide after 4 seconds
+        _hideTimer.Elapsed += (sender, args) =>
+        {
+            Hide();
+            InvokeAsync(StateHasChanged);
+        };
+        _hideTimer.AutoReset = false;
+    }
+
+    public void Dispose()
+    {
+        BattleService.OnBattleCompleted -= ShowRewards;
+        _hideTimer?.Dispose();
+    }
+
+    private void ShowRewards(BattleRewardsData rewards)
+    {
+        CurrentRewards = rewards;
+        IsVisible = true;
+        _hideTimer?.Stop();
+        _hideTimer?.Start();
+        StateHasChanged();
+    }
+
+    private void Hide()
+    {
+        IsVisible = false;
+        CurrentRewards = null;
+    }
+}
