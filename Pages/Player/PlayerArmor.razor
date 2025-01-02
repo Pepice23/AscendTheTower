@@ -1,36 +1,75 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @inject ArmorService ArmorService
 @inject BattleService BattleService
 @implements IDisposable
 
-<div class="row m-1">
-    <div class="col">
-        <img src="@PlayerService.PlayerArmorImage" alt="Armor" class="armor-image"/>
-    </div>
-    <div class="col">
-        <div class="row">
-            <h4>@PlayerService.PlayerArmorName</h4>
-        </div>
-        <div class="row">
-            <h4>Damage Multiplier: @PlayerService.ArmorMultiplier</h4>
-        </div>
-        <div class="row">
-            <button class="btn btn-primary" disabled="@(BattleService.PurchasableArmor == null)" @onclick="BattleService.PurchaseArmor">Upgrade Armor</button>
+<div class="card bg-dark bg-opacity-75 border-0 mb-3">
+    <div class="card-body p-3">
+        <div class="d-flex align-items-center">
+            <div class="armor-image-container me-3">
+                <img src="@PlayerService.PlayerArmorImage" alt="Armor" class="armor-image"/>
+            </div>
+            <div class="armor-details flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title text-light mb-0">
+                        <i class="fas fa-shield-alt text-info me-2"></i> 
+                        <span class="text-light">@PlayerService.PlayerArmorName</span>
+                    </h5>
+                    <span class="badge bg-info text-dark px-3 py-2">
+                        <i class="fas fa-times me-1"></i> @PlayerService.ArmorMultiplier
+                    </span>
+                </div>
+                <div class="mt-2">
+                    <button 
+                        class="btn btn-outline-info btn-sm w-100" 
+                        disabled="@(BattleService.PurchasableArmor == null)"
+                        @onclick="BattleService.PurchaseArmor">
+                        <i class="fas fa-arrow-up me-1"></i> Upgrade Armor
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-
-<style >
-    .armor-image {
+<style>
+    .armor-image-container {
         width: 100px;
         height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .armor-image {
+        max-width: 80px;
+        max-height: 80px;
+        object-fit: contain;
+    }
+
+    .armor-details {
+        flex-grow: 1;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .badge i {
+        margin-right: 0.25rem;
+    }
+
+    .btn-outline-info {
+        border-width: 2px;
+        color: #17a2b8;
     }
 </style>
 
-
 @code {
-
     protected override void OnInitialized()
     {
         PlayerService.OnChange += StateHasChanged;
@@ -38,13 +77,10 @@
         BattleService.OnChange += StateHasChanged;
     }
 
-
     public void Dispose()
     {
         PlayerService.OnChange -= StateHasChanged;
         ArmorService.OnChange -= StateHasChanged;
         BattleService.OnChange -= StateHasChanged;
     }
-
-
 }

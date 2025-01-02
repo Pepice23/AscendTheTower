@@ -1,24 +1,127 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @inject WeaponService WeaponService
 @implements IDisposable
-<div class="row m-2">
-    <div class="col">
-        <img src="images/npc/aric.png" alt="Weapon Merchant" class="npc-image">
-        <h4>Welcome to my little shop. Want to try your luck?</h4>
-        <button class="btn btn-primary m-1" @onclick="GambleForWeapon" disabled="@(PlayerService.PlayerMoney < 2000)">Gamble for Weapon</button>
-        <h4>Price: @HelperFunctions.FormatNumberCompact(2000) Gold</h4>
+
+<div class="shop-container">
+    <div class="merchant-section">
+        <div class="merchant-portrait">
+            <img src="images/npc/aric.png" alt="Weapon Merchant" class="merchant-image">
+        </div>
+        <div class="merchant-dialog">
+            <h4 class="dialog-text">Welcome to my little shop. Want to try your luck?</h4>
+        </div>
+    </div>
+    
+    <div class="shop-options">
+        <div class="price-tag">
+            <i class="fas fa-coins text-warning"></i>
+            <span>@HelperFunctions.FormatNumberCompact(2000)</span>
+        </div>
+        
+        <button class="gamble-button @(PlayerService.PlayerMoney < 2000 ? "disabled" : "")" 
+                @onclick="GambleForWeapon" 
+                disabled="@(PlayerService.PlayerMoney < 2000)">
+            <i class="fas fa-dice me-2"></i>
+            Gamble for Weapon
+        </button>
     </div>
 </div>
 
 <style>
-    .npc-image {
-        width: 150px;
-        height: 150px;
+    .shop-container {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        padding: 1.5rem;
+        color: white;
+    }
+
+    .merchant-section {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .merchant-portrait {
+        position: relative;
+    }
+
+    .merchant-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 3px solid #ffd700;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    .merchant-dialog {
+        flex: 1;
+    }
+
+    .dialog-text {
+        margin: 0;
+        font-size: 1.1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .shop-options {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .price-tag {
+        font-size: 1.2rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .price-tag i {
+        font-size: 1.4rem;
+    }
+
+    .gamble-button {
+        background: linear-gradient(45deg, #4a0072, #9c27b0);
+        color: white;
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        width: 100%;
+        max-width: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gamble-button:not(.disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
+    }
+
+    .gamble-button.disabled {
+        background: linear-gradient(45deg, #666, #999);
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    @@media (max-width: 576px) {
+        .merchant-section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .dialog-text {
+            margin-top: 1rem;
+        }
     }
 </style>
 
 @code {
-
     private void GambleForWeapon()
     {
         PlayerService.RemoveGold(2000);
@@ -34,5 +137,4 @@
     {
         PlayerService.OnChange -= StateHasChanged;
     }
-
 }

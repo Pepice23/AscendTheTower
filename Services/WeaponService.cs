@@ -1,10 +1,20 @@
-﻿using AscendTheTower.Helper;
+using AscendTheTower.Helper;
+using AscendTheTower.Configuration;
+using AscendTheTower.Services.Models;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using System;
 
 namespace AscendTheTower.Services;
 
-public class WeaponService(PlayerService playerService)
+public class WeaponService(
+    PlayerService playerService,
+    IOptions<GameConfig> config,
+    ILogger<WeaponService> logger)
 {
-    private const int BaseDamage = 10;
+    private readonly PlayerService _playerService = playerService;
+    private readonly GameConfig _config = config.Value;
+    private readonly ILogger<WeaponService> _logger = logger;
 
     private string? _weaponName;
     private double _weaponMultiplier;
@@ -21,100 +31,145 @@ public class WeaponService(PlayerService playerService)
         Legendary
     }
 
-    private readonly Dictionary<WeaponRarity, (string? name, double multiplier)> _rarityWeights = new()
-    {
-        { WeaponRarity.Poor, ("Poor Weapon", 1) },
-        { WeaponRarity.Uncommon, ("Uncommon Weapon", 1.5) },
-        { WeaponRarity.Rare, ("Rare Weapon", 2) },
-        { WeaponRarity.Epic, ("Epic Weapon", 2.5) },
-        { WeaponRarity.Legendary, ("Legendary Weapon", 3) }
-    };
-
-
     private void GetScalingFactor()
     {
-        switch (playerService.PlayerLevel)
+        try
         {
-            case <= 10:
-                _weaponScalingFactor = 1.22;
-                break;
-            case > 10 and <= 20:
-                _weaponScalingFactor = 1.233;
-                break;
-            case > 20 and <= 30:
-                _weaponScalingFactor = 1.25;
-                break;
-            case > 30 and <= 40:
-                _weaponScalingFactor = 1.27;
-                break;
-            case > 40 and <= 50:
-                _weaponScalingFactor = 1.288;
-                break;
-            case > 50 and <= 60:
-                _weaponScalingFactor = 1.297;
-                break;
-            case > 60 and <= 70:
-                _weaponScalingFactor = 1.304;
-                break;
-            case > 70 and <= 80:
-                _weaponScalingFactor = 1.31;
-                break;
-            case > 80 and <= 90:
-                _weaponScalingFactor = 1.315;
-                break;
-            case > 90 and <= 100:
-                _weaponScalingFactor = 1.32;
-                break;
+            var level = _playerService.PlayerLevel;
+            if (level <= 0)
+            {
+                _logger.LogError("Invalid player level: {Level}", level);
+                throw new ArgumentException($"Player level must be positive, got {level}");
+            }
+
+            var range = level switch
+            {
+                <= 10 => "1-10",
+                <= 20 => "11-20",
+                <= 30 => "21-30",
+                <= 40 => "31-40",
+                <= 50 => "41-50",
+                <= 60 => "51-60",
+                <= 70 => "61-70",
+                <= 80 => "71-80",
+                <= 90 => "81-90",
+                _ => "91-100"
+            };
+            
+            if (!_config.Weapons.LevelScalingFactors.TryGetValue(range, out var factor))
+            {
+                _logger.LogError("Missing scaling factor for level range: {Range}", range);
+                throw new InvalidOperationException($"No scaling factor defined for level range {range}");
+            }
+            
+            _weaponScalingFactor = factor;
+            _logger.LogDebug("Set weapon scaling factor to {Factor} for level {Level}", factor, level);
+        }
+        catch (Exception ex) when (ex is not ArgumentException && ex is not InvalidOperationException)
+        {
+            _logger.LogError(ex, "Unexpected error in GetScalingFactor");
+            throw;
         }
     }
 
-
     private void GetRandomRarity()
     {
-        var diceRoll = new Random().Next(1, 101);
-        switch (diceRoll)
+        try
         {
-            case <= 50:
-                _weaponName = _rarityWeights[WeaponRarity.Poor].name;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Poor].multiplier;
-                _weaponImage = HelperFunctions.GetRandomWeaponImage("poor");
-                break;
-            case > 50 and <= 75:
-                _weaponName = _rarityWeights[WeaponRarity.Uncommon].name;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Uncommon].multiplier;
-                _weaponImage = HelperFunctions.GetRandomWeaponImage("uncommon");
-                break;
-            case > 75 and <= 90:
-                _weaponName = _rarityWeights[WeaponRarity.Rare].name;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Rare].multiplier;
-                _weaponImage = HelperFunctions.GetRandomWeaponImage("rare");
-                break;
-            case > 90 and <= 97:
-                _weaponName = _rarityWeights[WeaponRarity.Epic].name;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Epic].multiplier;
-                _weaponImage = HelperFunctions.GetRandomWeaponImage("epic");
-                break;
-            case > 97:
-                _weaponName = _rarityWeights[WeaponRarity.Legendary].name;
-                _weaponMultiplier = _rarityWeights[WeaponRarity.Legendary].multiplier;
-                _weaponImage = HelperFunctions.GetRandomWeaponImage("legendary");
-                break;
+            var diceRoll = new Random().Next(1, 101);
+            var rarity = diceRoll switch
+            {
+                <= 50 => WeaponRarity.Poor,
+                <= 75 => WeaponRarity.Uncommon,
+                <= 90 => WeaponRarity.Rare,
+                <= 97 => WeaponRarity.Epic,
+                _ => WeaponRarity.Legendary
+            };
+
+            if (!_config.Weapons.RarityMultipliers.TryGetValue(rarity.ToString(), out var multiplier))
+            {
+                _logger.LogError("Missing multiplier for rarity: {Rarity}", rarity);
+                throw new InvalidOperationException($"No multiplier defined for rarity {rarity}");
+            }
+
+            _weaponName = $"{rarity} Weapon";
+            _weaponMultiplier = multiplier;
+            _weaponImage = HelperFunctions.GetRandomWeaponImage(rarity.ToString().ToLower());
+            
+            _logger.LogInformation("Created {Rarity} weapon with multiplier {Multiplier}", rarity, multiplier);
+        }
+        catch (Exception ex) when (ex is not InvalidOperationException)
+        {
+            _logger.LogError(ex, "Unexpected error in GetRandomRarity");
+            throw;
         }
     }
 
     private long CalculateWeaponDamage()
     {
-        var calculatedDamage =
-            BaseDamage * _weaponMultiplier * Math.Pow(_weaponScalingFactor, playerService.PlayerLevel);
-        return (long)calculatedDamage;
+        try
+        {
+            if (_config.Weapons.BaseDamage <= 0)
+            {
+                _logger.LogError("Invalid base damage: {BaseDamage}", _config.Weapons.BaseDamage);
+                throw new InvalidOperationException($"Base damage must be positive, got {_config.Weapons.BaseDamage}");
+            }
+
+            var calculatedDamage =
+                _config.Weapons.BaseDamage * _weaponMultiplier * Math.Pow(_weaponScalingFactor, _playerService.PlayerLevel);
+            
+            _logger.LogDebug("Calculated weapon damage: {Damage} (Base: {Base}, Multiplier: {Mult}, Scale: {Scale}, Level: {Level})",
+                calculatedDamage, _config.Weapons.BaseDamage, _weaponMultiplier, _weaponScalingFactor, _playerService.PlayerLevel);
+            
+            return (long)calculatedDamage;
+        }
+        catch (Exception ex) when (ex is not InvalidOperationException)
+        {
+            _logger.LogError(ex, "Error calculating weapon damage");
+            throw;
+        }
     }
 
-    public void CreateRandomWeapon()
+    public Weapon? CreateRandomWeapon()
     {
-        GetRandomRarity();
-        GetScalingFactor();
-        _weaponDamage = CalculateWeaponDamage();
-        if (_weaponDamage > playerService.PlayerWeaponDamage)
-            playerService.UpdatePlayerWeapon(_weaponName, _weaponImage, _weaponDamage);
+        try
+        {
+            _logger.LogInformation("Starting weapon creation");
+            GetRandomRarity();
+            GetScalingFactor();
+            _weaponDamage = CalculateWeaponDamage();
+
+            var weapon = new Weapon
+            {
+                Name = _weaponName ?? "Unknown Weapon",
+                Damage = _weaponDamage,
+                Rarity = _weaponName?.Split()[0] ?? "Poor",
+                Image = _weaponImage ?? "default_weapon.png"
+            };
+
+            if (_weaponDamage > _playerService.PlayerWeaponDamage)
+            {
+                _logger.LogInformation("Found better weapon! Old damage: {OldDamage}, New damage: {NewDamage}",
+                    _playerService.PlayerWeaponDamage, _weaponDamage);
+                _playerService.UpdatePlayerWeapon(weapon.Name, weapon.Image, weapon.Damage);
+                return weapon;
+            }
+            else
+            {
+                _logger.LogDebug("Generated weapon ({Damage}) not better than current weapon ({CurrentDamage})",
+                    _weaponDamage, _playerService.PlayerWeaponDamage);
+                return null;
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to create random weapon");
+            throw;
+        }
+    }
+
+    public bool IsWeaponBetter(Weapon weapon)
+    {
+        return weapon.Damage > _playerService.PlayerWeaponDamage;
     }
 }

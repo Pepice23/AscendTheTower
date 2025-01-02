@@ -1,53 +1,148 @@
-﻿@inject PlayerService PlayerService
+@inject PlayerService PlayerService
 @inject BattleService BattleService
 @inject ArmorService ArmorService
 @inject UpgradeService UpgradeService
-
 @implements IDisposable
-<div class="background-image text-white">
+
+<div class="game-area @(PlayerService.CurrentEnemy == 15 ? "boss-battle" : "")" style="background-image: @PlayerService.BackgroundImage">
     <StageContainer/>
-    <div class="row">
-        <div class="col">
+    
+    <div class="battle-container">
+        <div class="player-section">
             <PlayerStats/>
-        </div>
-        <div class="col">
-            <AttackButton/>
-        </div>
-        <div class="col">
-            <EnemyStats/>
-            <div class="row">
-                <Shop/>
+            <div class="equipment-section mt-3">
+                <PlayerWeapon/>
+                <PlayerArmor/>
             </div>
         </div>
 
+        <div class="attack-section">
+            <div class="attack-container">
+                <AttackButton/>
+                <BattleRewards/>
+            </div>
+        </div>
+        
+        <div class="enemy-section">
+            <EnemyStats/>
+            <div class="shop-container mt-3">
+                <Shop/>
+            </div>
+        </div>
     </div>
+    
 </div>
 
 <style>
-    .background-image {
-        background-image: @PlayerService.BackgroundImage;
+    .game-area {
+        padding: 1.5rem;
+        border-radius: 10px;
+        background-color: rgba(33, 37, 41, 0.7);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
         background-size: cover;
         background-position: center;
+        position: relative;
+        min-height: 600px;
+    }
+
+    .boss-battle {
+        background-color: rgba(139, 0, 0, 0.4);
+        -webkit-animation: pulseBossOverlay 2s infinite;
+        animation: pulseBossOverlay 2s infinite;
+    }
+
+    .battle-container {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    .player-section, .enemy-section {
+        flex: 1;
+        background-color: rgba(0, 0, 0, 0.4);
+        padding: 1.5rem;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .equipment-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .attack-section {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .attack-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .shop-container {
+        background-color: rgba(33, 37, 41, 0.8);
+        padding: 1rem;
+        border-radius: 8px;
+    }
+
+    @@-webkit-keyframes pulseBossOverlay {
+        0% { background-color: rgba(139, 0, 0, 0.4); }
+        50% { background-color: rgba(139, 0, 0, 0.6); }
+        100% { background-color: rgba(139, 0, 0, 0.4); }
+    }
+
+    @@keyframes pulseBossOverlay {
+        0% { background-color: rgba(139, 0, 0, 0.4); }
+        50% { background-color: rgba(139, 0, 0, 0.6); }
+        100% { background-color: rgba(139, 0, 0, 0.4); }
+    }
+
+    @@media (max-width: 768px) {
+        .battle-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .player-section, .enemy-section {
+            width: 100%;
+        }
+
+        .attack-section {
+            padding: 0.5rem;
+        }
     }
 </style>
 
 @code {
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        PlayerService.LoadPlayerData();
-        UpgradeService.LoadUpgrades();
-        PlayerService.SetBackgroundImage();
-        BattleService.StartBattle();
-        PlayerService.OnChange += StateHasChanged;
-        BattleService.OnChange += StateHasChanged;
+        try
+        {
+            PlayerService.LoadPlayerData();
+            UpgradeService.LoadUpgrades();
+            PlayerService.SetBackgroundImage();
+            await BattleService.StartBattle();
+            PlayerService.OnChange += StateHasChanged;
+            BattleService.OnChange += StateHasChanged;
+        }
+        catch (Exception ex)
+        {
+            // You might want to show this error to the user through a UI component
+            Console.WriteLine($"Error during game initialization: {ex.Message}");
+            // Consider adding error state handling here
+        }
     }
-
 
     public void Dispose()
     {
         PlayerService.OnChange -= StateHasChanged;
         BattleService.OnChange -= StateHasChanged;
     }
-
 }

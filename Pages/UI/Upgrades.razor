@@ -1,37 +1,156 @@
-﻿@inject UpgradeService UpgradeService
+@inject UpgradeService UpgradeService
 @inject PlayerService PlayerService
 @implements IDisposable
 
-@foreach (var upgrade in UpgradeService.Upgrades)
-{
-    @if (upgrade.CurrentRank < upgrade.MaxRank)
+<div class="upgrades-container">
+    @foreach (var upgrade in UpgradeService.Upgrades)
     {
-        <div class="row m-2 border-1 upgrade-card">
-            <div class="col m-1">
-                <h3>@upgrade.Name</h3>
-                <h3>Rank: @upgrade.CurrentRank / @upgrade.MaxRank</h3>
-                <h3>Price: @HelperFunctions.FormatNumberCompact(upgrade.Price) Gold</h3>
-                <h3>@upgrade.Effect</h3>
-                <button class="btn btn-primary m-1"
+        @if (upgrade.CurrentRank < upgrade.MaxRank)
+        {
+            <div class="upgrade-card @(PlayerService.PlayerMoney >= upgrade.Price ? "available" : "locked")">
+                <div class="upgrade-header">
+                    <h3 class="upgrade-name">@upgrade.Name</h3>
+                    <div class="rank-badge">
+                        <i class="fas fa-star"></i>
+                        <span>@upgrade.CurrentRank / @upgrade.MaxRank</span>
+                    </div>
+                </div>
+                
+                <div class="upgrade-content">
+                    <div class="upgrade-effect">
+                        <i class="fas fa-magic text-info me-2"></i>
+                        @upgrade.Effect
+                    </div>
+                    
+                    <div class="price-tag">
+                        <i class="fas fa-coins text-warning"></i>
+                        <span>@HelperFunctions.FormatNumberCompact(upgrade.Price)</span>
+                    </div>
+                </div>
+                
+                <button class="upgrade-button"
                         disabled="@(upgrade.CurrentRank == upgrade.MaxRank || PlayerService.PlayerMoney < upgrade.Price)"
                         @onclick="() => { upgrade.UpgradeMethod?.Invoke(upgrade); }">
-                    Upgrade @upgrade.Name
+                    <i class="fas fa-arrow-up me-2"></i>
+                    Upgrade
                 </button>
             </div>
-        </div>
+        }
     }
-}
-
+</div>
 
 <style>
+    .upgrades-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+    }
+
     .upgrade-card {
-        border: 1px solid black;
-        width: 250px;
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        padding: 1.25rem;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .upgrade-card.available:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .upgrade-card.locked {
+        opacity: 0.7;
+    }
+
+    .upgrade-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .upgrade-name {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #4a90e2;
+    }
+
+    .rank-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.9rem;
+    }
+
+    .rank-badge i {
+        color: #ffd700;
+    }
+
+    .upgrade-content {
+        margin-bottom: 1rem;
+    }
+
+    .upgrade-effect {
+        margin-bottom: 0.8rem;
+        line-height: 1.4;
+        font-size: 0.95rem;
+    }
+
+    .price-tag {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: bold;
+        color: #ffd700;
+    }
+
+    .upgrade-button {
+        width: 100%;
+        background: linear-gradient(45deg, #2b5876, #4e4376);
+        color: white;
+        border: none;
+        padding: 0.8rem;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .upgrade-button:not(:disabled):hover {
+        background: linear-gradient(45deg, #3a6f94, #5f5393);
+        transform: translateY(-1px);
+    }
+
+    .upgrade-button:disabled {
+        background: linear-gradient(45deg, #666, #888);
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    @@media (max-width: 768px) {
+        .upgrades-container {
+            grid-template-columns: 1fr;
+        }
+
+        .upgrade-card {
+            padding: 1rem;
+        }
     }
 </style>
 
 @code {
-
     protected override void OnInitialized()
     {
         UpgradeService.OnChange += StateHasChanged;
@@ -43,5 +162,4 @@
         UpgradeService.OnChange -= StateHasChanged;
         PlayerService.OnChange -= StateHasChanged;
     }
-
 }

@@ -1,4 +1,6 @@
-﻿namespace AscendTheTower.Services;
+namespace AscendTheTower.Services;
+
+using AscendTheTower.Services.Models;
 
 public class BattleService(
     PlayerService playerService,
@@ -9,35 +11,63 @@ public class BattleService(
     private PeriodicTimer? _autoAttackTimer;
 
     public event Action? OnChange;
+    public event Action<BattleRewardsData>? OnBattleCompleted;
     public Armor? PurchasableArmor { get; private set; }
 
-    public void StartBattle()
+    public async Task StartBattle()
     {
-        if (playerService.CurrentEnemy == 15)
+        try
         {
-            enemyService.SetBossTime();
-            StartBossBattle();
+            if (playerService.CurrentEnemy == 15)
+            {
+                enemyService.SetBossTime();
+                await StartBossBattle();
+            }
+            else
+            {
+                await StartNormalBattle();
+            }
         }
-        else
+        catch (Exception)
         {
-            StartNormalBattle();
+            enemyService.SetCurrentHpToNull();
+            _autoAttackTimer?.Dispose();
+            throw;
         }
     }
 
-    private async void StartNormalBattle()
+    private async Task StartNormalBattle()
     {
-        await NormalBattleTimer();
-        GiveRewardNormal();
-        playerService.AddEnemy();
-        enemyService.SetEnemyHp();
-        StartBattle();
+        try 
+        {
+            await NormalBattleTimer();
+            GiveRewardNormal();
+            playerService.AddEnemy();
+            enemyService.SetEnemyHp();
+            await StartBattle();
+        }
+        catch (Exception)
+        {
+            enemyService.SetCurrentHpToNull();
+            _autoAttackTimer?.Dispose();
+            throw;
+        }
     }
 
-    private async void StartBossBattle()
+    private async Task StartBossBattle()
     {
-        await BossBattleTimer();
-        enemyService.SetEnemyHp();
-        StartBattle();
+        try 
+        {
+            await BossBattleTimer();
+            enemyService.SetEnemyHp();
+            await StartBattle();
+        }
+        catch (Exception)
+        {
+            enemyService.SetCurrentHpToNull();
+            _autoAttackTimer?.Dispose();
+            throw;
+        }
     }
 
     private async Task NormalBattleTimer()
@@ -97,9 +127,30 @@ public class BattleService(
 
     private void GiveRewardNormal()
     {
-        playerService.AddXpMinMax(5, 8);
-        playerService.AddGold(playerService.CurrentFloor * playerService.GoldMultiplier * 10);
-        RollDiceForWeapon();
+        var gold = Random.Shared.Next(10, 21);
+        var xp = Random.Shared.Next(5, 11);
+
+        playerService.AddGold(gold);
+        playerService.AddXp(xp);
+
+        var newWeapon = weaponService.CreateRandomWeapon();
+        var isBetterWeapon = false;
+
+        if (newWeapon is not null)
+        {
+            isBetterWeapon = weaponService.IsWeaponBetter(newWeapon);
+        }
+
+        var rewards = new BattleRewardsData
+        {
+            Gold = gold,
+            Xp = xp,
+            NewWeapon = newWeapon,
+            IsBetterWeapon = isBetterWeapon
+        };
+
+        OnBattleCompleted?.Invoke(rewards);
+        OnChange?.Invoke();
     }
 
     private void GiveRewardBoss()
