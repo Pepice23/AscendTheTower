@@ -7,7 +7,7 @@ namespace AscendTheTower;
 public partial class Form1 : Form
 {
     private readonly AutoUpdater _autoUpdater = new AutoUpdater(
-        "https://raw.githubusercontent.com/ascend-the-tower/ascend-the-tower/main/update.json",
+        "https://gist.github.com/Pepice23/582a32e578ea048ec7dc9c9c510fb59a",
         "1.0.0");
     public Form1()
     {
