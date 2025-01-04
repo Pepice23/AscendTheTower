@@ -1,3 +1,4 @@
+using AscendTheTower.Helper;
 using Velopack;
 
 namespace AscendTheTower;
@@ -10,21 +11,22 @@ static class Program
     [STAThread]
     static void Main()
     {
+        VelopackApp.Build().Run();
         MainAsync().GetAwaiter().GetResult();
     }
 
     private static async Task MainAsync()
     {
-        VelopackApp.Build().Run();
         Startup.Init();
+        await CheckForUpdates();
         ApplicationConfiguration.Initialize();
         Application.Run(new Form1());
-        await CheckForUpdates();
+        
     }
     
     private static async Task CheckForUpdates()
     {
-        await Helper.AutoUpdater.UpdateMyApp();
+        await AutoUpdater.UpdateMyApp();
     }
 
 }

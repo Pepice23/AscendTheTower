@@ -2,11 +2,16 @@
 
 namespace AscendTheTower.Helper;
 
-public class AutoUpdater
+public static class AutoUpdater
 {
     public static async Task UpdateMyApp()
     {
         var mgr = new UpdateManager(@"A:\ATTUpdates");
+
+        if (!mgr.IsInstalled)
+        {
+            return;
+        }
 
         // check for new version
         var newVersion = await mgr.CheckForUpdatesAsync();

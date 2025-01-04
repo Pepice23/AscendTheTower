@@ -8,19 +8,19 @@
             <img src="images/npc/aric.png" alt="Weapon Merchant" class="merchant-image">
         </div>
         <div class="merchant-dialog">
-            <h4 class="dialog-text">Welcome to my little shop. Want to try your luck?</h4>
+            <h4 class="dialog-text">Welcome to my little shop. Would you like to try your luck?</h4>
         </div>
     </div>
     
     <div class="shop-options">
         <div class="price-tag">
             <i class="fas fa-coins text-warning"></i>
-            <span>@HelperFunctions.FormatNumberCompact(2000)</span>
+            <span>@HelperFunctions.FormatNumberCompact(1000)</span>
         </div>
         
-        <button class="gamble-button @(PlayerService.PlayerMoney < 2000 ? "disabled" : "")" 
+        <button class="gamble-button @(PlayerService.PlayerMoney < 1000 ? "disabled" : "")" 
                 @onclick="GambleForWeapon" 
-                disabled="@(PlayerService.PlayerMoney < 2000)">
+                disabled="@(PlayerService.PlayerMoney < 1000)">
             <i class="fas fa-dice me-2"></i>
             Gamble for Weapon
         </button>
